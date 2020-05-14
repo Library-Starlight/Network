@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
+using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.IO.Pipelines;
@@ -14,6 +15,8 @@ namespace Pipeline
     {
         static async Task Main(string[] args)
         {
+            //HttpParser
+
             var socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
             socket.Bind(new IPEndPoint(IPAddress.Loopback, 8087));
             socket.Listen(120);
@@ -45,6 +48,8 @@ namespace Pipeline
             Console.WriteLine($"Client Disconnect: {client.LocalEndPoint}");
 
         }
+
+        #region Obsolate
 
         /// <summary>
         /// 将Socket包装为NetworkStream
@@ -133,5 +138,22 @@ namespace Pipeline
                 Console.WriteLine(message);
             }
         }
+
+        private static string GetSequenceLine(ReadOnlySequence<byte> buffer)
+        {
+            if (buffer.IsSingleSegment)
+                return Encoding.ASCII.GetString(buffer.First.Span);
+
+            return string.Create<ReadOnlySequence<byte>>((int)buffer.Length, buffer, (span, sequence) =>
+            {
+                foreach (var segment in sequence)
+                {
+                    Encoding.ASCII.GetChars(segment.Span, span);
+                    span = span.Slice(segment.Length);
+                }
+            });
+        }
+
+        #endregion
     }
 }
