@@ -1,0 +1,26 @@
+﻿①安装nuget包：Microsoft.Owin.Hosting，Microsoft.Owin.Host.HttpListener，Microsoft.AspNet.WebApi.Owin
+②创建控制器，例如：
+    public class MessageController : ApiController
+    {
+        [HttpPost]
+        [Route("Message/Hello")]
+        public string HelloWorld()
+        {
+            return "Hello World!";
+        }
+    }
+③启动Http服务，例如：
+            WebApp.Start("http://+:80/", builder =>
+            {
+                var config = new HttpConfiguration();
+                config.MapHttpAttributeRoutes();
+                config.Routes.MapHttpRoute(
+                    name: "DefaultApi",
+                    routeTemplate: "api/{coutroller}/{action}/{id}",
+                    defaults: new { id = RouteParameter.Optional }
+                    );
+                builder.UseWebApi(config);
+            });
+
+
+注意：调试时，Visual Studio必须以管理员身份运行。因为必须监听端口，需要系统权限。
