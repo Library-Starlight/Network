@@ -9,9 +9,9 @@ namespace HttpClients
 {
     public class HycEquipDemo
     {
-        private const string UserName = "administrator4396";
-        private const string Password = "1234567890123";
-        private const int PageIndex = 0;
+        private const string UserName = "yanshi";
+        private const string Password = "user_12345";
+        private const int PageIndex = 1;
         private const int PageSize = 100;
 
         public async Task Start()

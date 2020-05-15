@@ -33,7 +33,6 @@ namespace HttpClients
             }
         }
 
-
         private static async void StarParkingSystemRequestAsync()
         {
             IJhtCloud service = new JhtCloudService("http://127.0.0.1:10095/");

@@ -34,7 +34,7 @@ namespace HttpClients
         /// <summary>
         /// 结果
         /// </summary>
-        public HycTaskResultData data { get; set; }
+        public string data { get; set; }
     }
 
 
@@ -51,10 +51,10 @@ namespace HttpClients
         public string stationName { get; set; }
         public string mchName { get; set; }
         public int logStatus { get; set; }
-        [JsonConverter(typeof(StandardDateConverter))]
+        [JsonConverter(typeof(EnglishDateConverter))]
         public DateTime addDate { get; set; }
         public string onenetDevId { get; set; }
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(EnumJsonConvert<HycOnlineStatus>))]
         public HycOnlineStatus online { get; set; }
         public HycPlug[] plugs { get; set; }
     }

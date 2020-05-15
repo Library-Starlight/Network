@@ -24,7 +24,8 @@ namespace HttpClients
         /// Http服务器基地址
         /// </summary>
         // TODO: 实际使用时，修改为www.taxiaides.com
-        private const string BaseAddress = "localhost:10095";
+        private const string BaseAddress = "www.taxiaides.com";
+        //private const string BaseAddress = "localhost:10095";
 
         /// <summary>
         /// 登录Url
@@ -58,7 +59,7 @@ namespace HttpClients
             var loginRequest = new HycLogin
             {
                 userName = username,
-                password = password,
+                password = MD5Encryption.Encrypt(password),
             };
             var response = PostResultAsync<HycLogin, HycLoginResponse>(LoginUrl, loginRequest).Result;
             if (response == null || response.code != HycResultCode.Success)
@@ -86,7 +87,7 @@ namespace HttpClients
             {
                 currentPage = pageIndex,
                 // 查询设备类型为NB设备
-                devType = HycDeviceType.NB,
+                devType = HycDeviceType.网关设备,//HycDeviceType.NB,
                 itemsPerPage = pageSize,
             };
 
@@ -121,14 +122,19 @@ namespace HttpClients
                         continue;
                     }
                     // 查询成功
-                    else if (response.operationStatus == HycOperationStatus.success)
+                    else if (response.operationStatus == HycOperationStatus.success && !string.IsNullOrEmpty(response.data))
                     {
-                        return GetDevicesData(response);
+                        var data = JsonConvert.DeserializeObject<HycTaskResultData>(response.data);
+                        if (data != null)
+                            return GetDevicesData(data);
+
+                        // 查询数据为空
+                        Console.WriteLine($"{SystemName}：查询设备状态失败，失败原因：数据为空, 页码：{pageIndex}, 数据：{data}，记录数：{pageSize}");
                     }
                     else
                     {
                         // 查询失败
-                        Console.WriteLine($"{SystemName}：查询设备状态失败，失败原因：{response.code.ToString()}，页码：{pageIndex}，记录数：{pageSize}");
+                        Console.WriteLine($"{SystemName}：查询设备状态失败，失败原因：{response.code.ToString()}, 页码：{pageIndex}，记录数：{pageSize}");
                     }
                 }
                 else
@@ -150,9 +156,9 @@ namespace HttpClients
         /// </summary>
         /// <param name="response">从服务器上查询成功的应答</param>
         /// <returns></returns>
-        private IDictionary<string, HycDevice> GetDevicesData(HycSearchTaskResultResponse response)
+        private IDictionary<string, HycDevice> GetDevicesData(HycTaskResultData data)
         {
-            return response.data.rows.Select(row => new HycDevice
+            return data.rows.Select(row => new HycDevice
             {
                 IMEI = row.devImei,
                 DevType = row.devType,
@@ -190,7 +196,7 @@ namespace HttpClients
 
             var responseStr = await HttpRequest.PostAsync(url, requestBody, headers);
 
-            Console.WriteLine($"{SystemName}请求 POST , Url：{url}，应答：{responseStr}");
+            Console.WriteLine($"{SystemName}请求 POST , Url：{url}，请求：{requestBody}，应答：{responseStr}");
 
             return JsonConvert.DeserializeObject<TResponse>(responseStr);
         }
