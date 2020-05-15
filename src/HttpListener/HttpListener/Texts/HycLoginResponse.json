@@ -1,0 +1,12 @@
+{
+  "code": 1,
+  "description": "login success",
+  "result": {
+    "mobile": "",
+    "userName": "admin",
+    "token": "3653dR476QC587Ysn0646V4dbF2476xf",
+    "type": "",
+    "id": 1
+  }
+}
+

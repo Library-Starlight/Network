@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\HycChargeController.cs" />
     <Compile Include="Controller\JhtCloudController.cs" />
     <Compile Include="Controller\MessageController.cs" />
     <Compile Include="Http\GarbageBinHttpServer.cs" />
@@ -82,6 +83,14 @@
     <Compile Include="Model\GarbageBin\PostResult.cs" />
     <Compile Include="Model\GarbageBin\Request\GarbageBinPulse.cs" />
     <Compile Include="Model\GarbageBin\RequestCmd.cs" />
+    <Compile Include="Model\HycCharge\Enums\HycDeviceType.cs" />
+    <Compile Include="Model\HycCharge\Enums\HycGetDevicesResponse.cs" />
+    <Compile Include="Model\HycCharge\Enums\HycOperationStatus.cs" />
+    <Compile Include="Model\HycCharge\Enums\HycResultCode.cs" />
+    <Compile Include="Model\HycCharge\Request\HycGetDevices.cs" />
+    <Compile Include="Model\HycCharge\Request\HycLogin.cs" />
+    <Compile Include="Model\HycCharge\Response\HycLoginResponse.cs" />
+    <Compile Include="Model\HycCharge\Response\HycSearchTaskResultResponse.cs" />
     <Compile Include="Model\JhtCloud\Base\JhtCloudRequest.cs" />
     <Compile Include="Model\JhtCloud\Base\JhtCloudResponse.cs" />
     <Compile Include="Model\JhtCloud\Base\JhtCloudResponseItem.cs" />
@@ -98,10 +107,19 @@
     <Compile Include="Model\WindOrientation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Texts\HycGetDevicesResponse.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Texts\HycSearchTaskResultResponse.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Texts\HycLoginResponse.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

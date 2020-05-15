@@ -1,0 +1,50 @@
+{
+  "code": 1,
+  "description": "OK",
+  "operationStatus": "success",
+  "data": {
+    "rows": [
+      {
+        "devImei": "865439030084614",
+        "devType": 1,
+        "stationName": "‘§∏∂∑—≤‚ ‘µÁ’æ",
+        "mchName": "fangyan",
+        "logStatus": 0,
+        "addDate": "2018-10-18",
+        "onenetDevId": null,
+        "online": " ß¡™",
+        "plugs": [
+          {
+            "plugNum": "865439030084614-0",
+            "plugStatus": -1
+          },
+          {
+            "plugNum": "865439030084614-1",
+            "plugStatus": -1
+          }
+        ]
+      },
+      {
+        "devImei": "865439030084614",
+        "devType": 1,
+        "stationName": "‘§∏∂∑—≤‚ ‘µÁ’æ",
+        "mchName": "fangyan",
+        "logStatus": 0,
+        "addDate": "2018-10-18",
+        "onenetDevId": null,
+        "online": " ß¡™",
+        "plugs": [
+          {
+            "plugNum": "865439030084614-0",
+            "plugStatus": -1
+          },
+          {
+            "plugNum": "865439030084614-1",
+            "plugStatus": -1
+          }
+        ]
+      }
+    ],
+    "total": 0
+  }
+}

@@ -48,28 +48,42 @@
   <ItemGroup>
     <Compile Include="JsonConverters\StandardDateConverter.cs" />
     <Compile Include="JsonConverters\StandardDateTimeConverter.cs" />
+    <Compile Include="Model\HycCharge\Enums\HycDeviceType.cs" />
+    <Compile Include="Model\HycCharge\Enums\HycGetDevicesResponse.cs" />
+    <Compile Include="Model\HycCharge\Enums\HycOnlineStatus.cs" />
+    <Compile Include="Model\HycCharge\Enums\HycOperationStatus.cs" />
+    <Compile Include="Model\HycCharge\Enums\HycPlugStatus.cs" />
+    <Compile Include="Model\HycCharge\Enums\HycResultCode.cs" />
+    <Compile Include="Model\HycCharge\HycDevice.cs" />
+    <Compile Include="Model\HycCharge\Request\HycGetDevices.cs" />
+    <Compile Include="Model\HycCharge\Request\HycLogin.cs" />
+    <Compile Include="Model\HycCharge\Response\HycLoginResponse.cs" />
+    <Compile Include="Model\HycCharge\Response\HycSearchTaskResultResponse.cs" />
     <Compile Include="Network\HttpRequest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\IJhtCloud.cs" />
-    <Compile Include="Services\JhtCloudService.cs" />
-    <Compile Include="Services\Model\Base\JhtCloudRequest.cs" />
-    <Compile Include="Services\Model\Base\JhtCloudResponse.cs" />
-    <Compile Include="Services\Model\Base\JhtCloudResponseItem.cs" />
-    <Compile Include="Services\Model\Interface\Advance\VehicleEntryRecordRequest.cs" />
-    <Compile Include="Services\Model\Interface\Advance\VehicleEntryRecordResponse.cs" />
-    <Compile Include="Services\Model\Interface\QueryCurrentParkTraffic.cs" />
-    <Compile Include="Services\Model\Interface\QueryCurrentParkTrafficResponse.cs" />
-    <Compile Include="Services\Model\Interface\QueryParkIn.cs" />
-    <Compile Include="Services\Model\Interface\QueryParkInResponse.cs" />
-    <Compile Include="Services\Model\Interface\QueryParkOut.cs" />
-    <Compile Include="Services\Model\Interface\QueryParkOutResponse.cs" />
-    <Compile Include="Services\Model\Interface\QueryParkSpace.cs" />
-    <Compile Include="Services\Model\Interface\QueryParkSpaceResponse.cs" />
+    <Compile Include="Services\HytCharge\HycEquipDemo.cs" />
+    <Compile Include="Services\HytCharge\HycHttpClient.cs" />
+    <Compile Include="Services\JhtCloud\IJhtCloud.cs" />
+    <Compile Include="Services\JhtCloud\JhtCloudService.cs" />
+    <Compile Include="Model\Model\Base\JhtCloudRequest.cs" />
+    <Compile Include="Model\Model\Base\JhtCloudResponse.cs" />
+    <Compile Include="Model\Model\Base\JhtCloudResponseItem.cs" />
+    <Compile Include="Model\Model\Interface\Advance\VehicleEntryRecordRequest.cs" />
+    <Compile Include="Model\Model\Interface\Advance\VehicleEntryRecordResponse.cs" />
+    <Compile Include="Model\Model\Interface\QueryCurrentParkTraffic.cs" />
+    <Compile Include="Model\Model\Interface\QueryCurrentParkTrafficResponse.cs" />
+    <Compile Include="Model\Model\Interface\QueryParkIn.cs" />
+    <Compile Include="Model\Model\Interface\QueryParkInResponse.cs" />
+    <Compile Include="Model\Model\Interface\QueryParkOut.cs" />
+    <Compile Include="Model\Model\Interface\QueryParkOutResponse.cs" />
+    <Compile Include="Model\Model\Interface\QueryParkSpace.cs" />
+    <Compile Include="Model\Model\Interface\QueryParkSpaceResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
