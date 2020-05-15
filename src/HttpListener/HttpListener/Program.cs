@@ -15,7 +15,7 @@ namespace HttpListener
     {
         static void Main(string[] args)
         {
-            StartHttpListenerNow();
+            StartHttpControllerListener();
 
             Console.ReadLine();
         }
@@ -39,7 +39,7 @@ namespace HttpListener
             _ = new Listener().Listen(10095);
         }
 
-        private static void StartHttpListener()
+        private static void StartHttpControllerListener()
         {
             WebApp.Start("http://+:10095/", builder =>
             {

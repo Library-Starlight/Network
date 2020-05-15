@@ -1,0 +1,50 @@
+{
+  "code": 1,
+  "description": "OK",
+  "operationStatus": "success",
+  "data": {
+    "rows": [
+      {
+        "devImei": "865439030084614",
+        "devType": 1,
+        "stationName": "小区东门电站",
+        "mchName": "fangyan",
+        "logStatus": 0,
+        "addDate": "2018-10-18",
+        "onenetDevId": "1000055400001",
+        "online": "在线",
+        "plugs": [
+          {
+            "plugNum": "865439030084614-0",
+            "plugStatus": 0
+          },
+          {
+            "plugNum": "865439030084614-1",
+            "plugStatus": 1
+          }
+        ]
+      },
+      {
+        "devImei": "865439030084615",
+        "devType": 1,
+        "stationName": "小区南门电站",
+        "mchName": "fangyan",
+        "logStatus": 0,
+        "addDate": "2020-05-10",
+        "onenetDevId": "1000055400002",
+        "online": "在线",
+        "plugs": [
+          {
+            "plugNum": "865439030084614-0",
+            "plugStatus": 1
+          },
+          {
+            "plugNum": "865439030084614-1",
+            "plugStatus": -1
+          }
+        ]
+      }
+    ],
+    "total": 0
+  }
+}
