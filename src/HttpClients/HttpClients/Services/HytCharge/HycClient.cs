@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HttpClients.Services
+namespace HttpClients
 {
-    public class HycHttpClient
+    public class HycClient
     {
         #region 系统名称
 
@@ -60,12 +60,7 @@ namespace HttpClients.Services
                 userName = username,
                 password = password,
             };
-
-            var requestBody = JsonConvert.SerializeObject(loginRequest, Formatting.None);
-            var responseStr = HttpRequest.PostAsync(LoginUrl, requestBody).Result;
-
-            var response = JsonConvert.DeserializeObject<HycLoginResponse>(responseStr);
-
+            var response = PostResultAsync<HycLogin, HycLoginResponse>(LoginUrl, loginRequest).Result;
             if (response == null || response.code != HycResultCode.Success)
             {
                 token = default;
@@ -85,7 +80,7 @@ namespace HttpClients.Services
         /// <param name="pageSize"></param>
         /// <param name="taskId"></param>
         /// <returns></returns>
-        public async Task<IDictionary<string, HycDevice>> GetDevices(int pageIndex, int pageSize)
+        public async Task<IDictionary<string, HycDevice>> GetDevices(int pageIndex, int pageSize, string token)
         {
             var getDevRequest = new HycGetDevices
             {
@@ -96,7 +91,7 @@ namespace HttpClients.Services
             };
 
             // 查询NB设备信息
-            var getDevicesResult = await PostResultAsync<HycGetDevices, HycGetDevicesResponse>(GetDevicesUrl, getDevRequest);
+            var getDevicesResult = await PostResultAsync<HycGetDevices, HycGetDevicesResponse>(GetDevicesUrl, getDevRequest, token);
             if (getDevicesResult == null || string.IsNullOrEmpty(getDevicesResult.operationTaskId))
                 return new Dictionary<string, HycDevice>();
 
@@ -113,7 +108,7 @@ namespace HttpClients.Services
             while ((DateTime.Now - beginTime).TotalSeconds <= 30D)
             {
 
-                var response = await GetResultAsync<HycSearchTaskResultResponse>(QueryResultUrl, queryResultParam);
+                var response = await GetResultAsync<HycSearchTaskResultResponse>(QueryResultUrl, queryResultParam, token);
 
                 // 查询成功
                 if (response.code == HycResultCode.Success)
@@ -167,8 +162,8 @@ namespace HttpClients.Services
                 AddDate = row.addDate,
                 OneNetDevId = row.onenetDevId,
                 Online = row.online == HycOnlineStatus.在线,
-                PlugStatus0 = row.plugs != null && row.plugs.Length >= 1 ? row.plugs[0].plugStatus : HycPlugStatus.空闲,
-                PlugStatus1 = row.plugs != null && row.plugs.Length >= 2 ? row.plugs[1].plugStatus : HycPlugStatus.空闲,
+                PlugStatus0 = row.plugs != null && row.plugs.Length >= 1 ? row.plugs[0].plugStatus : HycPlugStatus.失联,
+                PlugStatus1 = row.plugs != null && row.plugs.Length >= 2 ? row.plugs[1].plugStatus : HycPlugStatus.失联,
             }).ToDictionary(dev => dev.IMEI);
         }
 
@@ -184,12 +179,18 @@ namespace HttpClients.Services
         /// <param name="url">请求完整地址</param>
         /// <param name="request">请求数据</param>
         /// <returns></returns>
-        private async Task<TResponse> PostResultAsync<TRequest, TResponse>(string url, TRequest request)
+        private async Task<TResponse> PostResultAsync<TRequest, TResponse>(string url, TRequest request, string token = null)
         {
             var requestBody = JsonConvert.SerializeObject(request);
-            var responseStr = await HttpRequest.PostAsync(url, requestBody);
 
-            Console.WriteLine($"{SystemName}Post请求，Url：{url}，应答：{responseStr}");
+            // 设置请求头部
+            IDictionary<string, string> headers = null;
+            if (!string.IsNullOrEmpty(token))
+                headers = new Dictionary<string, string> { { "Token", token } };
+
+            var responseStr = await HttpRequest.PostAsync(url, requestBody, headers);
+
+            Console.WriteLine($"{SystemName}请求 POST , Url：{url}，应答：{responseStr}");
 
             return JsonConvert.DeserializeObject<TResponse>(responseStr);
         }
@@ -201,11 +202,16 @@ namespace HttpClients.Services
         /// <param name="url">请求地址</param>
         /// <param name="param">请求参数</param>
         /// <returns></returns>
-        private async Task<T> GetResultAsync<T>(string url, IDictionary<string, string> param)
+        private async Task<T> GetResultAsync<T>(string url, IDictionary<string, string> param, string token = null)
         {
-            var responseStr = await HttpRequest.GetAsync(QueryResultUrl, param);
+            // 设置请求头部
+            IDictionary<string, string> headers = null;
+            if (!string.IsNullOrEmpty(token))
+                headers = new Dictionary<string, string> { { "Token", token } };
 
-            Console.WriteLine($"{SystemName}Get请求，Url：{url}，应答：{responseStr}");
+            var responseStr = await HttpRequest.GetAsync(QueryResultUrl, param, headers);
+
+            Console.WriteLine($"{SystemName}请求 GET  ，Url：{url}，应答：{responseStr}");
 
             return JsonConvert.DeserializeObject<T>(responseStr);
         }

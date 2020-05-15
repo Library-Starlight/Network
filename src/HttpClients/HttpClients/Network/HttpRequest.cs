@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,12 +14,24 @@ namespace HttpClients
     {
         #region 公共方法
 
-        public static async Task<string> PostAsync(string url, string body)
+        /// <summary>
+        /// 发送HttpPost请求，并获取应答
+        /// </summary>
+        /// <param name="url">请求地址</param>
+        /// <param name="body">请求数据体</param>
+        /// <param name="headers">请求头部</param>
+        /// <returns></returns>
+        public static async Task<string> PostAsync(string url, string body, IDictionary<string, string> headers = null)
         {
             // 创建请求
             var request = HttpWebRequest.Create(url);
             request.ContentType = "application/json";
             request.Method = "post";
+
+            // 添加头部
+            if (headers != null)
+                foreach (var header in headers)
+                    request.Headers.Add(header.Key, header.Value);
 
             // 发送请求
             using (var stream = request.GetRequestStream())
@@ -36,7 +50,7 @@ namespace HttpClients
             }
         }
 
-        public static async Task<string> GetAsync(string url, IDictionary<string, string> param)
+        public static async Task<string> GetAsync(string url, IDictionary<string, string> param, IDictionary<string, string> headers = null)
         {
             // 构建完整的HttpGet请求Url
             url = AppendHttpGetParam(url, param);
@@ -45,6 +59,11 @@ namespace HttpClients
             var request = HttpWebRequest.Create(url);
             request.ContentType = "application/json";
             request.Method = "get";
+
+            // 添加头部
+            if (headers != null)
+                foreach (var header in headers)
+                    request.Headers.Add(header.Key, header.Value);
 
             // 接收应答
             var response = request.GetResponse();

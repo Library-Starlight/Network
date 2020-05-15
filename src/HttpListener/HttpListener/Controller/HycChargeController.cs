@@ -26,30 +26,14 @@ namespace HttpListener
         public async Task<HycLoginResponse> AgentLogin(HycLogin request)
         {
             return await SendResponse<HycLogin, HycLoginResponse>(request);
-            PrintRequestLog(request);
-            using (var fs = new FileStream("Texts/HycLoginResponse.json", FileMode.Open, FileAccess.Read))
-            using (var sr = new StreamReader(fs))
-            {
-                var json = await sr.ReadToEndAsync();
-                var response = JsonConvert.DeserializeObject<HycLoginResponse>(json);
-                PrintResponseLog(response);
-                return response;
-            }
         }
 
         [HttpPost]
         [Route("xyyc_sdk_api/rest/device/getDevices")]
         public async Task<HycGetDevicesResponse> GetDevices(HycGetDevices request)
         {
+
             return await SendResponse<HycGetDevices, HycGetDevicesResponse>(request);
-            //PrintRequestLog(request);
-            //using (var fs = new FileStream("Texts/HycGetDevicesResponse.json", FileMode.Open, FileAccess.Read))
-            //using (var sr = new StreamReader(fs))
-            //{
-            //    var json = await sr.ReadToEndAsync();
-            //    var response = JsonConvert.DeserializeObject<HycGetDevicesResponse>(json);
-            //    PrintResponseLog
-            //}
         }
 
         [HttpGet]
@@ -78,6 +62,8 @@ namespace HttpListener
         private void PrintRequestLog(object obj)
         {
             Console.WriteLine($"接收请求：{JsonConvert.SerializeObject(obj, Formatting.None)}");
+            if (Request.Headers.Contains("Token"))
+                Console.WriteLine($"  Token: {Request.Headers.GetValues("Token").FirstOrDefault()}");
         }
         private void PrintResponseLog(object obj)
         {

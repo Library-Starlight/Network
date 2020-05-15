@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,15 +12,29 @@ namespace HttpClients
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            BuildHttpGetBody();
+            await StartChargeRequestAsync();
+
             Console.ReadLine();
         }
 
         #region 开始Http请求
 
-        private static async void StartRequest()
+        private static async Task StartChargeRequestAsync()
+        {
+            try
+            {
+                await new HycEquipDemo().Start();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+
+        private static async void StarParkingSystemRequestAsync()
         {
             IJhtCloud service = new JhtCloudService("http://127.0.0.1:10095/");
 
