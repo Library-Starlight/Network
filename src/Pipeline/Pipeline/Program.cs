@@ -1,12 +1,7 @@
-﻿using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
-using System;
-using System.Buffers;
-using System.Collections.Generic;
-using System.IO.Pipelines;
+﻿using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Pipeline
@@ -15,143 +10,111 @@ namespace Pipeline
     {
         static async Task Main(string[] args)
         {
-            //HttpParser
+            //var tClient = ClientSocketStream();
 
+            var tSerevr = ServerSocketStream();
+
+            await Task.WhenAll(tSerevr);
+        }
+
+        #region InputToSocket
+
+        private static async Task ServerSocketStream()
+        {
             var socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
-            socket.Bind(new IPEndPoint(IPAddress.Loopback, 8087));
-            socket.Listen(120);
+            socket.Bind(new IPEndPoint(IPAddress.Loopback, 10080));
+
+            // 准备监听
+            socket.Listen(12000);
+
+            Console.WriteLine($"开始监听：{socket.LocalEndPoint.ToString()}");
 
             while(true)
             {
                 var client = await socket.AcceptAsync();
-                _ = ProcessLine(client);
+
+                _ = ProcessServerPartClient(client);
             }
         }
 
-        private static async Task ProcessLine(Socket client)
+        private static async Task ProcessServerPartClient(Socket client)
         {
-            Console.WriteLine($"Client Connect: {client.LocalEndPoint}");
-            // Create a network stream to process the data communication
-
-            // Extension As Stream 
-            //var stream = new NetworkStream(client);
-
-            //await stream.ProcessSingleLineAsync();
-
-            //await stream.ProcessMultipleLineWithAutoGrowthBufferAsync();
-
-            //await stream.ProcessLineWithAdvancedGrowthBufferAndBufferRecycleAsync();
-
-            // Extension As Socket
-            await client.ReadAllAsync();
-
-            Console.WriteLine($"Client Disconnect: {client.LocalEndPoint}");
-
-        }
-
-        #region Obsolate
-
-        /// <summary>
-        /// 将Socket包装为NetworkStream
-        /// 将控制台输入流载入NetworkStream。
-        /// </summary>
-        /// <returns></returns>
-        private static async Task ConsoleInputToSocketAsync()
-        {
-            var clientSocket = new Socket(SocketType.Stream, ProtocolType.Tcp);
-
-            Console.WriteLine("Connecting to port 8087");
-
-            clientSocket.Connect(new IPEndPoint(IPAddress.Loopback, 8087));
-            var stream = new NetworkStream(clientSocket);
-
-            Console.InputEncoding = Encoding.UTF8;
-            Console.OutputEncoding = Encoding.UTF8;
-            await Console.OpenStandardInput().CopyToAsync(stream);
-        }
-
-        /// <summary>
-        /// 基于Socket的Tcp协议服务器
-        /// </summary>
-        /// <returns></returns>
-        private static async Task StartTcpServerAsync()
-        {
-            var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            socket.Bind(new IPEndPoint(IPAddress.Loopback, 8087));
-
-            socket.Listen(120);
-
-            Console.WriteLine($"Listing to port 8087");
-            while(true)
-            {
-                var client = await socket.AcceptAsync();
-                _ = ProcessLinesAsync(client);
-            }
-        }
-
-        private static async Task ProcessLinesAsync(Socket client)
-        {
-            Console.WriteLine($"Client connected: {client.LocalEndPoint}");
-
+            // 创建网络流
             var stream = new NetworkStream(client);
-            var reader = PipeReader.Create(stream);
 
-            while (true)
-            {
-                var result = await reader.ReadAsync();
+            // 发送
+            var tSend = InputToStream(stream);
+            // 接收
+            var tRece = OutputFromStream(stream);
 
-                var buffer = result.Buffer;
-                while (TryGetLine(ref buffer, out ReadOnlySequence<byte> line))
-                {
-                    ProcessLine(line);
-                }
-                if (result.IsCompleted)
-                    break;
-
-                reader.AdvanceTo(buffer.Start, buffer.End);
-            }
-
-            await reader.CompleteAsync();
-
-            Console.WriteLine($"Client disconnected: {client.RemoteEndPoint}");
+            await Task.WhenAll(tSend, tRece);
         }
 
-        private static bool TryGetLine(ref ReadOnlySequence<byte> buffer, out ReadOnlySequence<byte> line)
-        {
-            var position = buffer.PositionOf((byte)'\n');
-            if (!position.HasValue)
-            {
-                line = default;
-                return false;
-            }
+        #endregion
 
-            line = buffer.Slice(0, position.Value);
-            buffer = buffer.Slice(buffer.GetPosition(1, position.Value));
-            return true;
+
+        #region OutputToSocket
+
+        private static async Task ClientSocketStream()
+        {
+            var socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
+            socket.Connect(new IPEndPoint(IPAddress.Loopback, 10080));
+
+            // 创建网络流
+            var stream = new NetworkStream(socket);
+
+            // 发送
+            var tSend = InputToStream(stream);
+            // 接收
+            var tRece = OutputFromStream(stream);
+
+            await Task.WhenAll(tSend, tRece);
         }
 
-        private static void ProcessLine(ReadOnlySequence<byte> buffer)
+        private static Task InputToStream(Stream destination)
         {
-            foreach (var memory in buffer)
+            return Console.OpenStandardInput().CopyToAsync(destination);
+        }
+
+        private static Task OutputFromStream(Stream stream)
+        {
+            return stream.CopyToAsync(Console.OpenStandardOutput());
+        }
+
+        #endregion
+
+        #region CatchTaskException
+
+        private static async void CatchTaskException()
+        {
+            try
             {
-                var message = Encoding.UTF8.GetString(memory);
-                Console.WriteLine(message);
+                // await 能捕捉到异常，不await捕捉不到
+                await FrequentlyErrorTask();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Main catched: {ex.ToString()}");
             }
         }
 
-        private static string GetSequenceLine(ReadOnlySequence<byte> buffer)
+        private static async Task FrequentlyErrorTask()
         {
-            if (buffer.IsSingleSegment)
-                return Encoding.ASCII.GetString(buffer.First.Span);
+            await Task.Run(() => throw new Exception("Exception from task"));
 
-            return string.Create<ReadOnlySequence<byte>>((int)buffer.Length, buffer, (span, sequence) =>
+            throw new Exception("Exception from callback");
+        }
+
+        #endregion
+
+        #region FileStream
+
+        private static async Task OutputToFileStream()
+        {
+            using (var fs = new FileStream("h2o.txt", FileMode.Append, FileAccess.Write))
             {
-                foreach (var segment in sequence)
-                {
-                    Encoding.ASCII.GetChars(segment.Span, span);
-                    span = span.Slice(segment.Length);
-                }
-            });
+                await Console.OpenStandardInput().CopyToAsync(fs);
+            }
         }
 
         #endregion
