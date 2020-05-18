@@ -33,11 +33,42 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.3\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Json, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.Json.5.0.0-preview.3.20214.6\lib\netstandard2.0\System.Net.Http.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0-preview.3.20214.6\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.5.0.0-preview.3.20214.6\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.5.0.0-preview.3.20214.6\lib\net461\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,7 +77,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cryptography\MD5Encryption.cs" />
+    <Compile Include="Cryptography\MD5Encrypt.cs" />
+    <Compile Include="Cryptography\Sha256.cs" />
     <Compile Include="JsonConverters\EnglishDateConverter.cs" />
     <Compile Include="JsonConverters\EnumJsonConvert.cs" />
     <Compile Include="JsonConverters\StandardDateConverter.cs" />
@@ -62,6 +94,9 @@
     <Compile Include="Model\HycCharge\Request\HycLogin.cs" />
     <Compile Include="Model\HycCharge\Response\HycLoginResponse.cs" />
     <Compile Include="Model\HycCharge\Response\HycSearchTaskResultResponse.cs" />
+    <Compile Include="Model\Others\Authenticate.cs" />
+    <Compile Include="Model\Others\WeatherForecast.cs" />
+    <Compile Include="Network\HttpClientExtensions.cs" />
     <Compile Include="Network\HttpRequest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,19 +104,19 @@
     <Compile Include="Services\HytCharge\HycClient.cs" />
     <Compile Include="Services\JhtCloud\IJhtCloud.cs" />
     <Compile Include="Services\JhtCloud\JhtCloudService.cs" />
-    <Compile Include="Model\Model\Base\JhtCloudRequest.cs" />
-    <Compile Include="Model\Model\Base\JhtCloudResponse.cs" />
-    <Compile Include="Model\Model\Base\JhtCloudResponseItem.cs" />
-    <Compile Include="Model\Model\Interface\Advance\VehicleEntryRecordRequest.cs" />
-    <Compile Include="Model\Model\Interface\Advance\VehicleEntryRecordResponse.cs" />
-    <Compile Include="Model\Model\Interface\QueryCurrentParkTraffic.cs" />
-    <Compile Include="Model\Model\Interface\QueryCurrentParkTrafficResponse.cs" />
-    <Compile Include="Model\Model\Interface\QueryParkIn.cs" />
-    <Compile Include="Model\Model\Interface\QueryParkInResponse.cs" />
-    <Compile Include="Model\Model\Interface\QueryParkOut.cs" />
-    <Compile Include="Model\Model\Interface\QueryParkOutResponse.cs" />
-    <Compile Include="Model\Model\Interface\QueryParkSpace.cs" />
-    <Compile Include="Model\Model\Interface\QueryParkSpaceResponse.cs" />
+    <Compile Include="Model\Jht\Base\JhtCloudRequest.cs" />
+    <Compile Include="Model\Jht\Base\JhtCloudResponse.cs" />
+    <Compile Include="Model\Jht\Base\JhtCloudResponseItem.cs" />
+    <Compile Include="Model\Jht\Interface\Advance\VehicleEntryRecordRequest.cs" />
+    <Compile Include="Model\Jht\Interface\Advance\VehicleEntryRecordResponse.cs" />
+    <Compile Include="Model\Jht\Interface\QueryCurrentParkTraffic.cs" />
+    <Compile Include="Model\Jht\Interface\QueryCurrentParkTrafficResponse.cs" />
+    <Compile Include="Model\Jht\Interface\QueryParkIn.cs" />
+    <Compile Include="Model\Jht\Interface\QueryParkInResponse.cs" />
+    <Compile Include="Model\Jht\Interface\QueryParkOut.cs" />
+    <Compile Include="Model\Jht\Interface\QueryParkOutResponse.cs" />
+    <Compile Include="Model\Jht\Interface\QueryParkSpace.cs" />
+    <Compile Include="Model\Jht\Interface\QueryParkSpaceResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
