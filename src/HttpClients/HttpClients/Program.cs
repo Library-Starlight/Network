@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,10 +16,38 @@ namespace HttpClients
     {
         static async Task Main(string[] args)
         {
-            await StartChargeRequestAsync();
+            await CustomJsonLibraryAsync();
 
             Console.ReadLine();
         }
+
+        #region 自定义Json库
+
+        private static async Task CustomJsonLibraryAsync()
+        {
+            var client = new HttpClient();
+            var resultMessage = await client.PostFromJsonAsync("https://localhost:44367/Hikvision", new Authenticate { AppKey = "fadsjjlfhsajkrevnf1180", AppSecret = "gds6_das363dsijrlsalfdv1&=" });
+
+            Console.WriteLine($"StatusCode: {resultMessage.StatusCode}({(int)resultMessage.StatusCode})");
+            var result = await resultMessage.Content.ReadAsStringAsync();
+            
+            Console.WriteLine(result);
+        }
+
+        #endregion
+
+        #region 官方Http请求Json库
+
+        private static async Task SystemNetHttpJson()
+        {
+            var client = new HttpClient();
+            var result = await client.GetFromJsonAsync<List<WeatherForecast>>("https://localhost:44367/api/WeatherForecast");
+
+            foreach (var item in result)
+                Console.WriteLine(item.Summary);
+        }
+
+        #endregion
 
         #region 开始Http请求
 

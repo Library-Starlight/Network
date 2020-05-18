@@ -59,7 +59,7 @@ namespace HttpClients
             var loginRequest = new HycLogin
             {
                 userName = username,
-                password = MD5Encryption.Encrypt(password),
+                password = MD5Encrypt.Encrypt(password),
             };
             var response = PostResultAsync<HycLogin, HycLoginResponse>(LoginUrl, loginRequest).Result;
             if (response == null || response.code != HycResultCode.Success)
