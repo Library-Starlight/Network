@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Styles\" />
-    <Folder Include="Controls\" />
   </ItemGroup>
 
 </Project>
