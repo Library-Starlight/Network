@@ -191,20 +191,9 @@ namespace AbcClient.Internet.Abstract
             var tFill = FillPipeAsync(socket, pipe.Writer);
             var tRead = ReadPipeAsync(pipe.Reader);
 
+            // TODO：服务器端，对客户端的管理
+
             return Task.WhenAll(tFill, tRead);
-        }
-
-        #endregion
-
-        #region 公共方法
-
-        /// <summary>
-        /// 发送
-        /// </summary>
-        /// <returns></returns>
-        public async Task SendAsync(ReadOnlyMemory<byte> data)
-        {
-            await Socket.SendAsync(data, SocketFlags.None);
         }
 
         #endregion

@@ -33,6 +33,15 @@ namespace AbcClient.Internet
             await ReceiveAsync(Socket);
         }
 
+        /// <summary>
+        /// 发送
+        /// </summary>
+        /// <returns></returns>
+        public async Task SendAsync(ReadOnlyMemory<byte> data)
+        {
+            await Socket.SendAsync(data, SocketFlags.None);
+        }
+
         #endregion
     }
 }
