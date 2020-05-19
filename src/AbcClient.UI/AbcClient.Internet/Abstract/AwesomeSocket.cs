@@ -106,39 +106,85 @@ namespace AbcClient.Internet.Abstract
 
         #region 私有方法
 
+        /// <summary>
+        /// 从<see cref="System.Net.Sockets.Socket"/>中读取数据，将读取到的数据推入管道中
+        /// </summary>
+        /// <param name="socket"></param>
+        /// <param name="writer"></param>
+        /// <returns></returns>
         protected async Task FillPipeAsync(Socket socket, PipeWriter writer)
         {
-            const int BufferSize = 1024;
+            const int BufferSize = 512;
             while (true)
             {
                 var memory = writer.GetMemory(BufferSize);
-                var count = await socket.ReceiveAsync(memory, SocketFlags.None);
-                if (count <= 0)
+                try
+                {
+                    var readSize = await socket.ReceiveAsync(memory, SocketFlags.None);
+                    if (readSize <= 0)
+                        break;
+
+                    writer.Advance(readSize);
+                }
+                catch 
+                {
+                    // TODO: 处理网络通讯异常
+
                     break;
+                }
 
-                writer.Advance(count);
-
+                // 释放接收数据的缓冲区
                 var result = await writer.FlushAsync();
+
+                // 如果读操作完成，已无法解析数据，退出循环
                 if (result.IsCompleted)
-                { 
+                {
+                    break;
+                }
+            }
+            
+            // 通知管道，写操作已完成
+            writer.Complete();
+        }
+
+        /// <summary>
+        /// 从管道中获取数据，并解析这些数据
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
+        protected async Task ReadPipeAsync(PipeReader reader)
+        {
+            while (true)
+            {
+                var result = await reader.ReadAsync();
+
+                // TODO: 消耗数据
+                var buffer = result.Buffer;
+
+                // 通知管道，消耗了多少数据
+                reader.AdvanceTo(buffer.Start, buffer.End);
+
+                // 如果写操作完成，已无法获取数据，退出循环
+                if (result.IsCompleted)
+                {
                     break;
                 }
             }
 
-            await writer.CompleteAsync();
-        }
-
-        protected async Task ReadPipeAsync(PipeReader reader)
-        {
-
+            // 通知管道，读操作已完成
+            reader.Complete();
         }
 
         #endregion
 
-
         #region 受保护方法
 
-        protected Task HandleDataAsync(Socket socket)
+        /// <summary>
+        /// 接收
+        /// </summary>
+        /// <param name="socket">网络套接字</param>
+        /// <returns></returns>
+        protected Task ReceiveAsync(Socket socket)
         {
             var pipe = new Pipe();
 
@@ -152,9 +198,13 @@ namespace AbcClient.Internet.Abstract
 
         #region 公共方法
 
-        public async Task SendAsync()
+        /// <summary>
+        /// 发送
+        /// </summary>
+        /// <returns></returns>
+        public async Task SendAsync(ReadOnlyMemory<byte> data)
         {
-
+            await Socket.SendAsync(data, SocketFlags.None);
         }
 
         #endregion

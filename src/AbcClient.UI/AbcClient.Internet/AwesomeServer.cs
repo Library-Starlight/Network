@@ -34,7 +34,7 @@ namespace AbcClient.Internet
             while (true)
             {
                 var client = await Socket.AcceptAsync();
-                _ = HandleDataAsync(client);
+                _ = ReceiveAsync(client);
             }
         }
 

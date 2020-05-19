@@ -30,7 +30,7 @@ namespace AbcClient.Internet
         public override async Task StartAsync()
         {
             await Socket.ConnectAsync(EndPoint);
-            await HandleDataAsync(Socket);
+            await ReceiveAsync(Socket);
         }
 
         #endregion
