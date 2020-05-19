@@ -108,7 +108,24 @@ namespace AbcClient.Internet.Abstract
 
         protected async Task FillPipeAsync(Socket socket, PipeWriter writer)
         {
+            const int BufferSize = 1024;
+            while (true)
+            {
+                var memory = writer.GetMemory(BufferSize);
+                var count = await socket.ReceiveAsync(memory, SocketFlags.None);
+                if (count <= 0)
+                    break;
 
+                writer.Advance(count);
+
+                var result = await writer.FlushAsync();
+                if (result.IsCompleted)
+                { 
+                    break;
+                }
+            }
+
+            await writer.CompleteAsync();
         }
 
         protected async Task ReadPipeAsync(PipeReader reader)
