@@ -52,7 +52,6 @@ namespace Pipeline
 
         #endregion
 
-
         #region OutputToSocket
 
         private static async Task ClientSocketStream()
