@@ -6,8 +6,9 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TcpClients.Model;
 
-namespace TcpClients
+namespace TcpClients.Tcp
 {
     public class Client
     {
@@ -142,8 +143,7 @@ namespace TcpClients
                             var data = _qData.Dequeue();
                             if (data == null || data.Length <= 0) continue;
 
-                            // 将数据直接传入管道
-                            DataPipeline.Instance.Received(this, data);
+                            Received(data);
                         }
                     }
                 }
@@ -152,6 +152,23 @@ namespace TcpClients
                     _logger?.LogError($"处理数据失败, {ex.ToString()}");
                 }
             });
+        }
+
+        /// <summary>
+        /// 触发接收数据事件
+        /// </summary>
+        /// <param name="data"></param>
+        private void Received(byte[] data)
+        {
+            // 将数据直接传入管道
+            try
+            {
+                DataPipeline.Instance.Received(this, data);
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError($"数据解析失败, {ex.ToString()}");
+            }
         }
 
         #endregion

@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TcpClients.Tcp;
 
-namespace TcpClients
+namespace TcpClients.Model
 {
     public class DataPipeline
     {
@@ -48,6 +49,20 @@ namespace TcpClients
         public void Received(Client client, byte[] data)
         {
             OnReceivedData(new ReceivedEventArgs { Client = client, Data = data });
+        }
+
+        #endregion
+
+        #region 公共方法
+
+        /// <summary>
+        /// 注册数据处理方法
+        /// </summary>
+        /// <param name="handlers">实现处理接口的实例</param>
+        public void Register(params IHandler[] handlers)
+        {
+            foreach (var handler in handlers)
+                ReceivedData += (_, e) => handler.Parse(e.Client, e.Data);
         }
 
         #endregion
