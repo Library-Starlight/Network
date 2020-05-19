@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace System.Net.Sockets
 {
+    /// <summary>
+    /// The demo for a high performance pipeline
+    /// </summary>
     public static class SocketExtension
     {
         /// <summary>
