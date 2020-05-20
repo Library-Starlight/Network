@@ -12,7 +12,23 @@ namespace TcpClients.Model
     {
         #region 单例
 
-        public static DataPipeline Instance = new DataPipeline();
+        private static object _objLock = new object();
+        private static DataPipeline _instance;
+
+
+        public static DataPipeline Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    lock (_objLock)
+                        if (_instance == null)
+                            _instance = new DataPipeline();
+                return _instance;
+            }
+        }
+
+        private DataPipeline() { }
 
         #endregion
 
@@ -46,10 +62,39 @@ namespace TcpClients.Model
         /// 接收：将输入转换为事件参数并触发事件
         /// </summary>
         /// <param name="data"></param>
-        public void Received(Client client, byte[] data)
-        {
+        public void Received(Client client, byte[] data) =>
             OnReceivedData(new ReceivedEventArgs { Client = client, Data = data });
+
+        #endregion
+
+        #region 解析完成事件
+
+        /// <summary>
+        /// 解析委托实例
+        /// </summary>
+        private EventHandler<ParsedEventArgs> _parsedData;
+
+        /// <summary>
+        /// 解析事件
+        /// </summary>
+        public event EventHandler<ParsedEventArgs> ParsedData
+        {
+            add => _parsedData += value;
+            remove => _parsedData -= value;
         }
+
+        /// <summary>
+        /// 触发解析事件
+        /// </summary>
+        /// <param name="e"></param>
+        protected void OnParsedData(ParsedEventArgs e)
+        {
+            var temp = Volatile.Read(ref _parsedData);
+            temp?.Invoke(this, e);
+        }
+
+        public void Parsed(DataBase data) =>
+            OnParsedData(new ParsedEventArgs { Data = data });
 
         #endregion
 

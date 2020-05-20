@@ -36,8 +36,8 @@ namespace TcpClients.Helper
         {
             if (BitConverter.IsLittleEndian == isLittleEndian)
                 return BitConverter.ToInt16(data, index);
-            var buffer = new byte[4];
-            Array.Copy(data, index, buffer, 0, 4);
+            var buffer = new byte[2];
+            Array.Copy(data, index, buffer, 0, 2);
             buffer = buffer.Reverse().ToArray();
             return BitConverter.ToInt16(buffer, 0);
         }
@@ -87,8 +87,8 @@ namespace TcpClients.Helper
         {
             if (BitConverter.IsLittleEndian == isLittleEndian)
                 return BitConverter.ToInt64(data, index);
-            var buffer = new byte[4];
-            Array.Copy(data, index, buffer, 0, 4);
+            var buffer = new byte[8];
+            Array.Copy(data, index, buffer, 0, 8);
             buffer = buffer.Reverse().ToArray();
             return BitConverter.ToInt64(buffer, 0);
         }
@@ -104,8 +104,8 @@ namespace TcpClients.Helper
         {
             if (BitConverter.IsLittleEndian == isLittleEndian)
                 return BitConverter.ToUInt64(data, index);
-            var buffer = new byte[4];
-            Array.Copy(data, index, buffer, 0, 4);
+            var buffer = new byte[8];
+            Array.Copy(data, index, buffer, 0, 8);
             buffer = buffer.Reverse().ToArray();
             return BitConverter.ToUInt64(buffer, 0);
         }

@@ -49,6 +49,7 @@ namespace TcpClients.Tcp
             server.Bind(ep);
 
             server.Listen(120);
+            _logger.LogDebug($"启动Socket监听，终结点：{ep.ToString()}");
             
             while (true)
             {

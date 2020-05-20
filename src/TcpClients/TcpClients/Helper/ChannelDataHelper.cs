@@ -18,15 +18,7 @@ namespace TcpClients.Helper
         /// <summary>
         /// 字典: 将二进制数据转换为通道对应的数据类型的值
         /// </summary>
-        private static Dictionary<byte, Func<byte[], int, object>> _converters;
-
-        #endregion
-
-        #region 静态构造函数
-
-        static ChannelDataHelper()
-        {
-            _converters = new Dictionary<byte, Func<byte[], int, object>>
+        private static Dictionary<byte, Func<byte[], int, object>> _converters = new Dictionary<byte, Func<byte[], int, object>>
             {
                 // Unsigned char 1byte
                 { 0x01, (data, index) => data[index] },
@@ -56,7 +48,6 @@ namespace TcpClients.Helper
                         }
                 },
             };
-        }
 
         #endregion
 

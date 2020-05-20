@@ -53,17 +53,12 @@ namespace TcpClients.Handler
         /// <summary>
         /// 日志类
         /// </summary>
-        private ILogger _logger;
+        private readonly ILogger _logger;
 
         /// <summary>
         /// 是否已开始
         /// </summary>
         private bool _dataStarted = false;
-
-        /// <summary>
-        /// 是否已结束
-        /// </summary>
-        private bool _dataEnded = false;
 
         /// <summary>
         /// 是否在获取数据体
@@ -98,7 +93,7 @@ namespace TcpClients.Handler
         /// <summary>
         /// 数据缓存
         /// </summary>
-        private List<byte> _cache = new List<byte>();
+        private readonly List<byte> _cache = new List<byte>();
 
         #endregion
 
@@ -268,7 +263,7 @@ namespace TcpClients.Handler
                         }
                     }
                     // 结束
-                    else if (!_dataEnded)
+                    else
                     {
                         _crcLength++;
                         if (_crcLength > CRCLength)
@@ -276,7 +271,7 @@ namespace TcpClients.Handler
                             if (b == EOT)
                             {
                                 var entity = ParsePacket(_cache.ToArray());
-                                SendResponse(client, entity);
+                                DataPipeline.Instance.Parsed(entity);
                                 ResetCache();
                             }
                             else
@@ -286,10 +281,6 @@ namespace TcpClients.Handler
                                 throw new InvalidOperationException("数据错误,应以符号0x04结束, 请检查并确保数据包正确无误");
                             }
                         }
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException("发生意料之外的错误, 请检查并确保数据包正确无误");
                     }
                 }
             }
@@ -310,19 +301,6 @@ namespace TcpClients.Handler
             _realBodyLength = 0;
             _bodyLength = 0;
             _crcLength = 0;
-        }
-
-        /// <summary>
-        /// 发送指令应答
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="entity"></param>
-        private void SendResponse(Client client, DataBase entity)
-        {
-            // TODO: 发送指令应答
-
-
-            //client.Stream.Write();
         }
 
         #endregion
