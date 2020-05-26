@@ -1,4 +1,5 @@
 ﻿using HttpClients.Services;
+using HttpClients.Services.PartyBuild;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,12 +15,36 @@ namespace HttpClients
 {
     class Program
     {
-        static async Task Main(string[] args)
+        static async Task Main()
         {
-            await CustomJsonLibraryAsync();
+            await GetUriWithToken();
 
             Console.ReadLine();
         }
+
+        #region 获取包含令牌的页面访问Uri
+
+        private static async Task GetUriWithToken()
+        {
+            var provider = new PartyBuildPageProvider();
+
+            //var uri = await provider.GetAccessPageUri();
+            //Console.WriteLine(uri);
+
+            Console.WriteLine($"党员统计：");
+            await provider.GetPartySummaryAsync();
+            Console.WriteLine();
+
+            Console.WriteLine($"楼层党员统计");
+            await provider.GetPartyOfBuilding();
+            Console.WriteLine();
+
+            Console.WriteLine($"楼层党员统计：1楼");
+            await provider.GetPartyOfBuilding(1);
+
+        }
+
+        #endregion
 
         #region 自定义Json库
 

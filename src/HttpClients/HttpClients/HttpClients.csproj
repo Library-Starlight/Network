@@ -79,6 +79,8 @@
   <ItemGroup>
     <Compile Include="Cryptography\MD5Encrypt.cs" />
     <Compile Include="Cryptography\Sha256.cs" />
+    <Compile Include="Services\PartyBuild\Helper\AesEncrypt.cs" />
+    <Compile Include="Services\PartyBuild\Helper\TimeHelper.cs" />
     <Compile Include="JsonConverters\EnglishDateConverter.cs" />
     <Compile Include="JsonConverters\EnumJsonConvert.cs" />
     <Compile Include="JsonConverters\StandardDateConverter.cs" />
@@ -117,6 +119,13 @@
     <Compile Include="Model\Jht\Interface\QueryParkOutResponse.cs" />
     <Compile Include="Model\Jht\Interface\QueryParkSpace.cs" />
     <Compile Include="Model\Jht\Interface\QueryParkSpaceResponse.cs" />
+    <Compile Include="Services\PartyBuild\Model\AesRequest.cs" />
+    <Compile Include="Services\PartyBuild\Model\AesResponse.cs" />
+    <Compile Include="Services\PartyBuild\Model\GetTokenRequest.cs" />
+    <Compile Include="Services\PartyBuild\Model\GetTokenResponse.cs" />
+    <Compile Include="Services\PartyBuild\Model\PartyOfBuilding.cs" />
+    <Compile Include="Services\PartyBuild\Model\PartySummary.cs" />
+    <Compile Include="Services\PartyBuild\PartyBuildPageProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
