@@ -12,7 +12,7 @@ namespace HttpClients
         /// <summary>
         /// 获取16字节（32位）大写MD5编码字符串
         /// </summary>
-        /// <param name="buff">编码</param>
+        /// <param name="buff">内容编码</param>
         /// <returns></returns>
         public static string Encrypt(byte[] buff)
         {
@@ -21,18 +21,33 @@ namespace HttpClients
             return BitConverter.ToString(output).Replace("-", "");
         }
 
+        /// <summary>
+        /// 获取16字节（32位）大写MD5编码字符串
+        /// </summary>
+        /// <param name="input">内容</param>
+        /// <returns></returns>
         public static string Encrypt(string input)
         {
             var buff = Encoding.UTF8.GetBytes(input);
             return Encrypt(buff);
         }
 
+        /// <summary>
+        /// 获取16字节（32位）大写MD5编码数组
+        /// </summary>
+        /// <param name="buff">内容编码</param>
+        /// <returns></returns>
         public static byte[] GetEncryptData(byte[] buff)
         {
             MD5 md5 = new MD5CryptoServiceProvider();
             return md5.ComputeHash(buff);
         }
 
+        /// <summary>
+        /// 获取16字节（32位）大写MD5编码数组
+        /// </summary>
+        /// <param name="input">内容</param>
+        /// <returns></returns>
         public static byte[] GetEncryptData(string input)
         {
             var buff = Encoding.UTF8.GetBytes(input);
@@ -46,20 +61,22 @@ namespace HttpClients
         /// <returns></returns>
         public static string GetContentMD5(string body)
         {
+            // MD5 bytes
             var data = GetEncryptData(body);
-            var base64 = new char[data.Length];
 
+            // Base64 string
             return Convert.ToBase64String(data);
         }
 
         /// <summary>
         /// 获取ContentMD5数据
         /// </summary>
-        /// <param name="body"></param>
+        /// <param name="body">Http请求的内容</param>
         /// <returns></returns>
         public static byte[] GetContentMD5Data(string body)
         {
             return Encoding.UTF8.GetBytes(GetContentMD5(body).ToLower());
         }
+
     }
 }

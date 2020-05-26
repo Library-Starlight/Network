@@ -1,4 +1,5 @@
 ﻿using HttpClients.Services;
+using HttpClients.Services.Hikvision;
 using HttpClients.Services.PartyBuild;
 using Newtonsoft.Json;
 using System;
@@ -17,10 +18,35 @@ namespace HttpClients
     {
         static async Task Main()
         {
-            await GetUriWithToken();
+            HikHttpRequest();
 
             Console.ReadLine();
         }
+
+        #region 包含ContentMD5和X-Ca-Signature的Http请求
+
+        private static void HikHttpRequest()
+        {
+            // 设置参数
+            HikHttpUtillib.SetPlatformInfo("28730366", "HSZkCJpSJ7gSUYrO6wVi", "10.19.132.75", 443, true);
+
+            var body = "";
+
+            var relativeUri = "";
+
+            var data = HikHttpUtillib.HttpPost(relativeUri, body, 15);
+
+            if (null == data)
+            {
+                Console.WriteLine("请求失败");
+            }
+            else
+            {
+                Console.WriteLine(Encoding.UTF8.GetString(data));
+            }
+        }
+
+        #endregion
 
         #region 获取包含令牌的页面访问Uri
 
