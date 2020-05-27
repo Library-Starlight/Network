@@ -81,8 +81,9 @@
     <Compile Include="Cryptography\Sha256.cs" />
     <Compile Include="Services\Hikvision\HikParkingManager.cs" />
     <Compile Include="Services\Hikvision\HikAuthRequestBuilder.cs" />
-    <Compile Include="Services\Hikvision\HikHttpUtillib.cs" />
+    <Compile Include="Services\Hikvision\OpenAPI\HikHttpUtillib.cs" />
     <Compile Include="Services\Hikvision\IHikParkingManager.cs" />
+    <Compile Include="Services\Hikvision\OpenAPI\HikOpenAPI.cs" />
     <Compile Include="Services\PartyBuild\Helper\AesEncrypt.cs" />
     <Compile Include="Services\PartyBuild\Helper\TimeHelper.cs" />
     <Compile Include="JsonConverters\EnglishDateConverter.cs" />
@@ -136,6 +137,11 @@
     <None Include="packages.config" />
     <None Include="Texts\QueryTask.json" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\HttpShared\HttpShared.csproj">
+      <Project>{6b3fd4bd-a57a-46eb-bcf5-155834acddae}</Project>
+      <Name>HttpShared</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

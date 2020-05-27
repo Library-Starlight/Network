@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HttpShared.Hikvision.Design;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,6 +31,8 @@ namespace HttpServer
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Awesome Api", Version = "v1" });
             });
+
+            services.AddSingleton<HikResponseDesignData>();
 
             services.AddControllers();
         }
