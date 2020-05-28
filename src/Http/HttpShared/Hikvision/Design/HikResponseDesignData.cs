@@ -46,6 +46,7 @@ namespace HttpShared.Hikvision.Design
                             plateNo = "粤B 9CI6R",
                             cardNo = "TC - 13550957796",
                             crossTime = time,
+                            vehiclePicUri = "Media/停车场入口.png",
                             vehicleOut = 1,
                         });
                     }
@@ -68,8 +69,8 @@ namespace HttpShared.Hikvision.Design
         {
             SearchImageResponse = new SearchImageResponse
             {
-                msg = "",
-                code = "",
+                msg = "失败",
+                code = "-1",
             };
 
             SearchRemainSpaceResponse = new SearchRemainSpaceResponse

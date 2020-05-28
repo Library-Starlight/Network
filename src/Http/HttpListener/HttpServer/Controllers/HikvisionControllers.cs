@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using HttpShared.Hikvision;
 using HttpShared.Hikvision.Design;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace HttpServer.Controllers
@@ -78,11 +80,17 @@ namespace HttpServer.Controllers
         /// <summary>
         /// 接口设计时数据
         /// </summary>
-        private HikResponseDesignData _designData;
+        private readonly HikResponseDesignData _designData;
 
-        public ImageController(HikResponseDesignData designData)
+        /// <summary>
+        /// 服务器主机环境
+        /// </summary>
+        private readonly IHostEnvironment _environment;
+
+        public ImageController(HikResponseDesignData designData, IHostEnvironment environment)
         {
             _designData = designData;
+            _environment = environment;
         }
 
         [HttpPost]
@@ -91,24 +99,19 @@ namespace HttpServer.Controllers
             this.LogHeaders();
             this.LogBody(request);
 
-            var basePath = Path.GetDirectoryName(typeof(Program).Assembly.Location);
-            var path = Path.Combine(basePath, "/Media/停车场入口.png");
-
+            var path = Path.Combine(_environment.ContentRootPath, request.picUri);
             var image = System.IO.File.OpenRead(path);
-
             return File(image, "image/png");
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> GetAsync()
         {
+            await Task.Delay(3000);
+
             this.LogHeaders();
-
-            var basePath = Path.GetDirectoryName(typeof(Program).Assembly.Location);
-            var path = Path.Combine(basePath, "/Media/停车场入口.png");
-
+            var path = Path.Combine(_environment.ContentRootPath, "Media/停车场入口.png");
             var image = System.IO.File.OpenRead(path);
-
             return File(image, "image/png");
         }
     }
