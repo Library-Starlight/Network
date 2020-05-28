@@ -81,9 +81,9 @@
     <Compile Include="Cryptography\Sha256.cs" />
     <Compile Include="Services\Hikvision\HikParkingManager.cs" />
     <Compile Include="Services\Hikvision\HikAuthRequestBuilder.cs" />
-    <Compile Include="Services\Hikvision\OpenAPI\HikHttpUtillib.cs" />
+    <Compile Include="Services\Hikvision\OpenApi\HikHttpUtillib.cs" />
     <Compile Include="Services\Hikvision\IHikParkingManager.cs" />
-    <Compile Include="Services\Hikvision\OpenAPI\HikOpenAPI.cs" />
+    <Compile Include="Services\Hikvision\OpenApi\HikOpenAPI.cs" />
     <Compile Include="Services\PartyBuild\Helper\AesEncrypt.cs" />
     <Compile Include="Services\PartyBuild\Helper\TimeHelper.cs" />
     <Compile Include="JsonConverters\EnglishDateConverter.cs" />

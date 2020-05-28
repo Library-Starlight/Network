@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using HttpShared.Hikvision;
 using HttpShared.Hikvision.Design;
@@ -59,7 +61,13 @@ namespace HttpServer.Controllers
             this.LogHeaders();
             this.LogBody(request);
 
-            return _designData.SearchRecordsResponse;
+            var designData = _designData.SearchRecordsResponse;
+
+            foreach (var item in designData.data[0].list)
+            {
+                item.vehicleOut = request.vehicleOut;
+            }
+            return designData;
         }
     }
 
@@ -78,12 +86,30 @@ namespace HttpServer.Controllers
         }
 
         [HttpPost]
-        public SearchImageResponse Post(SearchImage request)
+        public IActionResult Post(SearchImage request)
         {
             this.LogHeaders();
             this.LogBody(request);
 
-            return _designData.SearchImageResponse;
+            var basePath = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+            var path = Path.Combine(basePath, "/Media/停车场入口.png");
+
+            var image = System.IO.File.OpenRead(path);
+
+            return File(image, "image/png");
+        }
+
+        [HttpGet]
+        public IActionResult Get()
+        {
+            this.LogHeaders();
+
+            var basePath = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+            var path = Path.Combine(basePath, "/Media/停车场入口.png");
+
+            var image = System.IO.File.OpenRead(path);
+
+            return File(image, "image/png");
         }
     }
 }

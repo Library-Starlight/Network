@@ -13,5 +13,11 @@
     <ProjectReference Include="..\..\HttpShared\HttpShared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Media\停车场入口.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 
 </Project>
