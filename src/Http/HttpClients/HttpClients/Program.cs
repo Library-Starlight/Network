@@ -19,7 +19,7 @@ namespace HttpClients
     {
         static async Task Main()
         {
-            HikHttpRequest();
+            await GetUriWithToken();
 
             Console.ReadLine();
         }
@@ -52,7 +52,6 @@ namespace HttpClients
 
             Console.WriteLine($"楼层党员统计：1楼");
             await provider.GetPartyOfBuilding(1);
-
         }
 
         #endregion

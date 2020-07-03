@@ -79,6 +79,8 @@
   <ItemGroup>
     <Compile Include="Cryptography\MD5Encrypt.cs" />
     <Compile Include="Cryptography\Sha256.cs" />
+    <Compile Include="Extensions\HttpClientExtensions.cs" />
+    <Compile Include="Extensions\Model\WebRequestResult.cs" />
     <Compile Include="Services\Hikvision\HikParkingManager.cs" />
     <Compile Include="Services\Hikvision\HikAuthRequestBuilder.cs" />
     <Compile Include="Services\Hikvision\OpenApi\HikHttpUtillib.cs" />
