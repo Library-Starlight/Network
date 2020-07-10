@@ -1,4 +1,8 @@
-﻿using System;
+﻿using AbcClient.Core.Datastore;
+using AbcClient.Core.DI;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +24,15 @@ namespace AbcClient.UI
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private readonly AbcDbContext _dbContext;
+        public MainWindow(AbcDbContext dbContext)
         {
             InitializeComponent();
+
+            _dbContext = dbContext;
+
+            // 在构造函数等待似乎会出问题?
+            // var clients = _dbContext.Client.ToListAsync().Result;
         }
     }
 }

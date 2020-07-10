@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AbcClient.UI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
+        Title="MainWindow" 
+        Height="450"
+        Width="800"
+        WindowStyle="None"
+        >
+    <Grid Background="{StaticResource PureGoldenPurpleBrush}">
+        
     </Grid>
 </Window>

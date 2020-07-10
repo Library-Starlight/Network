@@ -1,0 +1,107 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:AbcClient.UI.Infrastructure.Styles">
+
+    <!--#region Google-->
+
+    <Color x:Key="GoogleBlue">#FF4285F4</Color>
+    <SolidColorBrush x:Key="GoogleBlueBrush" Color="{StaticResource GoogleBlue}" />
+    <Color x:Key="GoogleRed">#FFDB4437</Color>
+    <SolidColorBrush x:Key="GoogleRedBrush" Color="{StaticResource GoogleRed}" />
+    <Color x:Key="GoogleYellow">#FFF4A000</Color>
+    <SolidColorBrush x:Key="GoogleYellowBrush" Color="{StaticResource GoogleYellow}" />
+    <Color x:Key="GoogleGreen">#FF0F9D4D</Color>
+    <SolidColorBrush x:Key="GoogleGreenBrush" Color="{StaticResource GoogleGreen}" />
+
+    <!--#endregion-->
+
+    <!--#region Antdesign-->
+
+    <!-- 薄暮 -->
+    <Color x:Key="LightDustRed">#ffa39e</Color>
+    <SolidColorBrush x:Key="LightDustRedBrush" Color="{StaticResource LightDustRed}" />
+    <Color x:Key="PureDustRed">#f5222d</Color>
+    <SolidColorBrush x:Key="PureDustRedBrush" Color="{StaticResource PureDustRed}" />
+    <Color x:Key="DarkDustRed">#a8071a</Color>
+    <SolidColorBrush x:Key="DarkDustRedBrush" Color="{StaticResource DarkDustRed}" />
+    <!-- 火山 -->
+    <Color x:Key="LightVolcano">#ffbb96</Color>
+    <SolidColorBrush x:Key="LightVolcanoBrush" Color="{StaticResource LightVolcano}" />
+    <Color x:Key="PureVolcano">#fa541c</Color>
+    <SolidColorBrush x:Key="PureVolcanoBrush" Color="{StaticResource PureVolcano}" />
+    <Color x:Key="DarkVolcano">#ad2102</Color>
+    <SolidColorBrush x:Key="DarkVolcanoBrush" Color="{StaticResource DarkVolcano}" />
+    <!-- 日暮 -->
+    <Color x:Key="LightSunsetOrange">#ffd591</Color>
+    <SolidColorBrush x:Key="LightSunsetOrangeBrush" Color="{StaticResource LightSunsetOrange}" />
+    <Color x:Key="PureSunsetOrange">#fa8c16</Color>
+    <SolidColorBrush x:Key="PureSunsetOrangeBrush" Color="{StaticResource PureSunsetOrange}" />
+    <Color x:Key="DarkSunsetOrange">#ad4e00</Color>
+    <SolidColorBrush x:Key="DarkSunsetOrangeBrush" Color="{StaticResource DarkSunsetOrange}" />
+    <!-- 金盏花 -->
+    <Color x:Key="LightCalendulaGold">#ffe58f</Color>
+    <SolidColorBrush x:Key="LightCalendulaGoldBrush" Color="{StaticResource LightCalendulaGold}" />
+    <Color x:Key="PureCalendulaGold">#faad14</Color>
+    <SolidColorBrush x:Key="PureCalendulaGoldBrush" Color="{StaticResource PureCalendulaGold}" />
+    <Color x:Key="DarkCalendulaGold">#ad6800</Color>
+    <SolidColorBrush x:Key="DarkCalendulaGoldBrush" Color="{StaticResource DarkCalendulaGold}" />
+    <!-- 日出 -->
+    <Color x:Key="LightSunriseYellow">#fffb8f</Color>
+    <SolidColorBrush x:Key="LightSunriseYellowBrush" Color="{StaticResource LightSunriseYellow}" />
+    <Color x:Key="PureSunriseYellow">#fadb14</Color>
+    <SolidColorBrush x:Key="PureSunriseYellowBrush" Color="{StaticResource PureSunriseYellow}" />
+    <Color x:Key="DarkSunriseYellow">#ad8b00</Color>
+    <SolidColorBrush x:Key="DarkSunriseYellowBrush" Color="{StaticResource DarkSunriseYellow}" />
+    <!-- 青柠 -->
+    <Color x:Key="LightLime">#eaff8f</Color>
+    <SolidColorBrush x:Key="LightLimeBrush" Color="{StaticResource LightLime}" />
+    <Color x:Key="PureLime">#a0d911</Color>
+    <SolidColorBrush x:Key="PureLimeBrush" Color="{StaticResource PureLime}" />
+    <Color x:Key="DarkLime">#5b8c00</Color>
+    <SolidColorBrush x:Key="DarkLimeBrush" Color="{StaticResource DarkLime}" />
+    <!-- 极光绿-->
+    <Color x:Key="LightPolarGreen">#b7eb8f</Color>
+    <SolidColorBrush x:Key="DLightPolarGreenBrush" Color="{StaticResource LightPolarGreen}" />
+    <Color x:Key="PurePolarGreen">#52c41a</Color>
+    <SolidColorBrush x:Key="PurePolarGreenBrush" Color="{StaticResource PurePolarGreen}" />
+    <Color x:Key="DarkPolarGreen">#237804</Color>
+    <SolidColorBrush x:Key="DarkPolarGreenBrush" Color="{StaticResource DarkPolarGreen}" />
+    <!-- 明青 -->
+    <Color x:Key="LightCyan">#87e8de</Color>
+    <SolidColorBrush x:Key="LightCyanBrush" Color="{StaticResource LightCyan}" />
+    <Color x:Key="PureCyan">#13c2c2</Color>
+    <SolidColorBrush x:Key="PureCyanBrush" Color="{StaticResource PureCyan}" />
+    <Color x:Key="DarkCyan">#006d75</Color>
+    <SolidColorBrush x:Key="DarkCyanBrush" Color="{StaticResource DarkCyan}" />
+    <!-- 拂晓蓝 -->
+    <Color x:Key="LightDaybreakBlue">#91d5ff</Color>
+    <SolidColorBrush x:Key="LightDaybreakBlueBrush" Color="{StaticResource LightDaybreakBlue}" />
+    <Color x:Key="PureDaybreakBlue">#1890ff</Color>
+    <SolidColorBrush x:Key="PureDaybreakBlueBrush" Color="{StaticResource PureDaybreakBlue}" />
+    <Color x:Key="DarkDaybreakBlue">#0050b3</Color>
+    <SolidColorBrush x:Key="DarkDaybreakBlueBrush" Color="{StaticResource DarkDaybreakBlue}" />
+    <!-- 极客蓝 -->
+    <Color x:Key="LightGeekBlue">#adc6ff</Color>
+    <SolidColorBrush x:Key="LightGeekBlueBrush" Color="{StaticResource LightGeekBlue}" />
+    <Color x:Key="PureGeekBlue">#2f54eb</Color>
+    <SolidColorBrush x:Key="PureGeekBlueBrush" Color="{StaticResource PureGeekBlue}" />
+    <Color x:Key="DarkGeekBlue">#10239e</Color>
+    <SolidColorBrush x:Key="DarkGeekBlueBrush" Color="{StaticResource DarkGeekBlue}" />
+    <!-- 酱紫 -->
+    <Color x:Key="LightGoldenPurple">#d3adf7</Color>
+    <SolidColorBrush x:Key="LightGoldenPurpleBrush" Color="{StaticResource LightGoldenPurple}" />
+    <Color x:Key="PureGoldenPurple">#722ed1</Color>
+    <SolidColorBrush x:Key="PureGoldenPurpleBrush" Color="{StaticResource PureGoldenPurple}" />
+    <Color x:Key="DarkGoldenPurple">#391085</Color>
+    <SolidColorBrush x:Key="DarkGoldenPurpleBrush" Color="{StaticResource DarkGoldenPurple}" />
+    <!-- 法式洋红 -->
+    <Color x:Key="LightMagenta">#ffadd2</Color>
+    <SolidColorBrush x:Key="LightMagentaBrush" Color="{StaticResource LightMagenta}" />
+    <Color x:Key="PureMagenta">#eb2f96</Color>
+    <SolidColorBrush x:Key="PureMagentaBrush" Color="{StaticResource PureMagenta}" />
+    <Color x:Key="DarkMagenta">#9e1068</Color>
+    <SolidColorBrush x:Key="DarkMagentaBrush" Color="{StaticResource DarkMagenta}" />
+
+    <!--#endregion-->
+
+</ResourceDictionary>
