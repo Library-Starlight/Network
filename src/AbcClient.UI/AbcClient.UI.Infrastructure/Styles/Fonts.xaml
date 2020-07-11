@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <FontFamily x:Key="FontAwesome">/AbcClient.UI.Infrastructure;component/Fonts/#FontAwesome</FontFamily>
+
+    <!-- FontAwesome图标 -->
+    <system:String x:Key="FontAwesomeChatIcon">&#xf075;</system:String>
+    <system:String x:Key="FontAwesomeSpinIcon">&#xf110;</system:String>
+
+</ResourceDictionary>

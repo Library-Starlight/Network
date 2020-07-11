@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace AbcClient.UI.ViewModel.SocketList
+namespace AbcClient.UI
 {
     public class AwesomeClientListViewModel : BaseViewModel
     {

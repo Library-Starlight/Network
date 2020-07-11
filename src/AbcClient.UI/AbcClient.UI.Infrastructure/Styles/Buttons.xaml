@@ -1,0 +1,72 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:AbcClient.UI.Infrastructure"
+                    >
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/AbcClient.UI.Infrastructure;component/Styles/Texts.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="CornerButton" TargetType="{x:Type Button}">
+
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="local:IsBusyProperty.Value" Value="False" />
+        <Setter Property="Padding" Value="10 0" />
+        <Setter Property="Margin" Value="0 10" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ButtonBase}">
+                    <Border Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="10"
+                            >
+                        <Grid>
+                            <!-- 空闲内容 -->
+                            <TextBlock Text="{TemplateBinding Content}"
+                                       Visibility="{TemplateBinding local:IsBusyProperty.Value, Converter={local:BooleanToVisiblityConverter}}"
+                                       TextAlignment="Center"
+                                       Focusable="False"
+                                       FontFamily="{TemplateBinding FontFamily}"
+                                       FontSize="{TemplateBinding FontSize}"
+                                       HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                       VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                       />
+
+                            <!-- 繁忙内容 -->
+                            <TextBlock Style="{StaticResource SpinningText}"
+                                       FontSize="{TemplateBinding FontSize}"
+                                       HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                       VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                       TextAlignment="Center"
+                                       Visibility="{TemplateBinding local:IsBusyProperty.Value, Converter={local:BooleanToVisiblityConverter}, ConverterParameter=True}"
+                                       />
+
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation To="0.5" Duration="0:0:0.3" Storyboard.TargetName="border" Storyboard.TargetProperty="Opacity" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation From="0.5" Duration="0:0:0.3" Storyboard.TargetName="border" Storyboard.TargetProperty="Opacity" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+    
+</ResourceDictionary>

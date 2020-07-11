@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AbcClient.UI
+namespace AbcClient.AwesomeUI
 {
     /// <summary>
-    /// AwesomeClientListControl.xaml 的交互逻辑
+    /// LoginPage.xaml 的交互逻辑
     /// </summary>
-    public partial class AwesomeClientListControl : UserControl
+    public partial class LoginPage : Page
     {
-        public AwesomeClientListControl()
+        public LoginPage()
         {
             InitializeComponent();
         }

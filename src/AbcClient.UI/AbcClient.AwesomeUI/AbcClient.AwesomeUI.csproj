@@ -1,20 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
+    <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Fonts\fontawesome-webfont.ttf" />
+    <ProjectReference Include="..\AbcClient.UI.Infrastructure\AbcClient.UI.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="PropertyChanged.Fody" Version="3.2.8" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Fonts\fontawesome-webfont.ttf" />
+    <Folder Include="Controls\" />
+    <Folder Include="Designer\" />
   </ItemGroup>
 
 </Project>

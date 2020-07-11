@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AbcClient.UI.Controls.SocketList
+namespace AbcClient.UI
 {
     /// <summary>
     /// AwesomeClientListItemControl.xaml 的交互逻辑
