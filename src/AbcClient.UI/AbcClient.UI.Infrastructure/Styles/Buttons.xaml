@@ -31,6 +31,7 @@
                                        Focusable="False"
                                        FontFamily="{TemplateBinding FontFamily}"
                                        FontSize="{TemplateBinding FontSize}"
+                                       TextWrapping="NoWrap"
                                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                        VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                        />
@@ -51,14 +52,14 @@
                         <EventTrigger RoutedEvent="MouseEnter">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation To="0.5" Duration="0:0:0.3" Storyboard.TargetName="border" Storyboard.TargetProperty="Opacity" />
+                                    <DoubleAnimation To="1.5" Duration="0:0:0.3" Storyboard.TargetName="border" Storyboard.TargetProperty="Opacity" />
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
                         <EventTrigger RoutedEvent="MouseLeave">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation From="0.5" Duration="0:0:0.3" Storyboard.TargetName="border" Storyboard.TargetProperty="Opacity" />
+                                    <DoubleAnimation From="1.5" Duration="0:0:0.3" Storyboard.TargetName="border" Storyboard.TargetProperty="Opacity" />
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
