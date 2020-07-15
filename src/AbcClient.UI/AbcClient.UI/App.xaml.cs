@@ -39,9 +39,10 @@ namespace AbcClient.UI
             // 添加默认配置项
             services.AddDefaultConfuguration();
 
+            await SetupAsync();
+
             services.AddSingleton<MainWindow>();
 
-            await SetupAsync();
         }
     }
 }

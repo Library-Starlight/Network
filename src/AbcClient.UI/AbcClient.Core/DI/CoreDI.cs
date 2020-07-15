@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace AbcClient.Core.DI
 {
+    /// <summary>
+    /// IoC容器
+    /// </summary>
     public class CoreDI
     {
         /// <summary>
@@ -22,7 +25,7 @@ namespace AbcClient.Core.DI
         /// <summary>
         /// 服务解析
         /// </summary>
-        public static IServiceProvider ServiceProvider { get; protected set; }
+        public static IServiceProvider ServiceProvider { get; protected set; } = Services.BuildServiceProvider();
 
         /// <summary>
         /// 应用程序配置

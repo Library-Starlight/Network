@@ -3,10 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AbcClient.AwesomeUI" xmlns:infrastructure="clr-namespace:AbcClient.UI.Infrastructure;assembly=AbcClient.UI.Infrastructure"
+        xmlns:local="clr-namespace:AbcClient.AwesomeUI"
         mc:Ignorable="d"
         WindowStyle="None"
-        Title="MainWindow" Height="450" Width="800">
+        Height="450" 
+        Width="800"
+        >
 
-    
+    <local:PageHost 
+                    DataContext="{x:Static local:DI.ViewModelApplication}"
+                    CurrentPage="{Binding CurrentPage}"
+                    CurrentPageViewModel="{Binding CurrentViewModel}" />
+
 </Window>

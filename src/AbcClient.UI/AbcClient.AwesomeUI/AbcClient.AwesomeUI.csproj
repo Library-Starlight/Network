@@ -13,9 +13,11 @@
   <ItemGroup>
     <Folder Include="Designer\" />
   </ItemGroup>
-
+  
   <ItemGroup>
-    <PackageReference Include="PropertyChanged.Fody" Version="3.2.8" />
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

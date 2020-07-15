@@ -10,6 +10,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AbcClient.Core\AbcClient.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Fonts\fontawesome-webfont.ttf" />
   </ItemGroup>
 

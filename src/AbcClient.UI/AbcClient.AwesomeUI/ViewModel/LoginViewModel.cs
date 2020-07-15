@@ -1,12 +1,7 @@
 ﻿using AbcClient.UI.Infrastructure;
-using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using static AbcClient.AwesomeUI.DI;
 
 namespace AbcClient.AwesomeUI
 {
@@ -49,6 +44,8 @@ namespace AbcClient.AwesomeUI
             await RunCommandAsync(() => this.LoginIsRunning, async () =>
             {
                 await Task.Delay(250);
+
+                ViewModelApplication.GoToPage(ApplicationPage.Dashboard, new DashboardViewModel());
             });
         }
 

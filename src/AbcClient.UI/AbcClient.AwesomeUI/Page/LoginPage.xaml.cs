@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AbcClient.UI.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,11 +19,21 @@ namespace AbcClient.AwesomeUI
     /// <summary>
     /// LoginPage.xaml 的交互逻辑
     /// </summary>
-    public partial class LoginPage : Page
+    public partial class LoginPage : BasePage<LoginViewModel>
     {
         public LoginPage()
         {
             InitializeComponent();
+        }
+
+        public LoginPage(LoginViewModel viewModel) : base(viewModel)
+        {
+            InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var d = DataContext;
         }
     }
 }
