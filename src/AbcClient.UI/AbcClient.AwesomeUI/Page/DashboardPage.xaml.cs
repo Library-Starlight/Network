@@ -11,5 +11,10 @@ namespace AbcClient.AwesomeUI
         {
             InitializeComponent();
         }
+
+        public DashboardPage(DashboardViewModel viewModel) : base(viewModel)
+        {
+            InitializeComponent();
+        }
     }
 }

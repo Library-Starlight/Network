@@ -26,7 +26,11 @@ namespace AbcClient.AwesomeUI
         /// <param name="viewModel"></param>
         public void GoToPage(ApplicationPage applicationPage, BaseViewModel viewModel = null)
         {
+            CurrentViewModel = viewModel;
 
+            CurrentPage = applicationPage;
+
+            OnPropertyChanged(nameof(CurrentPage));
         }
     }
 }

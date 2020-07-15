@@ -17,6 +17,8 @@ namespace AbcClient.AwesomeUI
             {
                 case ApplicationPage.Login:
                     return new LoginPage(viewModel as LoginViewModel);
+                case ApplicationPage.Dashboard:
+                    return new DashboardPage(viewModel as DashboardViewModel);
                 default:
                     Debugger.Break();
                     return null;
@@ -35,6 +37,8 @@ namespace AbcClient.AwesomeUI
             {
                 case LoginPage _:
                     return ApplicationPage.Login;
+                case DashboardPage _:
+                    return ApplicationPage.Dashboard;
             }
 
             // Alert developer of issue

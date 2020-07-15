@@ -10,8 +10,7 @@
         Width="800"
         >
 
-    <local:PageHost 
-                    DataContext="{x:Static local:DI.ViewModelApplication}"
+    <local:PageHost DataContext="{x:Static local:DI.ViewModelApplication}"
                     CurrentPage="{Binding CurrentPage}"
                     CurrentPageViewModel="{Binding CurrentViewModel}" />
 

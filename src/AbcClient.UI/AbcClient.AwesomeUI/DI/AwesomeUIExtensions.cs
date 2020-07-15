@@ -11,6 +11,8 @@ namespace AbcClient.AwesomeUI
     {
         public static IServiceCollection AddAwesomeUI(this IServiceCollection services)
         {
+            services.AddSingleton<ApplicationViewModel>();
+
             return services;
         }
     }
