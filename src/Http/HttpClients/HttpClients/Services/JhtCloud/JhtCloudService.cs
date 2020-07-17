@@ -149,7 +149,7 @@ namespace HttpClients
             var sJsonRequest = JsonConvert.SerializeObject(request);
 
             var url = $"{_serviceUrl}JhtCloud/Data/{request.serviceId}/";
-            var sJsonResponse = await HttpRequest.PostAsync(url, sJsonRequest);
+            var sJsonResponse = await HttpRequest.PostAsync(url, body: sJsonRequest);
 
             var response = JsonConvert.DeserializeObject<JhtCloudResponse<TResponse>>(sJsonResponse);
             return response;

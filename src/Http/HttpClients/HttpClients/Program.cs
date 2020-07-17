@@ -5,12 +5,14 @@ using HttpShared.Hikvision;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace HttpClients
@@ -19,10 +21,36 @@ namespace HttpClients
     {
         static async Task Main()
         {
-            await GetUriWithToken();
+            await GetCustomHttpResponseAsync();
 
             Console.ReadLine();
         }
+
+        #region 获取自定义Http应答
+
+        private static async Task GetCustomHttpResponseAsync()
+        {
+            const string uri = "https://www.taxiaides.com/xyyc_sdk_api/rest/query/result?operationTaskId=62PkT8dI3SdNd0476XB650i8CT450QLc";
+            var client = new HttpClient();
+            var response = await client.GetAsJsonAsync<HycSearchTaskResultResponse>(uri);
+            
+            Console.WriteLine(JsonConvert.SerializeObject(response, Formatting.Indented));
+            
+            var data = response.ServerResponse.data;
+            var devices = JsonConvert.DeserializeObject<HycTaskResultData>(data);
+
+            var formatted = JsonConvert.SerializeObject(devices, Formatting.Indented);
+            Console.WriteLine(formatted);
+
+            // 写入到文件
+            using (var fs = new FileStream("devices.json", FileMode.OpenOrCreate, FileAccess.Write))
+            using (var sw = new StreamWriter(fs))
+            {
+                sw.Write(formatted);
+            }
+        }
+
+        #endregion
 
         #region 包含ContentMD5和X-Ca-Signature的Http请求
 

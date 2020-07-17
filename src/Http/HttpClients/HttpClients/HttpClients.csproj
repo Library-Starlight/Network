@@ -137,6 +137,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Texts\devices.json" />
     <None Include="Texts\QueryTask.json" />
   </ItemGroup>
   <ItemGroup>

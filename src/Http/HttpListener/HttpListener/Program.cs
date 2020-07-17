@@ -17,6 +17,7 @@ namespace HttpListener
         {
             StartHttpControllerListener();
 
+            Console.WriteLine("启动成功");
             Console.ReadLine();
         }
 

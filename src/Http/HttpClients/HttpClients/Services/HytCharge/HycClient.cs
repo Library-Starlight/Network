@@ -215,7 +215,7 @@ namespace HttpClients
             if (!string.IsNullOrEmpty(token))
                 headers = new Dictionary<string, string> { { "Token", token } };
 
-            var responseStr = await HttpRequest.GetAsync(QueryResultUrl, param, headers);
+            var responseStr = await HttpRequest.GetAsync(QueryResultUrl, param: param, headers: headers);
 
             Console.WriteLine($"{SystemName}请求 GET  ，Url：{url}，应答：{responseStr}");
 

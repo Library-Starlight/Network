@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,36 +22,21 @@ namespace HttpClients
         /// <param name="body">请求数据体</param>
         /// <param name="headers">请求头部</param>
         /// <returns></returns>
-        public static async Task<string> PostAsync(string url, string body, IDictionary<string, string> headers = null)
+        public static Task<string> PostAsync(string url, string body = null, IDictionary<string, string> param = null, IDictionary<string, string> headers = null)
         {
-            // 创建请求
-            var request = HttpWebRequest.Create(url);
-            request.ContentType = "application/json";
-            request.Method = "post";
-
-            // 添加头部
-            if (headers != null)
-                foreach (var header in headers)
-                    request.Headers.Add(header.Key, header.Value);
-
-            // 发送请求
-            using (var stream = request.GetRequestStream())
-            using (var sw = new StreamWriter(stream))
-            {
-                await sw.WriteAsync(body);
-            }
-
-            // 接收应答
-            var response = request.GetResponse();
-            using (var stream = response.GetResponseStream())
-            using (var sr = new StreamReader(stream))
-            {
-                var json = await sr.ReadToEndAsync();
-                return json;
-            }
+            return RequestAsync(HttpMethod.Post, url, body, param, headers);
         }
 
-        public static async Task<string> GetAsync(string url, IDictionary<string, string> param, IDictionary<string, string> headers = null)
+        public static Task<string> GetAsync(string url, string body = null, IDictionary<string, string> param = null, IDictionary<string, string> headers = null)
+        {
+            return RequestAsync(HttpMethod.Get, url, body, param, headers);
+        }
+
+        #endregion
+
+        #region 工具方法
+
+        private static async Task<string> RequestAsync(HttpMethod method, string url, string body = null, IDictionary<string, string> param = null, IDictionary<string, string> headers = null)
         {
             // 构建完整的HttpGet请求Url
             url = AppendHttpGetParam(url, param);
@@ -58,12 +44,22 @@ namespace HttpClients
             // 创建请求
             var request = HttpWebRequest.Create(url);
             request.ContentType = "application/json";
-            request.Method = "get";
+            request.Method = method.ToString();
 
             // 添加头部
             if (headers != null)
                 foreach (var header in headers)
                     request.Headers.Add(header.Key, header.Value);
+
+            // 发送请求
+            if (!string.IsNullOrEmpty(body))
+            {
+                using (var stream = request.GetRequestStream())
+                using (var sw = new StreamWriter(stream))
+                {
+                    await sw.WriteAsync(body);
+                }
+            }
 
             // 接收应答
             var response = request.GetResponse();
@@ -74,10 +70,6 @@ namespace HttpClients
                 return json;
             }
         }
-
-        #endregion
-
-        #region 工具方法
 
         /// <summary>
         /// 在Url上添加请求参数

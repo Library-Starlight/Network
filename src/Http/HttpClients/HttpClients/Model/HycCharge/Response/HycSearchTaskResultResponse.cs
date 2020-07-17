@@ -29,7 +29,7 @@ namespace HttpClients
         /// 任务执行状态
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
-        public HycOperationStatus operationStatus { get; set; }
+        public HycOperationStatus? operationStatus { get; set; }
 
         /// <summary>
         /// 结果
@@ -61,7 +61,7 @@ namespace HttpClients
 
     public class HycPlug
     {
-        public string plugNum { get; set; }
+        public string plugnNum { get; set; }
         public HycPlugStatus plugStatus { get; set; }
     }
 }
