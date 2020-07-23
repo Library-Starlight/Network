@@ -69,6 +69,7 @@
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -80,7 +81,9 @@
     <Compile Include="Cryptography\MD5Encrypt.cs" />
     <Compile Include="Cryptography\Sha256.cs" />
     <Compile Include="Extensions\HttpClientExtensions.cs" />
+    <Compile Include="Extensions\IDictionaryExtensions.cs" />
     <Compile Include="Extensions\Model\WebRequestResult.cs" />
+    <Compile Include="Network\JsonHttpRequest.cs" />
     <Compile Include="Services\Hikvision\HikParkingManager.cs" />
     <Compile Include="Services\Hikvision\HikAuthRequestBuilder.cs" />
     <Compile Include="Services\Hikvision\OpenApi\HikHttpUtillib.cs" />
@@ -105,7 +108,7 @@
     <Compile Include="Model\HycCharge\Response\HycSearchTaskResultResponse.cs" />
     <Compile Include="Model\Others\Authenticate.cs" />
     <Compile Include="Model\Others\WeatherForecast.cs" />
-    <Compile Include="Network\HttpClientExtensions.cs" />
+    <Compile Include="Extensions\HttpClientExtensions1.cs" />
     <Compile Include="Network\HttpRequest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -133,6 +136,17 @@
     <Compile Include="Services\PartyBuild\Model\PartyOfBuilding.cs" />
     <Compile Include="Services\PartyBuild\Model\PartySummary.cs" />
     <Compile Include="Services\PartyBuild\PartyBuildPageProvider.cs" />
+    <Compile Include="Services\StreetLED\Model\Enums\CommandType.cs" />
+    <Compile Include="Services\StreetLED\Model\Request\AddCommandApiModel.cs" />
+    <Compile Include="Services\StreetLED\Model\Request\PublishProgramApiModel.cs" />
+    <Compile Include="Services\StreetLED\Model\Response\DeviceDataModel.cs" />
+    <Compile Include="Services\StreetLED\Model\Response\DeviceProgramsDataModel.cs" />
+    <Compile Include="Services\StreetLED\Model\Response\ProgramsDataModel.cs" />
+    <Compile Include="Services\StreetLED\Model\Response\TaskDataModel.cs" />
+    <Compile Include="Services\StreetLED\Model\Response\UserCredentialsDataModel.cs" />
+    <Compile Include="Services\StreetLED\Model\StreetLedApiResponse.cs" />
+    <Compile Include="Services\StreetLED\StreetLedApi.cs" />
+    <Compile Include="Services\StreetLED\StreetLedRouter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -146,5 +160,6 @@
       <Name>HttpShared</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

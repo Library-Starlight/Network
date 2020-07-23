@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace System.Net.Http.Json
 {
-    public static class HttpClientExtensions
+    public static class HttpClientExtensions1
     {
         /// <summary>
         /// 密钥Id

@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HttpClients
+namespace System.Net.Http
 {
     public class HttpRequest
     {
@@ -45,7 +39,7 @@ namespace HttpClients
             var request = HttpWebRequest.Create(url);
             request.ContentType = "application/json";
             request.Method = method.ToString();
-
+            
             // 添加头部
             if (headers != null)
                 foreach (var header in headers)

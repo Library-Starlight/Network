@@ -1,19 +1,26 @@
 ﻿using HttpClients.Services;
 using HttpClients.Services.Hikvision;
 using HttpClients.Services.PartyBuild;
+using StreetLED;
+using StreetLED.Model.Enums;
+using StreetLED.Model.Response;
 using HttpShared.Hikvision;
+using Microsoft.SqlServer.Server;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 
 namespace HttpClients
 {
@@ -21,10 +28,85 @@ namespace HttpClients
     {
         static async Task Main()
         {
-            await GetCustomHttpResponseAsync();
+            try
+            {
+                await JsonRequestAsync();
 
-            Console.ReadLine();
+                Console.ReadLine();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
+
+        #region 通用Json请求及应答
+
+        public static async Task JsonRequestAsync()
+        {
+            const string username = "chenjilan123";
+            const string password = "Qz8954167";
+            const string deviceSN = "1";
+
+            var credentials = await StreetLedApi.GetCredentialsAsync(username, password);
+            Console.WriteLine(JsonConvert.SerializeObject(credentials, Formatting.Indented));
+
+            var token = credentials.access_token;
+
+            // 获取设备信息
+            //var device = await StreetLedApi.GetDeviceInfoAsync(token, "1");
+            //Console.WriteLine(JsonConvert.SerializeObject(device, Formatting.Indented));
+
+            // 获取设备节目
+            //var devicePrograms = await StreetLedApi.GetDeviceProgramsAsync(token, "1");
+            //Console.WriteLine(JsonConvert.SerializeObject(devicePrograms, Formatting.Indented));
+
+            // 获取节目信息
+            //var programs = await StreetLedApi.GetProgramsAsync(token);
+            //Console.WriteLine(JsonConvert.SerializeObject(programs, Formatting.Indented));
+
+            // 发布节目
+            var sns = new List<string> { "1", "2" };
+            var programIds = new List<int> { 1, 2 };
+            var pubResult = await StreetLedApi.PublishProgramAsync(token, sns, programIds);
+            Console.WriteLine(pubResult);
+
+            // 发送指令
+            var devices = new List<string> { "1", "2" };
+            var command = CommandType.open;
+            var sendResult = await StreetLedApi.SendCommmandAsync(token, command, devices);
+            Console.WriteLine(sendResult);
+        }
+
+        private static void Serialize<TRequest>(TRequest request)
+        {
+            Console.WriteLine(JsonConvert.SerializeObject(request));
+        }
+
+        #endregion
+
+        #region x-www-form-urlencoded请求
+
+        public static async Task FormUrlEncodedRequestAsync()
+        {
+            var url = "http://www.led-cloud.cn/oauth/token";
+            var parameters = new Dictionary<string, string>
+            {
+                {"client_secret" , "dms-browser"},
+                {"client_id" , "dms-browser"},
+                {"grant_type" , "password"},
+                {"username" , "chenjilan123"},
+                {"password" , "Qz8954167"},
+                {"scope" , "all"},
+            };
+
+            var response = await JsonHttpRequest.PostFormDataFromJsonAsync<UserCredentialsDataModel>(url, parameters);
+
+            var str = JsonConvert.SerializeObject(response, Formatting.Indented);
+            Console.WriteLine(str);
+        }
+
+        #endregion
 
         #region 获取自定义Http应答
 
