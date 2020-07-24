@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:AbcClient.AwesomeUI"
         mc:Ignorable="d"
         WindowStyle="None"
-        Height="450" 
+        MinHeight="350"
+        MinWidth="500"
+        Height="600" 
         Width="800"
         >
 

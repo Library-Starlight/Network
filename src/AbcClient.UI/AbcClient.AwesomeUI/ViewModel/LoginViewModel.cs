@@ -43,7 +43,7 @@ namespace AbcClient.AwesomeUI
         {
             await RunCommandAsync(() => this.LoginIsRunning, async () =>
             {
-                await Task.Delay(250);
+                await Task.Delay(2500);
 
                 ViewModelApplication.GoToPage(ApplicationPage.Dashboard, new DashboardViewModel());
             });
