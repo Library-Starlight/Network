@@ -30,12 +30,15 @@ namespace StreetLED
                 {"scope" , "all"},
             };
 
-            UserCredentialsDataModel credentials = null;
+            UserCredentialsDataModel credentials;
             try
             {
                 credentials = await JsonHttpRequest.PostFormDataFromJsonAsync<UserCredentialsDataModel>(StreetLedRouter.LoginUrl, parameters);
             }
-            catch { }
+            catch 
+            {
+                credentials = null;
+            }
 
             return credentials;
         }
@@ -58,10 +61,10 @@ namespace StreetLED
         /// <param name="sn">设备序列号</param>
         /// <param name="token">Http请求令牌</param>
         /// <returns>设备信息</returns>
-        public static Task<List<DeviceProgramsDataModel>> GetDeviceProgramsAsync(string token, string sn)
+        public static Task<StreetLedPagedModel<DeviceProgramsDataModel>> GetDeviceProgramsAsync(string token, string sn)
         {
             var url = StreetLedRouter.GetDeviceProgramsUrl(sn);
-            return GetAsync<List<DeviceProgramsDataModel>>(url, token);
+            return GetAsync<StreetLedPagedModel<DeviceProgramsDataModel>>(url, token);
         }
 
         /// <summary>
@@ -69,9 +72,9 @@ namespace StreetLED
         /// </summary>
         /// <param name="token">Http请求令牌</param>
         /// <returns></returns>
-        public static Task<ProgramsDataModel> GetProgramsAsync(string token)
+        public static Task<StreetLedPagedModel<ProgramItem>> GetProgramsAsync(string token)
         {
-            return GetAsync<ProgramsDataModel>(StreetLedRouter.GetProgramUrl, token);
+            return GetAsync<StreetLedPagedModel<ProgramItem>>(StreetLedRouter.GetProgramUrl, token);
         }
 
         /// <summary>
@@ -90,7 +93,7 @@ namespace StreetLED
                 devices = sns,
             };
 
-            var response = await PostAsync<PublishProgramApiModel, TaskDataModel>(StreetLedRouter.PublishProgramUrl, request, token);
+            var response = await PostAsync<TaskDataModel>(StreetLedRouter.PublishProgramUrl, request, token);
             return response != null;
         }
 
@@ -107,7 +110,60 @@ namespace StreetLED
                 command = command.ToString(),
                 devices = sns,
             };
-            var response = await PostAsync<AddCommandApiModel, TaskDataModel>(StreetLedRouter.AddCommandUrl, request, token);
+            var response = await PostAsync<TaskDataModel>(StreetLedRouter.AddCommandUrl, request, token);
+            return response != null;
+        }
+
+        /// <summary>
+        /// 更新亮度
+        /// </summary>
+        /// <param name="token">Http请求令牌</param>
+        /// <param name="brightness">亮度大小，范围：0-100</param>
+        /// <returns></returns>
+        public static async Task<bool> UpdateBrightnessAsync(string token, string sn, int brightness)
+        {
+            if (brightness < 0 || brightness > 100)
+                return false;
+
+            // 创建更新亮度的请求
+            var request = new UpdateSettingsApiModel
+            {
+                settings = new
+                {
+                    brightness = new
+                    {
+                        mode = "fixed",
+                        @fixed = brightness,
+                    },
+                },
+                devices = new List<string> { sn },
+            };
+
+            var response = await PostAsync<TaskDataModel>(StreetLedRouter.AddSettingsUrl, request, token);
+
+            return response != null;
+        }
+
+        /// <summary>
+        /// 更新音量
+        /// </summary>
+        /// <param name="token">Http请求令牌</param>
+        /// <param name="volume">音量大小，范围：0-100</param>
+        /// <returns></returns>
+        public static async Task<bool> UpdateVolumeAsync(string token, string sn, int volume)
+        {
+            if (volume < 0 || volume > 100)
+                return false;
+
+            // 创建更新音量的请求
+            var request = new UpdateSettingsApiModel
+            {
+                settings = new { volume },
+                devices = new List<string> { sn },
+            };
+
+            var response = await PostAsync<TaskDataModel>(StreetLedRouter.AddSettingsUrl, request, token);
+
             return response != null;
         }
 
@@ -161,12 +217,12 @@ namespace StreetLED
         /// <param name="url">请求地址</param>
         /// <param name="token">用户令牌</param>
         /// <returns>应答内容</returns>
-        private static async Task<TResponse> PostAsync<TRequest, TResponse>(string url, TRequest request, string token)
+        private static async Task<TResponse> PostAsync<TResponse>(string url, object request, string token)
         {
             var headers = GetHeaders(token);
             try
             {
-                var response = await JsonHttpRequest.PostFromJsonAsync<TRequest, StreetLedApiResponse<TResponse>>(url, request, headers: headers);
+                var response = await JsonHttpRequest.PostFromJsonAsync<StreetLedApiResponse<TResponse>>(url, request, headers: headers);
                 if (response == null || response.code != 200)
                     return default;
 

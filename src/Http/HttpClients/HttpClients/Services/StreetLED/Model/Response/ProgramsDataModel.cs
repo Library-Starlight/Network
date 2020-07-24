@@ -1,13 +1,5 @@
 ﻿namespace StreetLED.Model.Response
 {
-    public class ProgramsDataModel
-    {
-        public int total { get; set; }
-        public int pageNum { get; set; }
-        public int pageSize { get; set; }
-        public ProgramItem[] list { get; set; }
-    }
-
     public class ProgramItem
     {
         public int id { get; set; }

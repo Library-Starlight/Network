@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace System.Net.Http
 {
-    public class JsonHttpRequest
+    public static class JsonHttpRequest
     {
         /// <summary>
         /// 发送Post请求，对结果进行Json解析
@@ -16,7 +16,7 @@ namespace System.Net.Http
         /// <param name="param">Query字符串参数</param>
         /// <param name="headers">请求头部</param>
         /// <returns>应答内容</returns>
-        public static async Task<TResponse> PostFromJsonAsync<TRequest, TResponse>(string url, TRequest body, IDictionary<string, string> param = null, IDictionary<string, string> headers = null)
+        public static async Task<TResponse> PostFromJsonAsync<TResponse>(string url, object body, IDictionary<string, string> param = null, IDictionary<string, string> headers = null)
         {
             var bodyJson = JsonConvert.SerializeObject(body);
             var result = await HttpRequest.PostAsync(url, bodyJson, param, headers);

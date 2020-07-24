@@ -1,26 +1,17 @@
 ﻿using HttpClients.Services;
 using HttpClients.Services.Hikvision;
 using HttpClients.Services.PartyBuild;
-using StreetLED;
-using StreetLED.Model.Enums;
-using StreetLED.Model.Response;
-using HttpShared.Hikvision;
-using Microsoft.SqlServer.Server;
 using Newtonsoft.Json;
+using StreetLED;
+using StreetLED.Model.Response;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Web.UI.WebControls;
 
 namespace HttpClients
 {
@@ -44,38 +35,46 @@ namespace HttpClients
 
         public static async Task JsonRequestAsync()
         {
-            const string username = "chenjilan123";
-            const string password = "Qz8954167";
-            const string deviceSN = "1";
+            const string username = "zhongshanStreet";
+            const string password = "King888888";
+            const string deviceSN = "C35-C19-A0491";
 
             var credentials = await StreetLedApi.GetCredentialsAsync(username, password);
             Console.WriteLine(JsonConvert.SerializeObject(credentials, Formatting.Indented));
 
             var token = credentials.access_token;
 
-            // 获取设备信息
-            //var device = await StreetLedApi.GetDeviceInfoAsync(token, "1");
+            //// 获取设备信息
+            //var device = await StreetLedApi.GetDeviceInfoAsync(token, deviceSN);
             //Console.WriteLine(JsonConvert.SerializeObject(device, Formatting.Indented));
 
             // 获取设备节目
-            //var devicePrograms = await StreetLedApi.GetDeviceProgramsAsync(token, "1");
-            //Console.WriteLine(JsonConvert.SerializeObject(devicePrograms, Formatting.Indented));
+            var devicePrograms = await StreetLedApi.GetDeviceProgramsAsync(token, deviceSN);
+            Console.WriteLine(JsonConvert.SerializeObject(devicePrograms, Formatting.Indented));
 
-            // 获取节目信息
+            //// 获取节目信息
             //var programs = await StreetLedApi.GetProgramsAsync(token);
             //Console.WriteLine(JsonConvert.SerializeObject(programs, Formatting.Indented));
 
-            // 发布节目
-            var sns = new List<string> { "1", "2" };
-            var programIds = new List<int> { 1, 2 };
-            var pubResult = await StreetLedApi.PublishProgramAsync(token, sns, programIds);
-            Console.WriteLine(pubResult);
+            //// 发布节目
+            //var sns = new List<string> { "1", "2" };
+            //var programIds = new List<int> { 1, 2 };
+            //var pubResult = await StreetLedApi.PublishProgramAsync(token, sns, programIds);
+            //Console.WriteLine(pubResult);
 
-            // 发送指令
-            var devices = new List<string> { "1", "2" };
-            var command = CommandType.open;
-            var sendResult = await StreetLedApi.SendCommmandAsync(token, command, devices);
-            Console.WriteLine(sendResult);
+            //// 发送指令
+            //var devices = new List<string> { "1", "2" };
+            //var command = CommandType.open;
+            //var sendResult = await StreetLedApi.SendCommmandAsync(token, command, devices);
+            //Console.WriteLine(sendResult);
+
+            //// 设置亮度
+            //var setBrightnessResult = await StreetLedApi.UpdateBrightnessAsync(token, deviceSN, 50);
+            //Console.WriteLine(setBrightnessResult);
+
+            //// 设置音量
+            //var setVolumeResult = await StreetLedApi.UpdateVolumeAsync(token, deviceSN, 50);
+            //Console.WriteLine(setVolumeResult);
         }
 
         private static void Serialize<TRequest>(TRequest request)

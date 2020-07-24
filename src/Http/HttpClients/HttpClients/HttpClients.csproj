@@ -139,12 +139,14 @@
     <Compile Include="Services\StreetLED\Model\Enums\CommandType.cs" />
     <Compile Include="Services\StreetLED\Model\Request\AddCommandApiModel.cs" />
     <Compile Include="Services\StreetLED\Model\Request\PublishProgramApiModel.cs" />
+    <Compile Include="Services\StreetLED\Model\Request\UpdateSettingsApiModel.cs" />
     <Compile Include="Services\StreetLED\Model\Response\DeviceDataModel.cs" />
     <Compile Include="Services\StreetLED\Model\Response\DeviceProgramsDataModel.cs" />
     <Compile Include="Services\StreetLED\Model\Response\ProgramsDataModel.cs" />
     <Compile Include="Services\StreetLED\Model\Response\TaskDataModel.cs" />
     <Compile Include="Services\StreetLED\Model\Response\UserCredentialsDataModel.cs" />
     <Compile Include="Services\StreetLED\Model\StreetLedApiResponse.cs" />
+    <Compile Include="Services\StreetLED\Model\StreetLedPagedModel.cs" />
     <Compile Include="Services\StreetLED\StreetLedApi.cs" />
     <Compile Include="Services\StreetLED\StreetLedRouter.cs" />
   </ItemGroup>
@@ -160,6 +162,8 @@
       <Name>HttpShared</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

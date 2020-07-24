@@ -33,6 +33,11 @@
         public const string AddCommandUrl = BaseAddress + "/v1/task/add/command";
 
         /// <summary>
+        /// 更新配置地址
+        /// </summary>
+        public const string AddSettingsUrl = BaseAddress + "/v1/task/add/settings";
+
+        /// <summary>
         /// 获取设备信息Url
         /// </summary>
         /// <param name="sn">设备序列号</param>

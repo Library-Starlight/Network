@@ -14,7 +14,7 @@ namespace StreetLED.Model.Response
         public double lng { get; set; }
         public double lat { get; set; }
         public DateTime heartbeatTime { get; set; }
-        public DisplayStete state { get; set; }
+        public PlayStete state { get; set; }
         public DeviceDetails details { get; set; }
     }
 
@@ -56,7 +56,7 @@ namespace StreetLED.Model.Response
         public int @fixed { get; set; }
     }
 
-    public enum DisplayStete
+    public enum PlayStete
     {
         播放中 = 0,
         停止播放 = -3,
@@ -70,11 +70,15 @@ namespace StreetLED.Model.Response
         节目文件不存在 = -11,
         屏幕测试中 = -12,
         设备被锁定 = -13,
+
+        未知 = -1001,
     }
 
     public enum PlayMode
     { 
         单节目循环 = 0,
         顺序播放 = 1,
+
+        未知 = -1001,
     }
 }
