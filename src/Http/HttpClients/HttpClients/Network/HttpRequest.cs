@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace System.Net.Http
 {
-    public class HttpRequest
+    public static class HttpRequest
     {
         #region 公共方法
 
@@ -39,7 +39,7 @@ namespace System.Net.Http
             var request = HttpWebRequest.Create(url);
             request.ContentType = "application/json";
             request.Method = method.ToString();
-            
+
             // 添加头部
             if (headers != null)
                 foreach (var header in headers)
@@ -48,11 +48,22 @@ namespace System.Net.Http
             // 发送请求
             if (!string.IsNullOrEmpty(body))
             {
-                using (var stream = request.GetRequestStream())
-                using (var sw = new StreamWriter(stream))
+                Stream stream = null;
+                try
                 {
-                    await sw.WriteAsync(body);
+                    stream = request.GetRequestStream();
+                    using (var sw = new StreamWriter(stream))
+                    {
+                        stream = null;
+                        await sw.WriteAsync(body);
+                    }
                 }
+                finally
+                {
+                    if (stream != null)
+                        stream.Dispose();
+                }
+
             }
 
             // 接收应答
