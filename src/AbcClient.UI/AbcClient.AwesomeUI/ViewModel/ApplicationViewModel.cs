@@ -12,7 +12,7 @@ namespace AbcClient.AwesomeUI
         /// <summary>
         /// 当前选中页面
         /// </summary>
-        public ApplicationPage CurrentPage { get; set; }
+        public ApplicationPage CurrentPage { get; set; } = ApplicationPage.Login;
 
         /// <summary>
         /// 当前页面的视图模型
