@@ -10,6 +10,7 @@
         MinWidth="500"
         Height="600" 
         Width="800"
+        WindowStartupLocation="CenterScreen"
         >
 
     <local:PageHost DataContext="{x:Static local:DI.ViewModelApplication}"

@@ -38,8 +38,7 @@
                        TextAlignment="Center"
                        FontSize="10"/>
 
-            <TextBox 
-                     Margin="0 10 0 0"
+            <TextBox Margin="0 10 0 0"
                      Height="40"
                      Background="#FF111111"
                      BorderThickness="0"
