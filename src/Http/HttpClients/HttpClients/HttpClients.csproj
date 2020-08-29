@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="Cryptography\MD5Encrypt.cs" />
     <Compile Include="Cryptography\Sha256.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\HttpClientExtensions.cs" />
     <Compile Include="Extensions\IDictionaryExtensions.cs" />
     <Compile Include="Extensions\Model\WebRequestResult.cs" />

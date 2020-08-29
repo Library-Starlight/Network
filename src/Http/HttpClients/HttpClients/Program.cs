@@ -2,14 +2,17 @@
 using HttpClients.Services.Hikvision;
 using HttpClients.Services.PartyBuild;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using StreetLED;
 using StreetLED.Model.Response;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,7 +24,7 @@ namespace HttpClients
         {
             try
             {
-                await JsonRequestAsync();
+                await RequestPureJson();
 
                 Console.ReadLine();
             }
@@ -30,6 +33,152 @@ namespace HttpClients
                 Console.WriteLine(ex);
             }
         }
+
+        #region 无序列化请求及应答
+
+        static async Task RequestPureJson()
+        {
+            // 获取设备状态
+            {
+
+                // address
+                var uri = "http://testahome.iot.wanyol.com/inner-direct/v1/iot/device/status";
+                // body
+                var body = "{\"devices\":[]}";
+                // header
+                var headers = GetHeader(new Dictionary<string, string>(), body);
+
+                var response = await HttpRequest.PostAsync(uri, headers: headers, body: body);
+
+                var jObj = JObject.Parse(response);
+                Console.WriteLine(jObj.ToString(Formatting.Indented));
+
+                //var client = new HttpClient();
+                //var content = new StringContent(body);
+                //foreach (var header in headers)
+                //    content.Headers.Add(header.Key, header.Value);
+
+                //// response
+                //var response = await client.PostAsync(uri, content);
+
+                //var responseStr = await response.Content.ReadAsStringAsync();
+                //Console.WriteLine(responseStr);
+            }
+            return;
+
+            // 获取设备列表
+            {
+                //// address
+                var uri = "http://testahome.iot.wanyol.com/inner-direct/v1/iot/device/list";
+
+                // parameter
+                var parameters = new Dictionary<string, string>
+                {
+                    { "pageNum", "0" },
+                    { "pageSize", "10" },
+                    { "domainId", "1" },
+                };
+
+                // headers
+                var headers = GetHeader(parameters, string.Empty);
+
+                var response = await HttpRequest.GetAsync(uri, param: parameters, headers: headers);
+                Console.WriteLine(response);
+
+                //var client = new HttpClient();
+                //var content = new StringContent(string.Empty);
+                //content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+                //foreach (var header in headers)
+                //    content.Headers.Add(header.Key, header.Value);
+
+                //var response = await client.PostAsync(uri, content);
+                //Console.WriteLine(await response.Content.ReadAsStringAsync());
+            }
+
+            // 获取BindKey
+            {
+                var uri = "http://testahome.iot.wanyol.com/inner-direct/v1/iot/device/bindkey";
+                var client = new HttpClient();
+
+                var parameters = new Dictionary<string, string>
+                {
+                        { "pid", "rtaK" },
+                        { "domainId", "1" },
+                        { "type", "1" },
+                };
+
+                var headers = GetHeader(parameters, string.Empty);
+
+                var response = await HttpRequest.GetAsync(uri, param: parameters, headers: headers);
+                Console.WriteLine(response);
+
+                //var content = new StringContent(string.Empty);
+                //foreach (var h in headers)
+                //    content.Headers.Add(h.Key, h.Value);
+
+                //var response = await client.PostAsync(uri, content);
+                //Console.WriteLine(await response.Content.ReadAsStringAsync());
+            }
+        }
+
+        /// <summary>
+        /// 生成请求头
+        /// </summary>
+        /// <param name="body">请求消息体</param>
+        /// <returns></returns>
+        private static Dictionary<string, string> GetHeader(Dictionary<string, string> parameters, string body)
+        {
+            var timestamp = DateTime.UtcNow.ToInt64().ToString();
+            var random = new Random(Guid.NewGuid().ToString().GetHashCode()).Next(0, 10000).ToString();
+
+            Dictionary<string, string> headers = new Dictionary<string, string>();
+            headers.Add("appid", "128335875");
+            headers.Add("nonce", random);
+            headers.Add("timestamp", timestamp);
+            headers.Add("signature", Signature(parameters, headers, body));
+            return headers;
+        }
+
+        /// <summary>
+        /// 参数签名
+        /// </summary>
+        /// <param name="requestParms"></param>
+        /// <param name="bodyStr"></param>
+        /// <returns></returns>
+        private static string Signature(Dictionary<string, string> parameters, Dictionary<string, string> headers, string bodyStr)
+        {
+            var requestParms = new Dictionary<string, string>();
+            foreach (var item in parameters)
+                requestParms.Add(item.Key, item.Value);
+            foreach (var item in headers)
+                requestParms.Add(item.Key, item.Value);
+            var orderArray = requestParms.OrderBy(p => p.Key);
+            var strArr = orderArray.Select(p => $"{p.Key}={p.Value}");
+            var fullstr = string.Join("&", strArr) + bodyStr;
+            Console.WriteLine(fullstr);
+            var sha = HmacSHA256Encrypt(fullstr);
+            return Convert.ToBase64String(sha).TrimEnd('=').Replace('+', '-').Replace('/', '_');
+        }
+
+        /// <summary>
+        /// HmacSHA256加密
+        /// </summary>
+        /// <param name="message">明文</param>
+        /// <param name="secret">密钥</param>
+        /// <returns>密文</returns>
+        private static byte[] HmacSHA256Encrypt(string message)
+        {
+            var encoding = new UTF8Encoding();
+            var keyByte = encoding.GetBytes("1234567890abcabc");
+            var messageBytes = encoding.GetBytes(message);
+            using (var hmacsha256 = new HMACSHA256(keyByte))
+            {
+                var hashmessage = hmacsha256.ComputeHash(messageBytes);
+                return hashmessage;
+            }
+        }
+
+        #endregion
 
         #region 通用Json请求及应答
 
@@ -114,9 +263,9 @@ namespace HttpClients
             const string uri = "https://www.taxiaides.com/xyyc_sdk_api/rest/query/result?operationTaskId=62PkT8dI3SdNd0476XB650i8CT450QLc";
             var client = new HttpClient();
             var response = await client.GetAsJsonAsync<HycSearchTaskResultResponse>(uri);
-            
+
             Console.WriteLine(JsonConvert.SerializeObject(response, Formatting.Indented));
-            
+
             var data = response.ServerResponse.data;
             var devices = JsonConvert.DeserializeObject<HycTaskResultData>(data);
 
@@ -174,7 +323,7 @@ namespace HttpClients
 
             Console.WriteLine($"StatusCode: {resultMessage.StatusCode}({(int)resultMessage.StatusCode})");
             var result = await resultMessage.Content.ReadAsStringAsync();
-            
+
             Console.WriteLine(result);
         }
 
