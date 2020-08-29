@@ -40,7 +40,6 @@ namespace HttpClients
         {
             // 获取设备状态
             {
-
                 // address
                 var uri = "http://testahome.iot.wanyol.com/inner-direct/v1/iot/device/status";
                 // body
