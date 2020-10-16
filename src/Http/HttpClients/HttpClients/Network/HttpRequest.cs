@@ -10,7 +10,7 @@ namespace System.Net.Http
         #region 公共方法
 
         /// <summary>
-        /// 发送HttpPost请求，并获取应答
+        /// 发送Http Post请求，并获取应答
         /// </summary>
         /// <param name="url">请求地址</param>
         /// <param name="body">请求数据体</param>
@@ -21,9 +21,49 @@ namespace System.Net.Http
             return RequestAsync(HttpMethod.Post, url, body, param, headers);
         }
 
-        public static Task<string> GetAsync(string url, string body = null, IDictionary<string, string> param = null, IDictionary<string, string> headers = null)
+        /// <summary>
+        /// 发送Http Get请求，并获取应答
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="body"></param>
+        /// <param name="param"></param>
+        /// <param name="headers"></param>
+        /// <returns></returns>
+        public static Task<string> GetAsync(string url, IDictionary<string, string> param = null, IDictionary<string, string> headers = null)
         {
-            return RequestAsync(HttpMethod.Get, url, body, param, headers);
+            return RequestAsync(HttpMethod.Get, url, null, param, headers);
+        }
+
+        /// <summary>
+        /// 获取查询字符串
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public static string GetQueryString(IDictionary<string, string> parameters)
+        {
+            var sb = new StringBuilder();
+
+            // 若无参数，则返回url
+            if (parameters == null || parameters.Count <= 0)
+                return string.Empty;
+
+            var first = true;
+            foreach (var kv in parameters)
+            {
+                // 对数据进行Url编码
+                var encodedValue = WebUtility.UrlEncode(kv.Value);
+                if (!first)
+                {
+                    sb.Append($"&{kv.Key}={encodedValue}");
+                }
+                else
+                {
+                    sb.Append($"?{kv.Key}={encodedValue}");
+                    first = false;
+                }
+            }
+
+            return sb.ToString();
         }
 
         #endregion
@@ -84,27 +124,11 @@ namespace System.Net.Http
         /// <returns></returns>
         private static string AppendHttpGetParam(string url, IDictionary<string, string> param)
         {
-            // 若无参数，则返回url
-            if (param == null || param.Count <= 0)
-                return url;
-
             var sb = new StringBuilder();
             sb.Append(url);
-            var first = true;
-            foreach (var kv in param)
-            {
-                // 对数据进行Url编码
-                var encodedValue = WebUtility.UrlEncode(kv.Value);
-                if (!first)
-                {
-                    sb.Append($"&{kv.Key}={encodedValue}");
-                }
-                else
-                {
-                    sb.Append($"?{kv.Key}={encodedValue}");
-                    first = false;
-                }
-            }
+            var query = GetQueryString(param);
+            sb.Append(query);
+
             return sb.ToString();
         }
 
