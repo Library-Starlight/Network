@@ -24,7 +24,7 @@ namespace HttpClients
         {
             try
             {
-                await RequestPureJson();
+                await ZjgWeatherApi();
 
                 Console.ReadLine();
             }
@@ -33,6 +33,31 @@ namespace HttpClients
                 Console.WriteLine(ex);
             }
         }
+
+        #region 张家港天气局
+
+        private static async Task ZjgWeatherApi()
+        {
+            var appid = "E4628CE3ED4B4057A1D06404B083AD9B";
+            var secret = "645D3B6DEAE64ED0BD3512D9CEFAE0EF";
+
+            var token = await ZjgApi.ZjgWeatherAccessTokenApi.GetTokenAsync("http://www.zjg121.com/zjgqxj2/", appid, secret);
+            Console.WriteLine(token);
+
+            var url = "http://www.zjg121.com/zjgqxj2/WeatherService/Station.ashx";
+            var parameters = new Dictionary<string, string>
+            {
+                { "appid", "E4628CE3ED4B4057A1D06404B083AD9B" },
+                { "token", token },
+            };
+
+            var message = await HttpRequest.GetAsync(url, parameters);
+
+            var jArr = JArray.Parse(message);
+            Console.WriteLine(jArr.ToString(Newtonsoft.Json.Formatting.Indented));
+        }
+
+        #endregion
 
         #region 无序列化请求及应答
 
@@ -127,7 +152,7 @@ namespace HttpClients
         /// <returns></returns>
         private static Dictionary<string, string> GetHeader(Dictionary<string, string> parameters, string body)
         {
-            var timestamp = DateTime.UtcNow.ToInt64().ToString();
+            var timestamp = DateTime.UtcNow.ToSecondInt64().ToString();
             var random = new Random(Guid.NewGuid().ToString().GetHashCode()).Next(0, 10000).ToString();
 
             Dictionary<string, string> headers = new Dictionary<string, string>();

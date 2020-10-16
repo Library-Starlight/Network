@@ -5,14 +5,14 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HttpClients
+namespace System.Security.Cryptography
 {
     public class MD5Encrypt
     {
         /// <summary>
         /// 获取16字节（32位）大写MD5编码字符串
         /// </summary>
-        /// <param name="buff">内容编码</param>
+        /// <param name="buff">编码数据</param>
         /// <returns></returns>
         public static string Encrypt(byte[] buff)
         {
@@ -24,7 +24,7 @@ namespace HttpClients
         /// <summary>
         /// 获取16字节（32位）大写MD5编码字符串
         /// </summary>
-        /// <param name="input">内容</param>
+        /// <param name="input">待编码字符串</param>
         /// <returns></returns>
         public static string Encrypt(string input)
         {
@@ -33,9 +33,9 @@ namespace HttpClients
         }
 
         /// <summary>
-        /// 获取16字节（32位）大写MD5编码数组
+        /// 获取16字节（32位）大写MD5编码二进制数据
         /// </summary>
-        /// <param name="buff">内容编码</param>
+        /// <param name="buff">编码数据</param>
         /// <returns></returns>
         public static byte[] GetEncryptData(byte[] buff)
         {
@@ -44,9 +44,9 @@ namespace HttpClients
         }
 
         /// <summary>
-        /// 获取16字节（32位）大写MD5编码数组
+        /// 获取16字节（32位）大写MD5编码二进制数据
         /// </summary>
-        /// <param name="input">内容</param>
+        /// <param name="input">待编码字符串</param>
         /// <returns></returns>
         public static byte[] GetEncryptData(string input)
         {
@@ -55,16 +55,15 @@ namespace HttpClients
         }
 
         /// <summary>
-        /// 获取ContentMD5数据字符串，对安全有要求的Http请求头部要求该数据
+        /// 获取Http请求头部的ContentMD5数据，对安全有要求的Http请求头部要求该数据
         /// </summary>
-        /// <param name="body"></param>
+        /// <param name="body">Http请求数据体</param>
         /// <returns></returns>
         public static string GetContentMD5(string body)
         {
-            // MD5 bytes
             var data = GetEncryptData(body);
+            var base64 = new char[data.Length];
 
-            // Base64 string
             return Convert.ToBase64String(data);
         }
 
@@ -77,6 +76,5 @@ namespace HttpClients
         {
             return Encoding.UTF8.GetBytes(GetContentMD5(body).ToLower());
         }
-
     }
 }

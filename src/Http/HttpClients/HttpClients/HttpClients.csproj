@@ -79,10 +79,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cryptography\MD5Encrypt.cs" />
-    <Compile Include="Cryptography\Sha256.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
-    <Compile Include="Extensions\HttpClientExtensions.cs" />
     <Compile Include="Extensions\IDictionaryExtensions.cs" />
+    <Compile Include="App\Token\ZjgApiDemo.cs" />
+    <Compile Include="App\Token\ZjgApi\TokenApiModel.cs" />
+    <Compile Include="App\Token\ZjgApi\ZjgWeatherAccessTokenApi.cs" />
+    <Compile Include="Cryptography\Sha256.cs" />
+    <Compile Include="Extensions\HttpClientExtensions.cs" />
     <Compile Include="Extensions\Model\WebRequestResult.cs" />
     <Compile Include="Network\JsonHttpRequest.cs" />
     <Compile Include="Services\Hikvision\HikParkingManager.cs" />
