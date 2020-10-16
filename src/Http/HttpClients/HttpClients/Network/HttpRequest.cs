@@ -66,6 +66,20 @@ namespace System.Net.Http
             return sb.ToString();
         }
 
+        /// <summary>
+        /// 添加Http Get请求参数
+        /// </summary>
+        /// <param name="url">基础Url</param>
+        /// <param name="param">请求参数字典</param>
+        /// <returns></returns>
+        public static string AppendHttpGetParam(string url, IDictionary<string, string> param)
+        {
+            if (param == null || param.Count <= 0)
+                return url;
+
+            return $"{url}?{GetQueryString(param)}";
+        }
+
         #endregion
 
         #region 工具方法
@@ -114,22 +128,6 @@ namespace System.Net.Http
                 var json = await sr.ReadToEndAsync();
                 return json;
             }
-        }
-
-        /// <summary>
-        /// 在Url上添加请求参数
-        /// </summary>
-        /// <param name="url">基础Url</param>
-        /// <param name="param">请求参数字典</param>
-        /// <returns></returns>
-        private static string AppendHttpGetParam(string url, IDictionary<string, string> param)
-        {
-            var sb = new StringBuilder();
-            sb.Append(url);
-            var query = GetQueryString(param);
-            sb.Append($"?{query}");
-
-            return sb.ToString();
         }
 
         #endregion
