@@ -58,7 +58,7 @@ namespace System.Net.Http
                 }
                 else
                 {
-                    sb.Append($"?{kv.Key}={encodedValue}");
+                    sb.Append($"{kv.Key}={encodedValue}");
                     first = false;
                 }
             }
@@ -127,7 +127,7 @@ namespace System.Net.Http
             var sb = new StringBuilder();
             sb.Append(url);
             var query = GetQueryString(param);
-            sb.Append(query);
+            sb.Append($"?{query}");
 
             return sb.ToString();
         }
