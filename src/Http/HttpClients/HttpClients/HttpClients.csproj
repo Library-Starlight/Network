@@ -93,6 +93,16 @@
     <Compile Include="Services\Hikvision\OpenApi\HikHttpUtillib.cs" />
     <Compile Include="Services\Hikvision\IHikParkingManager.cs" />
     <Compile Include="Services\Hikvision\OpenApi\HikOpenAPI.cs" />
+    <Compile Include="Services\JhpjGeo\ApiModel\JhpjApiModel.cs" />
+    <Compile Include="Services\JhpjGeo\ApiModel\JhpjResultModel.cs" />
+    <Compile Include="Services\JhpjGeo\Crypto\AesProvider.cs" />
+    <Compile Include="Services\JhpjGeo\Crypto\RsaProvider.cs" />
+    <Compile Include="Services\JhpjGeo\JhpjConst.cs" />
+    <Compile Include="Services\JhpjGeo\JhpjGeoClient.cs" />
+    <Compile Include="Services\JhpjGeo\Model\Geomagnetism.cs" />
+    <Compile Include="Services\JhpjGeo\Model\Info.cs" />
+    <Compile Include="Services\JhpjGeo\Model\KeyCache.cs" />
+    <Compile Include="Services\JhpjGeo\Model\Status.cs" />
     <Compile Include="Services\PartyBuild\Helper\AesEncrypt.cs" />
     <Compile Include="Services\PartyBuild\Helper\TimeHelper.cs" />
     <Compile Include="JsonConverters\EnglishDateConverter.cs" />
@@ -158,6 +168,12 @@
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="Texts\devices.json" />
+    <None Include="Texts\JhpjRequest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Texts\JhpjRequestStatus.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Texts\QueryTask.json" />
   </ItemGroup>
   <ItemGroup>

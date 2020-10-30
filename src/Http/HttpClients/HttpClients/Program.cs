@@ -1,5 +1,6 @@
 ﻿using HttpClients.Services;
 using HttpClients.Services.Hikvision;
+using HttpClients.Services.JhpjGeo;
 using HttpClients.Services.PartyBuild;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -24,15 +25,25 @@ namespace HttpClients
         {
             try
             {
-                await ZjgWeatherApi();
-
-                Console.ReadLine();
+                while (true)
+                {
+                    await RequestJhpjGeomagnetismAsync();
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
         }
+
+        #region 金华浦江地磁
+
+        private static async Task RequestJhpjGeomagnetismAsync()
+        {
+            await JhpjGeoClient.Request();
+        }
+
+        #endregion
 
         #region 张家港天气局
 

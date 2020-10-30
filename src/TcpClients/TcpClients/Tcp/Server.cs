@@ -57,7 +57,7 @@ namespace TcpClients.Tcp
                 {
                     var socket = await server.AcceptAsync();
 
-                    Console.WriteLine($"{socket.RemoteEndPoint}: 新建连接");
+                    _logger.LogDebug($"{socket.RemoteEndPoint}: 新建连接");
                     var client = new Client(socket, new Logger());
                     var task = client.HandleNetworkAsync();
 

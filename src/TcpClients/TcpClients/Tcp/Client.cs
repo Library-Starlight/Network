@@ -91,7 +91,7 @@ namespace TcpClients.Tcp
         {
             const int BufferSize = 1024;
             byte[] buffer = new byte[BufferSize];
-
+            
             while (true)
             {
                 try

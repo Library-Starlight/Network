@@ -1,0 +1,22 @@
+{
+  "pid": 100,
+  "uuid": "aab49e3f-d910-4a95-be2a-8edaa26acf7a",
+  "parkno": "TZ0001",
+  "serial": "AA2233",
+  "version": "6.31",
+  "battery": "3.60",
+  "voltameter": 50,
+  "batterylow": "0",
+  "cellid": "88512263",
+  "rsrp": -671,
+  "txpow": 80,
+  "sinr": 210,
+  "pci": 300,
+  "ecl": 0,
+  "quality": 0,
+  "sim": "89861118205006484375",
+  "sim_begin": "2019-10-01 00:00:00",
+  "sim_end": "2020-10-01 00:00:00",
+  "sim_remain": 300,
+  "event_time": "20190526151142"
+}
