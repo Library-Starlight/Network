@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Cryptography.Extensions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,22 +16,35 @@ namespace HttpClients.Services.JhpjGeo
 {
     public class JhpjGeoClient
     {
-        public static async Task Request()
+        public static async Task Request(string hostUrl, string id)
         {
-            await SayHelloAsync();
-            await UploadStatusChangeAsync();
-            await UploadStatusAsync();
+            await UploadPlainTextAsync(hostUrl);
+            return;
+
+            await UploadStatusAsync(hostUrl, id);
+            await UploadStatusChangeAsync(hostUrl, id);
         }
 
-        private static async Task UploadStatusAsync()
+        private static async Task UploadPlainTextAsync(string hostUrl)
+        {
+            var path = Path.Combine(Environment.CurrentDirectory, "Texts\\JhpjEncryptText.json");
+            string text = File.ReadAllText(path);
+
+            //var result = await HttpRequest.PostAsync(JhpjConst.GetRoute(hostUrl, JhpjConst.StatusChangeRoute), text);
+            var result = await HttpRequest.PostAsync(JhpjConst.GetRoute(hostUrl, JhpjConst.StatusChangeRoute), text);
+            Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
+        }
+
+        private static async Task UploadStatusAsync(string hostUrl, string id)
         {
             var path = Path.Combine(Environment.CurrentDirectory, "Texts\\JhpjRequestStatus.json");
-            //string text = "Hello World!"; 
-
             string text = File.ReadAllText(path);
-            //var dataModel = JsonConvert.DeserializeObject<Status>(text);
 
-            var data = AesProvider.Encrypt(text, JhpjConst.EncryptKey);
+            var dataModel = JsonConvert.DeserializeObject<Status>(text);
+            dataModel.serial = id;
+            text = JsonConvert.SerializeObject(dataModel);
+
+            var data = AesProvider.Encrypt(text, JhpjConst.EncryptKey.ToBytes());
             //var dec = AesProvider.Decrypt(data, JhpjConst.EncryptKey).TrimEnd('\0');
 
             var sign = RsaProvider.Signature(text, JhpjConst.PrivateKey);
@@ -45,22 +59,20 @@ namespace HttpClients.Services.JhpjGeo
             };
 
             // 发送请求
-            var result = await JsonHttpRequest.PostFromJsonAsync<JhpjResultModel>(JhpjConst.StatusRoute, apiModel);
+            var result = await JsonHttpRequest.PostFromJsonAsync<JhpjResultModel>(JhpjConst.GetRoute(hostUrl, JhpjConst.StatusRoute), apiModel);
             Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
         }
 
-        private static async Task UploadStatusChangeAsync()
+        private static async Task UploadStatusChangeAsync(string hostUrl, string id)
         {
             var path = Path.Combine(Environment.CurrentDirectory, "Texts\\JhpjRequest.json");
-            //string text = "Hello World!"; 
             string text = File.ReadAllText(path);
-            //var dataModel = JsonConvert.DeserializeObject<Status>(text);
+            var dataModel = JsonConvert.DeserializeObject<Status>(text);
+            dataModel.serial = id;
+            text = JsonConvert.SerializeObject(dataModel);
 
-            var data = AesProvider.Encrypt(text, JhpjConst.EncryptKey);
-            var dec = AesProvider.Decrypt(data, JhpjConst.EncryptKey).TrimEnd('\0');
-
+            var data = AesProvider.Encrypt(text, JhpjConst.EncryptKey.ToBytes());
             var sign = RsaProvider.Signature(text, JhpjConst.PrivateKey);
-            //var valid = RsaProvider.Validate(sign, text, JhpjConst.PublicKey);
 
             var apiModel = new JhpjApiModel
             {
@@ -71,15 +83,8 @@ namespace HttpClients.Services.JhpjGeo
             };
 
             // 发送请求
-            var result = await JsonHttpRequest.PostFromJsonAsync<JhpjResultModel>(JhpjConst.StatusChangeRoute, apiModel);
+            var result = await JsonHttpRequest.PostFromJsonAsync<JhpjResultModel>(JhpjConst.GetRoute(hostUrl, JhpjConst.StatusChangeRoute), apiModel);
             Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
-        }
-
-        private static async Task SayHelloAsync()
-        {
-            //var route = JhpjConst.HelloWorldRoute;
-            //var result = await HttpRequest.PostAsync(route);
-            //Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
         }
     }
 }

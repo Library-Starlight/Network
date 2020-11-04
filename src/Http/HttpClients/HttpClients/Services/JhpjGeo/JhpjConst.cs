@@ -6,13 +6,11 @@ namespace HttpClients.Services.JhpjGeo
 {
     public class JhpjConst
     {
-        public const string BaseAddress = "http://192.168.0.179:8089";
+        public const string HelloWorldRoute = "/gateway/helloworld";
 
-        public const string HelloWorldRoute = BaseAddress + "/gateway/helloworld";
+        public const string StatusChangeRoute = "/gateway/statuschange";
 
-        public const string StatusChangeRoute = BaseAddress + "/gateway/statuschange";
-
-        public const string StatusRoute = BaseAddress + "/gateway/status";
+        public const string StatusRoute = "/gateway/status";
 
         public const string AppId = "179ae4e5458e40fda8a6147da01aecc6";
 
@@ -51,5 +49,8 @@ h5wOWQKBgDPXRjZmtb/tE0Vejneskd0mGk8Pt/u3HPkkgEcXJLA2AJqh61Sep12L
 QGsXJRXuLllzoAnjKYmP0p8CHTV978srMn0INNnqvxQ8pi9MZUAi";
 
         public const string EncryptKey = "4d30ac99c5c94f3abad260f5f3bd9509";
+
+        public static string GetRoute(string hostUrl, string route)
+            => $"{hostUrl}{route}";
     }
 }

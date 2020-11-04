@@ -3,6 +3,8 @@
   "uuid": "bab49e3f-d910-4a95-be2a-8edaa26acf7a",
   "parkno": "TZ0001",
   "serial": "eecb122ee7c14679b22b82a288b883bb",
+  "address": "平安路",
+  "lnglat": "120.334164,30.299317",
   "state": "1",
   "cellid": "88512263",
   "rsrp": -671,

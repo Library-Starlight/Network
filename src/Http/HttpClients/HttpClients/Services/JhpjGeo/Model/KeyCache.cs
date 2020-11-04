@@ -1,6 +1,7 @@
 ﻿using Jhpj.Crypto;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.Extensions;
 using System.Text;
 
 namespace Jhpj.Model
@@ -18,7 +19,7 @@ namespace Jhpj.Model
         /// <param name="cipher">已加密的文本</param>
         /// <returns></returns>
         public string DecryptData(string cipher)
-            => AesProvider.Decrypt(cipher, EncryptKey);
+            => AesProvider.Decrypt(cipher, EncryptKey.ToBytes());
 
         /// <summary>
         /// 验证签名

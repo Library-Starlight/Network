@@ -4,11 +4,11 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Jhpj.Crypto
+namespace System.Security.Cryptography.Extensions
 {
     public class AesProvider
     {
-        public static string Encrypt(string plainText, string encryptKey)
+        public static string Encrypt(string plainText, byte[] encryptKey)
         {
             //分组加密算法  
              SymmetricAlgorithm des = Rijndael.Create();
@@ -16,7 +16,7 @@ namespace Jhpj.Crypto
             var inputdata = Encoding.UTF8.GetBytes(plainText);
              byte[] inputByteArray = inputdata;//得到需要加密的字节数组      
              //设置密钥及密钥向量
-             des.Key = Encoding.UTF8.GetBytes(encryptKey);
+             des.Key = encryptKey;
              des.IV = new byte[16];
              using (MemoryStream ms = new MemoryStream())
              {
@@ -32,10 +32,10 @@ namespace Jhpj.Crypto
              }
         }
 
-        public static string Decrypt(string cipher, string encryptKey)
+        public static string Decrypt(string cipher, byte[] encryptKey)
         {
              SymmetricAlgorithm des = Rijndael.Create();
-             des.Key = Encoding.UTF8.GetBytes(encryptKey);
+             des.Key = encryptKey;
              des.IV = new byte[16];
 
             var inputData = Convert.FromBase64String(cipher);

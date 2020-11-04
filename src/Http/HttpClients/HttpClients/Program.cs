@@ -25,22 +25,31 @@ namespace HttpClients
         {
             try
             {
+                Console.WriteLine($"请输入服务地址和设备号（用逗号分隔）:");
+                var parameters = Console.ReadLine().Split(',');
+
                 while (true)
                 {
-                    await RequestJhpjGeomagnetismAsync();
+                    await RequestJhpjGeomagnetismAsync(parameters);
+                    await Task.Delay(500);
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
+
+            Console.ReadLine();
         }
 
         #region 金华浦江地磁
 
-        private static async Task RequestJhpjGeomagnetismAsync()
+        private static async Task RequestJhpjGeomagnetismAsync(string[] parameters)
         {
-            await JhpjGeoClient.Request();
+            var hostUrl = parameters[0];
+            var id = parameters[1];
+
+            await JhpjGeoClient.Request(hostUrl, id);
         }
 
         #endregion

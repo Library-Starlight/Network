@@ -97,6 +97,7 @@
     <Compile Include="Services\JhpjGeo\ApiModel\JhpjResultModel.cs" />
     <Compile Include="Services\JhpjGeo\Crypto\AesProvider.cs" />
     <Compile Include="Services\JhpjGeo\Crypto\RsaProvider.cs" />
+    <Compile Include="Services\JhpjGeo\Extensions\StringExtensions.cs" />
     <Compile Include="Services\JhpjGeo\JhpjConst.cs" />
     <Compile Include="Services\JhpjGeo\JhpjGeoClient.cs" />
     <Compile Include="Services\JhpjGeo\Model\Geomagnetism.cs" />
@@ -168,6 +169,12 @@
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="Texts\devices.json" />
+    <None Include="Texts\JhpjEncryptText.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Texts\JhpjRequest - 复制.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Texts\JhpjRequest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

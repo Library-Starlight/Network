@@ -14,7 +14,7 @@ namespace Jhpj.Model
         /// <summary>
         /// 唯一序列号
         /// </summary>
-        public int uuid { get; set; }
+        public string uuid { get; set; }
 
         /// <summary>
         /// 车位号
@@ -25,6 +25,16 @@ namespace Jhpj.Model
         /// 地磁序列号
         /// </summary>
         public string serial { get; set; }
+
+        /// <summary>
+        /// 设备安装地址
+        /// </summary>
+        public string address { get; set; }
+
+        /// <summary>
+        /// 经纬度
+        /// </summary>
+        public string lnglat { get; set; }
 
         /// <summary>
         /// 车位状态
