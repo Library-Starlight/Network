@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,22 @@ namespace System.Net.Http
     public static class HttpRequest
     {
         #region 公共方法
+
+        /// <summary>
+        /// 根据Http协议下载文件
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="path"></param>
+        public static void DownloadImageFile(string url, string path)
+        {
+            var request = WebRequest.Create(url);
+            using (var response = (HttpWebResponse)request.GetResponse())
+            using (var stream = response.GetResponseStream())
+            {
+                var img = Image.FromStream(stream);
+                img.Save(path);
+            }
+        }
 
         /// <summary>
         /// 发送Http Post请求，并获取应答

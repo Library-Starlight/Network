@@ -25,14 +25,7 @@ namespace HttpClients
         {
             try
             {
-                Console.WriteLine($"请输入服务地址和设备号（用逗号分隔）:");
-                var parameters = Console.ReadLine().Split(',');
-
-                while (true)
-                {
-                    await RequestJhpjGeomagnetismAsync(parameters);
-                    await Task.Delay(500);
-                }
+                RequestJhpjGeoAsync();
             }
             catch (Exception ex)
             {
@@ -42,7 +35,28 @@ namespace HttpClients
             Console.ReadLine();
         }
 
+        #region 下载文件
+
+        static void DownloadFile()
+        {
+            HttpRequest.DownloadImageFile("http://192.168.0.179:8090/AlarmImage/timg.jpg", "../img/karsa.jpg");
+        }
+
+        #endregion
+
         #region 金华浦江地磁
+
+        private static async Task RequestJhpjGeoAsync()
+        {
+            Console.WriteLine($"请输入服务地址和设备号（用逗号分隔）:");
+            var parameters = Console.ReadLine().Split(',');
+
+            while (true)
+            {
+                await RequestJhpjGeomagnetismAsync(parameters);
+                await Task.Delay(500);
+            }
+        }
 
         private static async Task RequestJhpjGeomagnetismAsync(string[] parameters)
         {

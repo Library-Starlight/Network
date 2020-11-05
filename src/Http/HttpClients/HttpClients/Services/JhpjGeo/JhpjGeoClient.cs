@@ -18,8 +18,8 @@ namespace HttpClients.Services.JhpjGeo
     {
         public static async Task Request(string hostUrl, string id)
         {
-            await UploadPlainTextAsync(hostUrl);
-            return;
+            //await UploadPlainTextAsync(hostUrl);
+            //return;
 
             await UploadStatusAsync(hostUrl, id);
             await UploadStatusChangeAsync(hostUrl, id);

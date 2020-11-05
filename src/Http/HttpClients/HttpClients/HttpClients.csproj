@@ -44,6 +44,7 @@
       <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.3\lib\netstandard2.0\System.Memory.dll</HintPath>
     </Reference>
@@ -169,6 +170,9 @@
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="Texts\devices.json" />
+    <None Include="Texts\JhpjEncryptText - 复制.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Texts\JhpjEncryptText.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
