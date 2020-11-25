@@ -32,6 +32,11 @@ void What()
 
 void DNS()
 {
+    var i0 = Dns.GetHostEntry("192.168.0.140");
+    Console.WriteLine(i0.HostName);
+    var i1 = Dns.GetHostEntry("MACBOOKPRO-E8E1");
+    Console.WriteLine(i1.HostName);
+
     var i = Dns.GetHostName();
     var j = Dns.GetHostEntry(i);
 
