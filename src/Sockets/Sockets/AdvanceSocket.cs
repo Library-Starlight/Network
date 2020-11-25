@@ -3,43 +3,51 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Text.Json;
 
-namespace Sockets
+What();
+
+DNS();
+
+void What()
 {
-    public class AdvanceSocket
+    Socket socket;
+
+    TcpClient tcp;
+
+    UdpClient udp;
+
+    IPHostEntry hostInfo = Dns.GetHostEntry("192.168.0.138");
+
+    Console.WriteLine($"主机：{hostInfo.HostName}");
+    for (int i = 0; i < hostInfo.AddressList.Length; i++)
     {
-        public static void What()
-        {
-            Socket socket;
-
-            TcpClient tcp;
-
-            UdpClient udp;
-
-            IPHostEntry hostInfo = Dns.GetHostEntry("192.168.0.138");
-
-            Console.WriteLine($"主机：{hostInfo.HostName}");
-            for (int i = 0; i < hostInfo.AddressList.Length; i++)
-            {
-                Console.WriteLine($"地址：{hostInfo.AddressList[i]}");
-            }
-
-            // IPAddress不可序列化
-            //JsonConvert.SerializeObject(IPAddress.Loopback);
-            //Console.WriteLine(JsonSerializer.Serialize(IPAddress.Loopback, new JsonSerializerOptions { WriteIndented = true }));
-            //Console.WriteLine(JsonSerializer.Serialize(host, new JsonSerializerOptions { WriteIndented = true }));
-        }
-
-        public static void Udp()
-        {
-
-        }
-
-        static void Main(string[] args)
-        {
-            What();
-        }
+        Console.WriteLine($"地址：{hostInfo.AddressList[i]}");
     }
+
+    // IPAddress不可序列化
+    //JsonConvert.SerializeObject(IPAddress.Loopback);
+    //Console.WriteLine(JsonSerializer.Serialize(IPAddress.Loopback, new JsonSerializerOptions { WriteIndented = true }));
+    //Console.WriteLine(JsonSerializer.Serialize(host, new JsonSerializerOptions { WriteIndented = true }));
+}
+
+void DNS()
+{
+    var i = Dns.GetHostName();
+    var j = Dns.GetHostEntry(i);
+
+    var k = Dns.GetHostEntry("www.baidu.com");
+    var k1 = Dns.GetHostEntry("baike.baidu.com");
+
+    var l = Dns.GetHostEntry("sports.sina.com.cn");
+    // SocketException
+    //var l1 = Dns.GetHostEntry("https://sports.sina.com.cn");
+
+    var m = Dns.GetHostEntry("127.0.0.1");
+    var n = Dns.GetHostEntry("localhost");
+
+}
+
+void Udp()
+{
+
 }
