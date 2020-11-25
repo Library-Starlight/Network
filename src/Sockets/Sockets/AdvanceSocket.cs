@@ -3,10 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
+using System.Threading.Tasks;
 
-What();
+//// void MoveNext(); ??
+//await Task.Delay(1);
+var m = MethodInfo.GetCurrentMethod();
+Console.WriteLine(m);
 
-DNS();
+return 1;
+
+//What();
+
+//DNS();
 
 void What()
 {
@@ -32,10 +41,10 @@ void What()
 
 void DNS()
 {
-    var i0 = Dns.GetHostEntry("192.168.0.140");
-    Console.WriteLine(i0.HostName);
-    var i1 = Dns.GetHostEntry("MACBOOKPRO-E8E1");
-    Console.WriteLine(i1.HostName);
+    //var i0 = Dns.GetHostEntry("192.168.0.140");
+    //Console.WriteLine(i0.HostName);
+    //var i1 = Dns.GetHostEntry("MACBOOKPRO-E8E1");
+    //Console.WriteLine(i1.HostName);
 
     var i = Dns.GetHostName();
     var j = Dns.GetHostEntry(i);
