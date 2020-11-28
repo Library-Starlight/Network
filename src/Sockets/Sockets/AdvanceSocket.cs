@@ -1,6 +1,7 @@
 ﻿using Sockets;
 using Sockets.Extension;
 using System;
+using System.Threading.Tasks;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -8,6 +9,21 @@ using System.Reflection;
 using System.Text;
 using static Sockets.DI.FrameworkDI;
 
+if (args.Length <= 0) return;
+var arguments = new string[args.Length - 1];
+Array.Copy(args, 1, arguments, 0, arguments.Length);
+if(args.Contains("-c"))
+{
+    Sockets.Echo.Tcp.EchoClient.Start(arguments);
+}
+else if (args.Contains("-s"))
+{
+    Sockets.Echo.Tcp.EchoServer.Start(arguments);
+}
+return;
+
+async Task RunCommandLineAsync(string[] args)
+{
 try
 {
     var arguments = args.ToList();
@@ -71,7 +87,7 @@ catch (Exception ex)
 {
     Console.WriteLine(ex);
 }
-
+}
 
 void Helper()
 {
