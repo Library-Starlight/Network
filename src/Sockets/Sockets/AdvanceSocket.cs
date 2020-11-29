@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Text;
 using static Sockets.DI.FrameworkDI;
 
-if (args.Length <= 0) return;
+if (args.Length <= 3) return;
 var arguments = new string[args.Length - 3];
 Array.Copy(args, 3, arguments, 0, arguments.Length);
 if (args.Contains("-socket"))
