@@ -10,83 +10,110 @@ using System.Text;
 using static Sockets.DI.FrameworkDI;
 
 if (args.Length <= 0) return;
-var arguments = new string[args.Length - 1];
-Array.Copy(args, 1, arguments, 0, arguments.Length);
-if(args.Contains("-c"))
+var arguments = new string[args.Length - 3];
+Array.Copy(args, 3, arguments, 0, arguments.Length);
+if (args.Contains("-socket"))
 {
-    Sockets.Echo.Tcp.EchoClient.Start(arguments);
+    if (args.Contains("-udp"))
+    {
+        if (args.Contains("-c"))
+        {
+            Sockets.Echo.Socket.EchoClient.Start(arguments);
+        }
+    }
 }
-else if (args.Contains("-s"))
+else if (args.Contains("-normal"))
 {
-    Sockets.Echo.Tcp.EchoServer.Start(arguments);
+    if (args.Contains("-udp"))
+    {
+        if (args.Contains("-c"))
+        {
+            Sockets.Echo.Udp.EchoClient.Start(arguments);
+        }
+        else if (args.Contains("-s"))
+        {
+            Sockets.Echo.Udp.EchoServer.Start(arguments);
+        }
+    }
+    else if (args.Contains("-tcp"))
+    {
+        if (args.Contains("-c"))
+        {
+            Sockets.Echo.Tcp.EchoClient.Start(arguments);
+        }
+        else if (args.Contains("-s"))
+        {
+            Sockets.Echo.Tcp.EchoServer.Start(arguments);
+        }
+    }
 }
 return;
 
 async Task RunCommandLineAsync(string[] args)
 {
-try
-{
-    var arguments = args.ToList();
-    if (arguments.Count <= 0 || arguments.Contains("-h"))
+    try
     {
-        Helper();
-
-        return;
-    }
-
-    if (arguments.Contains("-e"))
-        MessageEncoding = Encoding.GetEncoding(arguments.NextElement("-e"));
-    else
-        MessageEncoding = Encoding.Default;
-
-    // 启动TcpListener
-    if (arguments.Contains("-s"))
-    {
-        var ipAddr = arguments.NextElement("-s");
-        var endpoint = IPEndPoint.Parse(ipAddr);
-        var capacity = 100;
-        if (arguments.Contains("-cap") && !int.TryParse(arguments.NextElement("-cap"), out capacity))
-            throw new ArgumentException("The argument of -cap command is except or mistaken", "-cap [capacity]");
-
-        TcpListener listener = new (endpoint);
-        listener.Start(capacity);
-        Console.WriteLine($"Tcp server has established. Encoding: {MessageEncoding.EncodingName}, Capacity: {capacity.ToString()}");
-
-        // TODO: 接受客户端
-        Console.WriteLine($"Listening on {endpoint} ...");
-
-        Console.ReadLine();
-        return;
-    }
-
-    // 启动TcpClient
-    if (arguments.Contains("-c"))
-    {
-        var ipAddr = arguments.NextElement("-c");
-        var endpoint = IPEndPoint.Parse(ipAddr);
-
-        TcpClient client;
-        if (arguments.Contains("-local"))
+        var arguments = args.ToList();
+        if (arguments.Count <= 0 || arguments.Contains("-h"))
         {
-            var localIpAddr = arguments.NextElement("-local");
-            client = new(IPEndPoint.Parse(localIpAddr));
+            Helper();
+
+            return;
         }
+
+        if (arguments.Contains("-e"))
+            MessageEncoding = Encoding.GetEncoding(arguments.NextElement("-e"));
         else
+            MessageEncoding = Encoding.Default;
+
+        // 启动TcpListener
+        if (arguments.Contains("-s"))
         {
-            client = new();
+            var ipAddr = arguments.NextElement("-s");
+            var endpoint = IPEndPoint.Parse(ipAddr);
+            var capacity = 100;
+            if (arguments.Contains("-cap") && !int.TryParse(arguments.NextElement("-cap"), out capacity))
+                throw new ArgumentException("The argument of -cap command is except or mistaken", "-cap [capacity]");
+
+            TcpListener listener = new(endpoint);
+            listener.Start(capacity);
+            Console.WriteLine($"Tcp server has established. Encoding: {MessageEncoding.EncodingName}, Capacity: {capacity.ToString()}");
+
+            // TODO: 接受客户端
+            Console.WriteLine($"Listening on {endpoint} ...");
+
+            Console.ReadLine();
+            return;
         }
-        await client.ConnectAsync(endpoint.Address, endpoint.Port);
 
-        Console.WriteLine($"Client has connected to server success. Local EndPoint: {client.Client.LocalEndPoint}, Remote EndPoint: {client.Client.RemoteEndPoint}");
+        // 启动TcpClient
+        if (arguments.Contains("-c"))
+        {
+            var ipAddr = arguments.NextElement("-c");
+            var endpoint = IPEndPoint.Parse(ipAddr);
 
-        Console.ReadLine();
-        return;
+            TcpClient client;
+            if (arguments.Contains("-local"))
+            {
+                var localIpAddr = arguments.NextElement("-local");
+                client = new(IPEndPoint.Parse(localIpAddr));
+            }
+            else
+            {
+                client = new();
+            }
+            await client.ConnectAsync(endpoint.Address, endpoint.Port);
+
+            Console.WriteLine($"Client has connected to server success. Local EndPoint: {client.Client.LocalEndPoint}, Remote EndPoint: {client.Client.RemoteEndPoint}");
+
+            Console.ReadLine();
+            return;
+        }
     }
-}
-catch (Exception ex)
-{
-    Console.WriteLine(ex);
-}
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex);
+    }
 }
 
 void Helper()

@@ -9,8 +9,12 @@ namespace Sockets.Echo.Tcp
     {
         public static void Start(string[] args)
         {
-            if (args.Length != 2) System.Console.WriteLine("请输入参数：<IP:Port> <Message>");
-
+            if (args.Length != 2) 
+            {
+                System.Console.WriteLine("请输入参数：<RemoteIP:RemotePort> <Message>");
+                return;
+            }
+            
             var ipEndPointStr = args[0];
             var message = args[1];
 

@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -9,18 +10,22 @@ namespace Sockets.Echo.Tcp
     {
         public static void Start(string[] args)
         {
-            if (args.Length != 1) System.Console.WriteLine("请输入参数：<IP:Port>");
-
+            if (args.Length != 1) 
+            {
+                System.Console.WriteLine("请输入参数：<LocalIP:LocalPort>");
+                return;
+            }
+            
             var serverStr = args[0];
 
             var ipEndPoint = IPEndPoint.Parse(serverStr);
             // 设置默认echo端口
             if (ipEndPoint.Port == 0) ipEndPoint.Port = 7;
 
-            System.Console.WriteLine($"服务器初始化...");
-            TcpListener listener = new (ipEndPoint);
             try
             {
+                System.Console.WriteLine($"服务器初始化...");
+                TcpListener listener = new (ipEndPoint);
                 listener.Start(100);
                 
                 System.Console.WriteLine($"等待客户端连接...");
@@ -62,14 +67,7 @@ namespace Sockets.Echo.Tcp
             catch (SocketException sEx)
             {
                 System.Console.WriteLine($"套接字异常: {sEx}");
-            }
-            catch (IOException iEx)
-            {
-                System.Console.WriteLine($"IO异常: {iEx}");
-            }
-            catch (System.Exception ex)
-            {
-                System.Console.WriteLine(ex);
+                Environment.Exit(sEx.ErrorCode);
             }
         }
     }
