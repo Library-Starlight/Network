@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Sockets": {
+      "commandName": "Project",
+      "commandLineArgs": "-socket -c -udp 192.168.0.138:50000 192.168.0.140:60001 'HelloWorld!'"
+    }
+  }
+}
