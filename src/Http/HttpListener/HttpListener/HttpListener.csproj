@@ -70,6 +70,14 @@
     <Compile Include="Controller\HycChargeController.cs" />
     <Compile Include="Controller\JhtCloudController.cs" />
     <Compile Include="Controller\MessageController.cs" />
+    <Compile Include="HKParking\ApiModel\CanInApiModel.cs" />
+    <Compile Include="HKParking\ApiModel\CanOutApiModel.cs" />
+    <Compile Include="HKParking\ApiModel\ParkInfo.cs" />
+    <Compile Include="HKParking\ApiModel\PassRecordApiModel.cs" />
+    <Compile Include="HKParking\ApiModel\HKParkingResultModel.cs" />
+    <Compile Include="HKParking\Controller\ParkingController.cs" />
+    <Compile Include="HKParking\Data\SqlHelper.cs" />
+    <Compile Include="HKParking\Router.cs" />
     <Compile Include="Http\GarbageBinHttpServer.cs" />
     <Compile Include="Http\Listener.cs" />
     <Compile Include="JsonConverters\NoDelimiterDateTimeConverter.cs" />

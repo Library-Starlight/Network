@@ -105,7 +105,6 @@ namespace HttpListener.Core
             };
         }
 
-
         public class AddRsp
         {
             public string code { get; set; }

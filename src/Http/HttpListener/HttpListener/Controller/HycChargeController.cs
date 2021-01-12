@@ -12,6 +12,9 @@ using System.Web.Http;
 
 namespace HttpListener
 {
+    /// <summary>
+    /// 和易充
+    /// </summary>
     public class HycChargeController : ApiController
     {
         [HttpGet]

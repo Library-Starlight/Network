@@ -8,6 +8,9 @@ using System.Web.Http;
 
 namespace HttpListener.Controller
 {
+    /// <summary>
+    /// 捷慧通云平台
+    /// </summary>
     public class JhtCloudController : ApiController
     {
         /// <summary>
