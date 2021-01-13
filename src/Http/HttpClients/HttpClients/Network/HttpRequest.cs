@@ -27,6 +27,25 @@ namespace System.Net.Http
         }
 
         /// <summary>
+        /// 获取图像Base64字符串
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static string GetImageString(string url)
+        {
+            var request = WebRequest.Create(url);
+            using (var response = (HttpWebResponse)request.GetResponse())
+            using (var stream = response.GetResponseStream())
+            using (var ms = new MemoryStream())
+            {
+                stream.CopyTo(ms);
+                var data = ms.ToArray();
+                var base64 = Convert.ToBase64String(data);
+                return base64;
+            }
+        }
+
+        /// <summary>
         /// 发送Http Post请求，并获取应答
         /// </summary>
         /// <param name="url">请求地址</param>

@@ -8,6 +8,7 @@ using StreetLED;
 using StreetLED.Model.Response;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -25,7 +26,7 @@ namespace HttpClients
         {
             try
             {
-                RequestJhpjGeoAsync();
+                DownloadBase64Image();
             }
             catch (Exception ex)
             {
@@ -34,6 +35,35 @@ namespace HttpClients
 
             Console.ReadLine();
         }
+
+        #region 下载图片并转换为Base64字符串
+
+        private static void DownloadBase64Image()
+        {
+            //const string url = "http://218.13.87.214:18080/ImageServer/0EDE00EF41735B730F65/StorePicFile/PassVehicle/2021-01-12/17/Vehicle_20210112170945543_%E8%93%9D%E7%B2%A4ES808G_0.jpg";
+            const string url = "http://127.0.0.1/TB1h9xxIFXXXXbKXXXXXXXXXXXX.jpg";
+            var request = WebRequest.Create(url);
+            using (var response = (HttpWebResponse)request.GetResponse())
+            using (var stream = response.GetResponseStream())
+            using (var ms = new MemoryStream())
+            {
+                stream.CopyTo(ms);
+                var data = ms.ToArray();
+                //var base64 = Convert.ToBase64String(data).TrimEnd('=').Replace('+', '-').Replace('/', '_');
+                var base64 = Convert.ToBase64String(data);
+                Console.WriteLine(base64);
+
+                using (var fs = new FileStream("base64.txt", FileMode.Create, FileAccess.Write))
+                using (var sw = new StreamWriter(fs))
+                {
+                    sw.Write(base64);
+                }
+                //var img = Image.FromStream(stream);
+                //img.Save($"{Guid.NewGuid().ToString("N")}.jpg");
+            }
+        }
+
+        #endregion
 
         #region 下载文件
 

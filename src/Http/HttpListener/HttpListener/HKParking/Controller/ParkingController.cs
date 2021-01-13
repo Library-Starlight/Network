@@ -22,7 +22,7 @@ namespace HKParking.Controller
 
             try
             {
-                SqlHelper.SavePassRecord(model);
+                SqlData.SavePassRecord(model);
                 return Success();
             }
             catch (Exception ex)
@@ -41,7 +41,7 @@ namespace HKParking.Controller
 
             try
             {
-                SqlHelper.CanVehiclePass(model.plateNo, model.vehType);
+                SqlData.CanVehiclePass(model.plateNo, model.vehType);
                 return Success();
             }
             catch (Exception ex)
@@ -60,7 +60,7 @@ namespace HKParking.Controller
 
             try
             {
-                SqlHelper.CanVehiclePass(model.plateNo, model.vehType);
+                SqlData.CanVehiclePass(model.plateNo, model.vehType);
                 return Success();
             }
             catch (Exception ex)

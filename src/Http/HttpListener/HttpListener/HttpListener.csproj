@@ -76,7 +76,8 @@
     <Compile Include="HKParking\ApiModel\PassRecordApiModel.cs" />
     <Compile Include="HKParking\ApiModel\HKParkingResultModel.cs" />
     <Compile Include="HKParking\Controller\ParkingController.cs" />
-    <Compile Include="HKParking\Data\SqlHelper.cs" />
+    <Compile Include="HKParking\Data\SqlData.cs" />
+    <Compile Include="HKParking\Extensions\SqlHelper.cs" />
     <Compile Include="HKParking\Router.cs" />
     <Compile Include="Http\GarbageBinHttpServer.cs" />
     <Compile Include="Http\Listener.cs" />
