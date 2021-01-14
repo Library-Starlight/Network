@@ -38,10 +38,34 @@ namespace HttpClients
 
         #region 下载图片并转换为Base64字符串
 
-        private static void DownloadBase64Image()
+        private static void DownloadBase64Image1()
         {
+            const int length = 2048;
+            const string url = "http://218.13.87.214:18080/ImageServer/0EDE00EF41735B730F65/StorePicFile/PassVehicle/2021-01-12/17/Vehicle_20210112170945543_蓝粤ES808G_0.jpg";
+            var request = WebRequest.Create(url);
+            using (var response = (HttpWebResponse)request.GetResponse())
+            using (var stream = response.GetResponseStream())
+            {
+                var lst = new List<byte>();
+                var buffer = new byte[2048];
+                var count = stream.Read(buffer, 0, buffer.Length);
+                lst.AddRange(buffer.Take(count));
+                while (count > 0)
+                {
+                    count = stream.Read(buffer, 0, buffer.Length);
+                    lst.AddRange(buffer.Take(count));
+                }
+                var base64 = Convert.ToBase64String(lst.ToArray());
+                Console.WriteLine(base64);
+            }
+        }
+
+            private static void DownloadBase64Image()
+        {
+            const int length = 2048;
+            const string url = "http://218.13.87.214:18080/ImageServer/0EDE00EF41735B730F65/StorePicFile/PassVehicle/2021-01-12/17/Vehicle_20210112170945543_蓝粤ES808G_0.jpg";
             //const string url = "http://218.13.87.214:18080/ImageServer/0EDE00EF41735B730F65/StorePicFile/PassVehicle/2021-01-12/17/Vehicle_20210112170945543_%E8%93%9D%E7%B2%A4ES808G_0.jpg";
-            const string url = "http://127.0.0.1/TB1h9xxIFXXXXbKXXXXXXXXXXXX.jpg";
+            //const string url = "http://127.0.0.1/TB1h9xxIFXXXXbKXXXXXXXXXXXX.jpg";
             var request = WebRequest.Create(url);
             using (var response = (HttpWebResponse)request.GetResponse())
             using (var stream = response.GetResponseStream())
@@ -49,15 +73,15 @@ namespace HttpClients
             {
                 stream.CopyTo(ms);
                 var data = ms.ToArray();
-                //var base64 = Convert.ToBase64String(data).TrimEnd('=').Replace('+', '-').Replace('/', '_');
                 var base64 = Convert.ToBase64String(data);
+
+                //using (var fs = new FileStream("base64.txt", FileMode.Create, FileAccess.Write))
+                //using (var sw = new StreamWriter(fs))
+                //{
+                //    sw.Write(base64);
+                //}
                 Console.WriteLine(base64);
 
-                using (var fs = new FileStream("base64.txt", FileMode.Create, FileAccess.Write))
-                using (var sw = new StreamWriter(fs))
-                {
-                    sw.Write(base64);
-                }
                 //var img = Image.FromStream(stream);
                 //img.Save($"{Guid.NewGuid().ToString("N")}.jpg");
             }
