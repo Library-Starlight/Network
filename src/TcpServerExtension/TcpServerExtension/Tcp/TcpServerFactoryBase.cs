@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace System.Net
+namespace Tcp
 {
     /// <summary>
     /// Tcp服务器创建工厂。
     /// 创建指定的Tcp服务器实现类
     /// 确保同一终结点的实例仅创建一次
     /// </summary>
-    public abstract class TcpServerFactory
+    public abstract class TcpServerFactoryBase<T>
+        where T: AsyncTcpServer
     {
         #region 私有字段
 
@@ -23,7 +25,7 @@ namespace System.Net
         /// <summary>
         /// Tcp服务器实例列表
         /// </summary>
-        private readonly IDictionary<string, AsyncTcpServer> _servers = new Dictionary<string, AsyncTcpServer>();
+        private readonly IDictionary<string, T> _servers = new Dictionary<string, T>();
 
         #endregion
 
@@ -35,7 +37,7 @@ namespace System.Net
         /// <param name="ip">IP地址</param>
         /// <param name="port">Tcp端口号</param>
         /// <returns>Tcp服务器</returns>
-        public AsyncTcpServer CreateTcpServer(string ip, ushort port)
+        public T CreateTcpServer(string ip, ushort port)
         {
             var address = IPAddress.Parse(ip);
             var ep = new IPEndPoint(address, port);
@@ -48,7 +50,7 @@ namespace System.Net
         /// </summary>
         /// <param name="ep">服务终结点</param>
         /// <returns>Tcp服务器</returns>
-        public AsyncTcpServer CreateTcpServer(IPEndPoint ep)
+        public T CreateTcpServer(IPEndPoint ep)
         {
             var key = ep.ToString();
             if (_servers.ContainsKey(key))
@@ -73,7 +75,7 @@ namespace System.Net
         /// </summary>
         /// <param name="ep">服务终结点</param>
         /// <returns>Tcp服务器</returns>
-        protected abstract AsyncTcpServer CreateTcpServerImplementation(IPEndPoint ep);
+        protected abstract T CreateTcpServerImplementation(IPEndPoint ep);
 
         #endregion
     }

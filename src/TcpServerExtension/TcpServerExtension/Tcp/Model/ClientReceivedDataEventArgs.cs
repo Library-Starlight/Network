@@ -2,26 +2,29 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace System.Net
+namespace Tcp.Model
 {
     public class ClientReceivedDataEventArgs: EventArgs
     {
-        #region 私有字段
+        /// <summary>
+        /// 客户端
+        /// </summary>
+        public AsyncTcpClient Client { get; }
 
-
-
-        #endregion
+        /// <summary>
+        /// 接收到的数据
+        /// </summary>
+        public byte[] Data { get; }
 
         #region 构造函数
 
         /// <summary>
         /// 默认构造函数
         /// </summary>
-        /// <param name="client"></param>
-        /// <param name="data"></param>
         public ClientReceivedDataEventArgs(AsyncTcpClient client, byte[] data)
         {
-
+            Client = client;
+            Data = data;
         }
 
         #endregion
