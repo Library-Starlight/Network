@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Tcp.Model;
 
 namespace Tcp
 {
@@ -33,12 +30,12 @@ namespace Tcp
         /// <summary>
         /// 客户端接收数据事件
         /// </summary>
-        private EventHandler<ClientReceivedDataEventArgs> _clientReceivedData;
+        private EventHandler<Model.ClientReceivedDataEventArgs> _clientReceivedData;
 
         /// <summary>
         /// 客户端断开事件
         /// </summary>
-        private EventHandler<ClientDisconnectedEventArgs> _clientDisconnected;
+        private EventHandler<Model.ClientDisconnectedEventArgs> _clientDisconnected;
 
         #endregion
 
@@ -47,7 +44,7 @@ namespace Tcp
         /// <summary>
         /// 客户端接收数据事件
         /// </summary>
-        public event EventHandler<ClientReceivedDataEventArgs> ClientReceivedData
+        public event EventHandler<Model.ClientReceivedDataEventArgs> ClientReceivedData
         {
             add => _clientReceivedData += value;
             remove => _clientReceivedData -= value;
@@ -56,7 +53,7 @@ namespace Tcp
         /// <summary>
         /// 客户端断开事件
         /// </summary>
-        public event EventHandler<ClientDisconnectedEventArgs> ClientDisconnected
+        public event EventHandler<Model.ClientDisconnectedEventArgs> ClientDisconnected
         {
             add => _clientDisconnected += value;
             remove => _clientDisconnected -= value;
@@ -94,7 +91,7 @@ namespace Tcp
         /// 触发接收数据事件
         /// </summary>
         /// <param name="args"></param>
-        protected void OnClientReceivedData(ClientReceivedDataEventArgs args)
+        protected void OnClientReceivedData(Model.ClientReceivedDataEventArgs args)
         {
             var temp = Volatile.Read(ref _clientReceivedData);
             temp?.Invoke(this, args);
@@ -104,7 +101,7 @@ namespace Tcp
         /// 触发客户端断开事件
         /// </summary>
         /// <param name="args"></param>
-        protected void OnClientDisconnected(ClientDisconnectedEventArgs args)
+        protected void OnClientDisconnected(Model.ClientDisconnectedEventArgs args)
         {
             var temp = Volatile.Read(ref _clientDisconnected);
             temp?.Invoke(this, args);
@@ -134,11 +131,11 @@ namespace Tcp
                         var receivedData = new byte[count];
                         Array.Copy(_buffer, 0, receivedData, 0, count);
 
-                        OnClientReceivedData(new ClientReceivedDataEventArgs(this, receivedData));
+                        OnClientReceivedData(new Model.ClientReceivedDataEventArgs(this, receivedData));
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex);
+                        Log.Logger.Instance.LogError(ex.ToString());
                     }
                 }
 
@@ -168,7 +165,7 @@ namespace Tcp
             {
                 _stream.Dispose();
                 _stream = null;
-                OnClientDisconnected(new ClientDisconnectedEventArgs(this));
+                OnClientDisconnected(new Model.ClientDisconnectedEventArgs(this));
             }
         }
 

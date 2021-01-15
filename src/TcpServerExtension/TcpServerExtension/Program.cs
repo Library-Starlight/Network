@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
-using Tcp.Model;
+using Tcp;
 using Tcp.Utilities;
-using TcpServerExtension.Implement;
 
 namespace TcpServerExtension
 {

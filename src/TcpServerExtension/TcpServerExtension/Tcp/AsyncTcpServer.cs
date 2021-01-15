@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Tcp.Model;
 
 namespace Tcp
 { 
@@ -30,17 +26,17 @@ namespace Tcp
         /// <summary>
         /// 客户端连接事件
         /// </summary>
-        private EventHandler<ClientConnectedEventArgs> _clientConnected;
+        private EventHandler<Model.ClientConnectedEventArgs> _clientConnected;
 
         /// <summary>
         /// 客户端断开事件
         /// </summary>
-        private EventHandler<ClientDisconnectedEventArgs> _clientDisconnected;
+        private EventHandler<Model.ClientDisconnectedEventArgs> _clientDisconnected;
 
         /// <summary>
         /// 客户端接受数据事件
         /// </summary>
-        private EventHandler<ClientReceivedDataEventArgs> _clientReceivedData;
+        private EventHandler<Model.ClientReceivedDataEventArgs> _clientReceivedData;
 
         #endregion
 
@@ -49,7 +45,7 @@ namespace Tcp
         /// <summary>
         /// 客户端连接事件
         /// </summary>
-        public event EventHandler<ClientConnectedEventArgs> ClientConnected
+        public event EventHandler<Model.ClientConnectedEventArgs> ClientConnected
         {
             add 
                 => _clientConnected += value;
@@ -60,7 +56,7 @@ namespace Tcp
         /// <summary>
         /// 客户端断开事件
         /// </summary>
-        public event EventHandler<ClientDisconnectedEventArgs> ClientDisconnected
+        public event EventHandler<Model.ClientDisconnectedEventArgs> ClientDisconnected
         {
             add
                 => _clientDisconnected += value;
@@ -71,7 +67,7 @@ namespace Tcp
         /// <summary>
         /// 客户端接受数据事件
         /// </summary>
-        public event EventHandler<ClientReceivedDataEventArgs> ClientReceivedData
+        public event EventHandler<Model.ClientReceivedDataEventArgs> ClientReceivedData
         {
             add
                 => _clientReceivedData += value;
@@ -118,7 +114,7 @@ namespace Tcp
                 _ = AcceptClientAsync();
 
                 IsConnected = true;
-                Console.WriteLine($"服务器[{_listener.LocalEndpoint.ToString()}]启动，开始接受客户端连接。");
+                Log.Logger.Instance.LogDebug($"服务器[{_listener.LocalEndpoint.ToString()}]启动，开始接受客户端连接。");
                 return Task.CompletedTask;
             }
         }
@@ -142,7 +138,7 @@ namespace Tcp
         /// 触发客户端连接事件
         /// </summary>
         /// <param name="args"></param>
-        protected void OnClientConnected(ClientConnectedEventArgs args)
+        protected void OnClientConnected(Model.ClientConnectedEventArgs args)
         {
             var temp = Volatile.Read(ref _clientConnected);
             temp?.Invoke(this, args);
@@ -152,7 +148,7 @@ namespace Tcp
         /// 触发客户端断开事件
         /// </summary>
         /// <param name="args"></param>
-        protected void OnClientDisconnected(ClientDisconnectedEventArgs args)
+        protected void OnClientDisconnected(Model.ClientDisconnectedEventArgs args)
         {
             var temp = Volatile.Read(ref _clientDisconnected);
             temp?.Invoke(this, args);
@@ -162,7 +158,7 @@ namespace Tcp
         /// 触发客户端接受数据事件
         /// </summary>
         /// <param name="args"></param>
-        protected void OnClientReceivedData(ClientReceivedDataEventArgs args)
+        protected void OnClientReceivedData(Model.ClientReceivedDataEventArgs args)
         {
             var temp = Volatile.Read(ref _clientReceivedData);
             temp?.Invoke(this, args);
@@ -186,7 +182,7 @@ namespace Tcp
                     {
                         var client = await _listener.AcceptTcpClientAsync();
                         var asyncClient = new AsyncTcpClient(client);
-                        OnClientConnected(new ClientConnectedEventArgs(asyncClient));
+                        OnClientConnected(new Model.ClientConnectedEventArgs(asyncClient));
 
                         asyncClient.ClientReceivedData += AsyncClient_ClientReceivedData;
                         asyncClient.ClientDisconnected += AsyncClient_ClientDisconnected;
@@ -206,14 +202,14 @@ namespace Tcp
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AsyncClient_ClientDisconnected(object _, ClientDisconnectedEventArgs e)
+        private void AsyncClient_ClientDisconnected(object _, Model.ClientDisconnectedEventArgs e)
             // 传递事件
             => OnClientDisconnected(e);
 
         /// <summary>
         /// 客户端接收数据
         /// </summary>
-        private void AsyncClient_ClientReceivedData(object _, ClientReceivedDataEventArgs e)
+        private void AsyncClient_ClientReceivedData(object _, Model.ClientReceivedDataEventArgs e)
             // 传递事件
             => OnClientReceivedData(e);
 

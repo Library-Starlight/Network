@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using Tcp;
+﻿using System.Net;
 
-namespace TcpServerExtension.Implement
+namespace Tcp
 {
     public class TcpServerFactory : TcpServerFactoryBase<TestTcpServer>
     {
