@@ -2,7 +2,7 @@
 
 namespace TcpServerExtension
 {
-    public class TcpServerFactory : Tcp.TcpServerFactoryBase<TestTcpServer>
+    public class TcpServerFactory : Tcp.TcpServerFactoryBase<CoreTcpServer>
     {
         #region 单例
 
@@ -42,9 +42,9 @@ namespace TcpServerExtension
         /// <param name="ip">IP地址</param>
         /// <param name="port">Tcp端口号</param>
         /// <returns>Tcp服务器</returns>
-        protected override TestTcpServer CreateTcpServerImplementation(IPEndPoint ep)
+        protected override CoreTcpServer CreateTcpServerImplementation(IPEndPoint ep)
             // 返回Tcp服务器扩展实例
-            => new TestTcpServer(ep);
+            => new CoreTcpServer(ep);
 
         #endregion
     }

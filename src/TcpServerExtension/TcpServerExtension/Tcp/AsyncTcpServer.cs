@@ -40,6 +40,15 @@ namespace Tcp
 
         #endregion
 
+        #region 公共属性
+
+        /// <summary>
+        /// 是否已连接
+        /// </summary>
+        public bool IsConnected { get; private set; }
+
+        #endregion
+
         #region 公共事件
 
         /// <summary>
@@ -74,15 +83,6 @@ namespace Tcp
             remove
                 => _clientReceivedData -= value;
         }
-
-        #endregion
-
-        #region 公共属性
-
-        /// <summary>
-        /// 是否已连接
-        /// </summary>
-        private bool IsConnected { get; set; }
 
         #endregion
 

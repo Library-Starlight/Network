@@ -15,7 +15,7 @@ namespace Tcp
         /// <summary>
         /// 是否已启动
         /// </summary>
-        private bool _started = false;
+        protected bool _started = false;
 
         /// <summary>
         /// 线程同步锁
@@ -139,7 +139,7 @@ namespace Tcp
         /// 启动
         /// </summary>
         /// <returns></returns>
-        public async Task StartAsync()
+        public async virtual Task StartAsync()
         {
             if (_started)
                 return;
@@ -149,6 +149,7 @@ namespace Tcp
                     return;
                 _started = true;
             }
+
             while (AutoReconnect)
             {
                 try

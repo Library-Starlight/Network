@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TcpServerExtension
 {
-    public class TcpClientFactory : Tcp.TcpClientFactoryBase<TestTcpClient>
+    public class TcpClientFactory : Tcp.TcpClientFactoryBase<CoreTcpClient>
     {
         #region 单例
 
@@ -37,7 +37,7 @@ namespace TcpServerExtension
 
         #endregion
 
-        protected override TestTcpClient CreateTcpClientImplementation(IPEndPoint ep)
-            => new TestTcpClient(ep);
+        protected override CoreTcpClient CreateTcpClientImplementation(IPEndPoint ep)
+            => new CoreTcpClient(ep);
     }
 }
