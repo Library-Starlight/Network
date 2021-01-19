@@ -13,6 +13,16 @@ namespace Tcp
         #region 私有字段
 
         /// <summary>
+        /// 是否已启动
+        /// </summary>
+        private bool _started = false;
+
+        /// <summary>
+        /// 线程同步锁
+        /// </summary>
+        private object _syncLock = new object();
+
+        /// <summary>
         /// Tcp客户端
         /// </summary>
         private TcpClient _client;
@@ -131,6 +141,14 @@ namespace Tcp
         /// <returns></returns>
         public async Task StartAsync()
         {
+            if (_started)
+                return;
+            lock (_syncLock)
+            {
+                if (_started)
+                    return;
+                _started = true;
+            }
             while (AutoReconnect)
             {
                 try
