@@ -5,14 +5,13 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Tcp;
 
-namespace Tcp
+namespace TcpServerExtension
 {
     /// <summary>
     /// Tcp服务器，将二进制数据为易用的实体类
     /// </summary>
-    public class TestTcpServer : AsyncTcpServer
+    public class TestTcpServer : Tcp.AsyncTcpServer
     {
         public TestTcpServer(IPEndPoint ep)
             : base(ep)

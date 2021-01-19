@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Log;
+using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -14,8 +15,7 @@ namespace Tcp
         /// <summary>
         /// Tcp客户端
         /// </summary>
-        private readonly TcpClient _client;
-
+        private TcpClient _client;
 
         /// <summary>
         /// 客户端网络数据流
@@ -66,21 +66,35 @@ namespace Tcp
         /// <summary>
         /// 客户端地址
         /// </summary>
-        public EndPoint RemoteEndPoint { get; }
+        public IPEndPoint RemoteEndPoint { get; }
+
+        /// <summary>
+        /// 自动连接
+        /// </summary>
+        public bool AutoReconnect { get; set; } = true;
 
         #endregion
 
         #region 构造函数
 
         /// <summary>
-        /// 默认构造函数
+        /// 构造函数（for 服务器）
         /// </summary>
         /// <param name="client">Tcp客户端</param>
         public AsyncTcpClient(TcpClient client)
         {
             _client = client;
-            RemoteEndPoint = _client.Client.RemoteEndPoint;
+            RemoteEndPoint = _client.Client.RemoteEndPoint as IPEndPoint;
             _stream = client.GetStream();
+        }
+
+        /// <summary>
+        /// 构造函数（for 客户端）
+        /// </summary>
+        /// <param name="ep"></param>
+        public AsyncTcpClient(IPEndPoint ep)
+        {
+            RemoteEndPoint = ep;
         }
 
         #endregion
@@ -110,6 +124,36 @@ namespace Tcp
         #endregion
 
         #region 公共方法
+
+        /// <summary>
+        /// 启动
+        /// </summary>
+        /// <returns></returns>
+        public async Task StartAsync()
+        {
+            while (AutoReconnect)
+            {
+                try
+                {
+                    // 启动或重连
+                    if (_client == null || !_client.Connected)
+                    {
+                        _client = new TcpClient();
+                        await _client.ConnectAsync(RemoteEndPoint.Address, RemoteEndPoint.Port);
+                        _stream = _client.GetStream();
+                    }
+
+                    // 接收消息，直到连接关闭
+                    await ReceiveAsync();
+
+                    await Task.Delay(2000);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.LogError(ex.ToString());
+                }
+            }
+        }
 
         /// <summary>
         /// 接收数据
@@ -159,6 +203,7 @@ namespace Tcp
             if (_client != null && _client.Connected)
             {
                 _client.Close();
+                _client = null;
             }
 
             if (_stream != null)

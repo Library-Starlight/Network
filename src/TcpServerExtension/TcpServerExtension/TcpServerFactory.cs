@@ -1,8 +1,8 @@
 ﻿using System.Net;
 
-namespace Tcp
+namespace TcpServerExtension
 {
-    public class TcpServerFactory : TcpServerFactoryBase<TestTcpServer>
+    public class TcpServerFactory : Tcp.TcpServerFactoryBase<TestTcpServer>
     {
         #region 单例
 
