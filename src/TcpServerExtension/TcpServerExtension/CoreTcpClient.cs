@@ -39,27 +39,13 @@ namespace TcpServerExtension
         {
             ClientDisconnected += TcpClient_ClientDisconnected;
             ClientReceivedData += TcpClient_ClientReceivedData;
-        }
 
-        #endregion
-
-        #region 重写方法
-
-        public override Task StartAsync()
-        {
-            var statted = _started;
-            var t = base.StartAsync();
-
-            if (!statted)
+            _thDataHandle = new Thread(HandleProtocol)
             {
-                _thDataHandle = new Thread(HandleProtocol)
-                {
-                    IsBackground = true,
-                    Priority = ThreadPriority.Normal,
-                };
-                _thDataHandle.Start();
-            }
-            return t;
+                IsBackground = true,
+                Priority = ThreadPriority.Normal,
+            };
+            _thDataHandle.Start();
         }
 
         #endregion
@@ -71,10 +57,7 @@ namespace TcpServerExtension
         /// </summary>
         private async void HandleProtocol()
         {
-            Encoding encoding = Encoding.ASCII;
             List<byte> data = new List<byte>();
-            byte[] lengthData = new byte[4];
-            byte[] crcCheckData = new byte[4];
 
             while (AutoReconnect)
             {
@@ -103,6 +86,11 @@ namespace TcpServerExtension
 
         #region 事件
 
+        /// <summary>
+        /// 接收数据事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TcpClient_ClientReceivedData(object sender, Tcp.Model.ClientReceivedDataEventArgs e)
         {
             var client = e.Client;
@@ -118,6 +106,11 @@ namespace TcpServerExtension
             _dataReceivedFlag.Set();
         }
 
+        /// <summary>
+        /// 连接断开事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TcpClient_ClientDisconnected(object sender, Tcp.Model.ClientDisconnectedEventArgs e)
         {
             var logMsg = $"客户端[{e.Client.RemoteEndPoint.ToString()}]连接断开。";

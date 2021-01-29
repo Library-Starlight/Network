@@ -89,6 +89,7 @@
     <Compile Include="Extensions\HttpClientExtensions.cs" />
     <Compile Include="Extensions\Model\WebRequestResult.cs" />
     <Compile Include="Network\JsonHttpRequest.cs" />
+    <Compile Include="Network\StringRouteExtensions.cs" />
     <Compile Include="Services\Hikvision\HikParkingManager.cs" />
     <Compile Include="Services\Hikvision\HikAuthRequestBuilder.cs" />
     <Compile Include="Services\Hikvision\OpenApi\HikHttpUtillib.cs" />
@@ -165,6 +166,11 @@
     <Compile Include="Services\StreetLED\Model\StreetLedPagedModel.cs" />
     <Compile Include="Services\StreetLED\StreetLedApi.cs" />
     <Compile Include="Services\StreetLED\StreetLedRouter.cs" />
+    <Compile Include="Services\SwResolve\ApiModel\ApiCode.cs" />
+    <Compile Include="Services\SwResolve\ApiModel\AuthorizeApiModel.cs" />
+    <Compile Include="Services\SwResolve\ApiModel\AuthorizeResultModel.cs" />
+    <Compile Include="Services\SwResolve\ApiModel\ResolveDataResultModel.cs" />
+    <Compile Include="Services\SwResolve\SwResolveCloudClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

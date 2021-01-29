@@ -2,6 +2,7 @@
 using HttpClients.Services.Hikvision;
 using HttpClients.Services.JhpjGeo;
 using HttpClients.Services.PartyBuild;
+using HttpClients.Services.SwResolve;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using StreetLED;
@@ -26,7 +27,7 @@ namespace HttpClients
         {
             try
             {
-                DownloadBase64Image();
+                await SwGNSSResolveAsync();
             }
             catch (Exception ex)
             {
@@ -35,6 +36,8 @@ namespace HttpClients
 
             Console.ReadLine();
         }
+
+        #region 工具
 
         #region 下载图片并转换为Base64字符串
 
@@ -94,55 +97,6 @@ namespace HttpClients
         static void DownloadFile()
         {
             HttpRequest.DownloadImageFile("http://192.168.0.179:8090/AlarmImage/timg.jpg", "../img/karsa.jpg");
-        }
-
-        #endregion
-
-        #region 金华浦江地磁
-
-        private static async Task RequestJhpjGeoAsync()
-        {
-            Console.WriteLine($"请输入服务地址和设备号（用逗号分隔）:");
-            var parameters = Console.ReadLine().Split(',');
-
-            while (true)
-            {
-                await RequestJhpjGeomagnetismAsync(parameters);
-                await Task.Delay(500);
-            }
-        }
-
-        private static async Task RequestJhpjGeomagnetismAsync(string[] parameters)
-        {
-            var hostUrl = parameters[0];
-            var id = parameters[1];
-
-            await JhpjGeoClient.Request(hostUrl, id);
-        }
-
-        #endregion
-
-        #region 张家港天气局
-
-        private static async Task ZjgWeatherApi()
-        {
-            var appid = "E4628CE3ED4B4057A1D06404B083AD9B";
-            var secret = "645D3B6DEAE64ED0BD3512D9CEFAE0EF";
-
-            var token = await ZjgApi.ZjgWeatherAccessTokenApi.GetTokenAsync("http://www.zjg121.com/zjgqxj2/", appid, secret);
-            Console.WriteLine(token);
-
-            var url = "http://www.zjg121.com/zjgqxj2/WeatherService/Station.ashx";
-            var parameters = new Dictionary<string, string>
-            {
-                { "appid", "E4628CE3ED4B4057A1D06404B083AD9B" },
-                { "token", token },
-            };
-
-            var message = await HttpRequest.GetAsync(url, parameters);
-
-            var jArr = JArray.Parse(message);
-            Console.WriteLine(jArr.ToString(Newtonsoft.Json.Formatting.Indented));
         }
 
         #endregion
@@ -548,6 +502,85 @@ namespace HttpClients
             //    return $"{prev}&{kv.Key}={WebUtility.UrlEncode(kv.Value)}";
             //});
         }
+
+        #endregion
+
+        #endregion
+
+        #region 应用
+
+        #region 水务GNSS解算
+
+        private static async Task SwGNSSResolveAsync()
+        {
+            var baseUrl = "http://gnssapi.zhdbds.com";
+            var user = "ganwei";
+            var pass = "08ad744c3db84016bf46ba4f78057418";
+
+            // 授权
+            var auth = await SwResolveCloudClient.GetAuthorizeAsync(baseUrl, user, pass);
+            Console.WriteLine($"访问令牌：");
+            Console.WriteLine(auth.Data.AccessToken);
+            Console.WriteLine($"超时时间：");
+            Console.WriteLine($"{auth.Data.ExpireInSeconds.ToString()}秒");
+            Console.WriteLine();
+
+            // 获取
+            var resolveData = await SwResolveCloudClient.GetResolveDataAsync(baseUrl, "1", DateTime.Now, DateTime.Now, auth.Data.AccessToken);
+            Console.WriteLine($"解算数据：");
+            Console.WriteLine(JsonConvert.SerializeObject(resolveData));
+        }
+
+        #endregion
+
+        #region 金华浦江地磁
+
+        private static async Task RequestJhpjGeoAsync()
+        {
+            Console.WriteLine($"请输入服务地址和设备号（用逗号分隔）:");
+            var parameters = Console.ReadLine().Split(',');
+
+            while (true)
+            {
+                await RequestJhpjGeomagnetismAsync(parameters);
+                await Task.Delay(500);
+            }
+        }
+
+        private static async Task RequestJhpjGeomagnetismAsync(string[] parameters)
+        {
+            var hostUrl = parameters[0];
+            var id = parameters[1];
+
+            await JhpjGeoClient.Request(hostUrl, id);
+        }
+
+        #endregion
+
+        #region 张家港天气局
+
+        private static async Task ZjgWeatherApi()
+        {
+            var appid = "E4628CE3ED4B4057A1D06404B083AD9B";
+            var secret = "645D3B6DEAE64ED0BD3512D9CEFAE0EF";
+
+            var token = await ZjgApi.ZjgWeatherAccessTokenApi.GetTokenAsync("http://www.zjg121.com/zjgqxj2/", appid, secret);
+            Console.WriteLine(token);
+
+            var url = "http://www.zjg121.com/zjgqxj2/WeatherService/Station.ashx";
+            var parameters = new Dictionary<string, string>
+            {
+                { "appid", "E4628CE3ED4B4057A1D06404B083AD9B" },
+                { "token", token },
+            };
+
+            var message = await HttpRequest.GetAsync(url, parameters);
+
+            var jArr = JArray.Parse(message);
+            Console.WriteLine(jArr.ToString(Newtonsoft.Json.Formatting.Indented));
+        }
+
+        #endregion
 
         #endregion
     }

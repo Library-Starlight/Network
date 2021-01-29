@@ -50,7 +50,7 @@ namespace ZjgApi
                 { "timestamp", timestamp.ToString() },
             };
             // 获取查询字符串
-            var query = HttpRequest.GetQueryString(parameters);
+            var query = StringRouteExtensions.GetQueryString(parameters);
 
             // 生成签名
             var signature = MD5Encrypt.Encrypt(query).ToLower();

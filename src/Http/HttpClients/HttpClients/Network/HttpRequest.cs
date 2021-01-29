@@ -70,52 +70,6 @@ namespace System.Net.Http
             return RequestAsync(HttpMethod.Get, url, null, param, headers);
         }
 
-        /// <summary>
-        /// 获取查询字符串
-        /// </summary>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
-        public static string GetQueryString(IDictionary<string, string> parameters)
-        {
-            var sb = new StringBuilder();
-
-            // 若无参数，则返回url
-            if (parameters == null || parameters.Count <= 0)
-                return string.Empty;
-
-            var first = true;
-            foreach (var kv in parameters)
-            {
-                // 对数据进行Url编码
-                var encodedValue = WebUtility.UrlEncode(kv.Value);
-                if (!first)
-                {
-                    sb.Append($"&{kv.Key}={encodedValue}");
-                }
-                else
-                {
-                    sb.Append($"{kv.Key}={encodedValue}");
-                    first = false;
-                }
-            }
-
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// 添加Http Get请求参数
-        /// </summary>
-        /// <param name="url">基础Url</param>
-        /// <param name="param">请求参数字典</param>
-        /// <returns></returns>
-        public static string AppendHttpGetParam(string url, IDictionary<string, string> param)
-        {
-            if (param == null || param.Count <= 0)
-                return url;
-
-            return $"{url}?{GetQueryString(param)}";
-        }
-
         #endregion
 
         #region 工具方法
@@ -123,7 +77,7 @@ namespace System.Net.Http
         private static async Task<string> RequestAsync(HttpMethod method, string url, string body = null, IDictionary<string, string> param = null, IDictionary<string, string> headers = null)
         {
             // 构建完整的HttpGet请求Url
-            url = AppendHttpGetParam(url, param);
+            url = url.AppendQueryString(param);
 
             // 创建请求
             var request = HttpWebRequest.Create(url);
@@ -134,7 +88,7 @@ namespace System.Net.Http
             if (headers != null)
                 foreach (var header in headers)
                     request.Headers.Add(header.Key, header.Value);
-
+            
             // 发送请求
             if (!string.IsNullOrEmpty(body))
             {

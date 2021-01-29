@@ -9,7 +9,7 @@ namespace System.Collections.Generic
 {
     public static class IDictionaryExtensions
     {
-        public static string ToQueryString(this IDictionary<string, string> parameters)
-            => parameters.Aggregate(string.Empty, (prev, cur) => $"{prev}&{cur.Key}={HttpUtility.UrlEncode(cur.Value)}").TrimStart('&');
+        //public static string ToQueryString(this IDictionary<string, string> parameters)
+        //    => parameters.Aggregate(string.Empty, (prev, cur) => $"{prev}&{cur.Key}={HttpUtility.UrlEncode(cur.Value)}").TrimStart('&');
     }
 }

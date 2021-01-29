@@ -139,7 +139,7 @@ namespace Tcp
         /// 启动
         /// </summary>
         /// <returns></returns>
-        public async virtual Task StartAsync()
+        public async Task StartAsync()
         {
             if (_started)
                 return;
@@ -211,7 +211,13 @@ namespace Tcp
         /// <param name="data">数据包</param>
         /// <returns></returns>
         public async Task SendAsync(byte[] data)
-            => await _stream.WriteAsync(data, 0, data.Length);
+        {
+            await _stream.WriteAsync(data, 0, data.Length);
+
+            var dataStr = BitConverter.ToString(data).Replace("-", "");
+            var logMsg = $"客户端[{_client.Client.RemoteEndPoint.ToString()}]发送数据：0x{dataStr}";
+            Log.Logger.Instance.LogDebug(logMsg);
+        }
 
         /// <summary>
         /// 关闭客户端连接
