@@ -170,7 +170,9 @@
     <Compile Include="Services\SwResolve\ApiModel\AuthorizeApiModel.cs" />
     <Compile Include="Services\SwResolve\ApiModel\AuthorizeResultModel.cs" />
     <Compile Include="Services\SwResolve\ApiModel\ResolveDataResultModel.cs" />
-    <Compile Include="Services\SwResolve\SwResolveCloudClient.cs" />
+    <Compile Include="Services\SwResolve\ApiModel\StationResultModel.cs" />
+    <Compile Include="Services\SwResolve\IResolveClient.cs" />
+    <Compile Include="Services\SwResolve\ResolveClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

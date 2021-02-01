@@ -516,17 +516,24 @@ namespace HttpClients
             var baseUrl = "http://gnssapi.zhdbds.com";
             var user = "ganwei";
             var pass = "08ad744c3db84016bf46ba4f78057418";
+            var client = new ResolveClient(baseUrl, user, pass) as IResolveClient;
 
             // 授权
-            var auth = await SwResolveCloudClient.GetAuthorizeAsync(baseUrl, user, pass);
+            var auth = await client.GetAuthorizeAsync();
             Console.WriteLine($"访问令牌：");
             Console.WriteLine(auth.Data.AccessToken);
             Console.WriteLine($"超时时间：");
             Console.WriteLine($"{auth.Data.ExpireInSeconds.ToString()}秒");
             Console.WriteLine();
 
-            // 获取
-            var resolveData = await SwResolveCloudClient.GetResolveDataAsync(baseUrl, "1", DateTime.Now, DateTime.Now, auth.Data.AccessToken);
+            // 获取站点列表
+            var station = await client.GetStationListAsync(1, auth.Data.AccessToken);
+            Console.WriteLine($"站点列表：");
+            Console.WriteLine(JsonConvert.SerializeObject(station, Formatting.Indented));
+            Console.WriteLine();
+
+            // 获取解算数据
+            var resolveData = await client.GetResolveDataAsync(1, DateTime.Now, DateTime.Now, auth.Data.AccessToken);
             Console.WriteLine($"解算数据：");
             Console.WriteLine(JsonConvert.SerializeObject(resolveData));
         }
