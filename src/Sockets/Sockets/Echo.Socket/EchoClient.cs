@@ -11,6 +11,7 @@ namespace Sockets.Echo.Socket
         public static void Start(string[] args)
         {
             // 参数：-socket -c -udp 192.168.0.138:50000 192.168.0.140:60001 'Hello World!'
+            // 参数：-socket -c -udp 127.0.0.1:50000 127.0.0.1:60001 'Hello World!'
             if (args.Length != 3) 
             {
                 System.Console.WriteLine("请输入参数：<LocalIP:LocalPort> <RemoteIP:RemotePort> <Message>");

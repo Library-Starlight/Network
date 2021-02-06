@@ -9,7 +9,7 @@ namespace TcpServerExtension
     {
         static async Task Main(string[] args)
         {
-            await StartClientAsync();
+            await StartServerAsync();
             Console.WriteLine($"按Enter退出！");
             Console.ReadLine();
         }

@@ -16,7 +16,7 @@ namespace TcpClients
     {
         static async Task Main(string[] args)
         {
-            await TcpDataParse();
+            await TcpServerFramework();
         }
 
         #region Tcp服务器架构

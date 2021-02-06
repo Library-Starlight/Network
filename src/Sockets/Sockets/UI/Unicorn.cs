@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sockets
+namespace Sockets.UI
 {
     /// <summary>
     /// The EF magic unicorn.
