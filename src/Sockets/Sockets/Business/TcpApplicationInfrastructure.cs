@@ -1,6 +1,8 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,6 +21,45 @@ namespace Sockets.Business
     public class TcpApplicationInfrastructure
     {
         public async Task StartAsync()
+        {
+            var client = new TcpClient();
+            try
+            {
+                await client.ConnectAsync(IPAddress.Loopback, 8087);
+            }
+            catch (SocketException ex1)
+            {
+                if (ex1.SocketErrorCode == SocketError.ConnectionRefused)
+                    Console.WriteLine(ex1.Message);
+                else
+                    Console.WriteLine(ex1);
+            }
+
+            if (!client.Connected) return;
+
+            using var stream = client.GetStream();
+            await ReceiveAsync(stream);
+        }
+
+        private async Task ReceiveAsync(Stream stream)
+        {
+            using var sr = new StreamReader(stream, Encoding.UTF8);
+            using var sw = new StreamWriter(stream, Encoding.UTF8);
+            while (true)
+            {
+                var msg = await sr.ReadLineAsync();
+                if (msg == null) break;
+                Console.WriteLine(msg);
+                await sw.WriteLineAsync(msg);
+                await sw.FlushAsync();
+            }
+        }
+
+        /// <summary>
+        /// бнЪО
+        /// </summary>
+        /// <returns></returns>
+        private async Task SomeDemoAsync()
         {
             // Interesting
             // var s = @$"123456{'\r'}xxx{'\n'}3";
@@ -63,7 +104,7 @@ namespace Sockets.Business
             foreach (var b in data)
                 Console.Write(b.ToString("X2"));
             System.Console.WriteLine();
-            
+
             encoding = new UTF8Encoding(false);
             data = encoding.GetBytes("1");
             foreach (var b in data)
@@ -75,19 +116,19 @@ namespace Sockets.Business
             foreach (var b in data)
                 Console.Write(b.ToString("X2"));
             System.Console.WriteLine();
-            
+
             encoding = new UnicodeEncoding(false, false);
             data = encoding.GetBytes("1");
             foreach (var b in data)
                 Console.Write(b.ToString("X2"));
             System.Console.WriteLine();
-            
+
             encoding = new UnicodeEncoding(true, true);
             data = encoding.GetBytes("1");
             foreach (var b in data)
                 Console.Write(b.ToString("X2"));
             System.Console.WriteLine();
-            
+
             encoding = new UnicodeEncoding(false, true);
             data = encoding.GetBytes("1");
             foreach (var b in data)

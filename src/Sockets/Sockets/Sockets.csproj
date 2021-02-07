@@ -11,4 +11,10 @@
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="Tcp.Text">
+      <HintPath>Lib\Tcp.Text.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
