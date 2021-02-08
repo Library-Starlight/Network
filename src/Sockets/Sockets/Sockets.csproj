@@ -17,4 +17,13 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Demo\Files\unicode.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Demo\Files\utf8.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

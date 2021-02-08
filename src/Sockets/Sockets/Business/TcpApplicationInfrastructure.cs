@@ -59,7 +59,7 @@ namespace Sockets.Business
         /// бнЪО
         /// </summary>
         /// <returns></returns>
-        private async Task SomeDemoAsync()
+        private Task DoSomeDemoAsync()
         {
             // Interesting
             // var s = @$"123456{'\r'}xxx{'\n'}3";
@@ -134,6 +134,8 @@ namespace Sockets.Business
             foreach (var b in data)
                 Console.Write(b.ToString("X2"));
             System.Console.WriteLine();
+
+            return Task.CompletedTask;
         }
     }
 }
