@@ -18,10 +18,10 @@ namespace HttpClients.Services.JhpjGeo
     {
         public static async Task Request(string hostUrl, string id)
         {
-            await UploadPlainTextAsync(hostUrl);
-            return;
+            //await UploadPlainTextAsync(hostUrl);
+            //return;
 
-            await UploadStatusAsync(hostUrl, id);
+            //await UploadStatusAsync(hostUrl, id);
             await UploadStatusChangeAsync(hostUrl, id);
         }
 
@@ -42,6 +42,8 @@ namespace HttpClients.Services.JhpjGeo
 
             var dataModel = JsonConvert.DeserializeObject<Status>(text);
             dataModel.serial = id;
+            dataModel.uuid = Guid.NewGuid().ToString("D");
+            dataModel.event_time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             text = JsonConvert.SerializeObject(dataModel);
 
             var data = AesProvider.Encrypt(text, JhpjConst.EncryptKey.ToBytes());
@@ -69,6 +71,8 @@ namespace HttpClients.Services.JhpjGeo
             string text = File.ReadAllText(path);
             var dataModel = JsonConvert.DeserializeObject<Status>(text);
             dataModel.serial = id;
+            dataModel.uuid = Guid.NewGuid().ToString("D");
+            dataModel.event_time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             text = JsonConvert.SerializeObject(dataModel);
 
             var data = AesProvider.Encrypt(text, JhpjConst.EncryptKey.ToBytes());
@@ -83,8 +87,15 @@ namespace HttpClients.Services.JhpjGeo
             };
 
             // 发送请求
+            var beginTime = DateTime.Now;
             var result = await JsonHttpRequest.PostFromJsonAsync<JhpjResultModel>(JhpjConst.GetRoute(hostUrl, JhpjConst.StatusChangeRoute), apiModel);
-            Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
+            if ((DateTime.Now - beginTime).TotalSeconds > 30)
+            {
+                Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss}：延时超过30秒, uuid:{dataModel.uuid}");
+            }
+
+            var json = JsonConvert.SerializeObject(result);
+            Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}, 事件时间：{dataModel.event_time} {json}, 延时：{(DateTime.Now - beginTime).TotalSeconds:0.00}s, uuid：{dataModel.uuid}");
         }
     }
 }

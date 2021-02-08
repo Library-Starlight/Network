@@ -27,7 +27,7 @@ namespace HttpClients
         {
             try
             {
-                await SwGNSSResolveAsync();
+                await RequestJhpjGeoAsync();
             }
             catch (Exception ex)
             {
@@ -544,13 +544,25 @@ namespace HttpClients
 
         private static async Task RequestJhpjGeoAsync()
         {
-            Console.WriteLine($"请输入服务地址和设备号（用逗号分隔）:");
-            var parameters = Console.ReadLine().Split(',');
+            //Console.WriteLine($"请输入服务地址和设备号（用逗号分隔）:");
+
+            //var p = "http://iot.pj.gov.cn:8092,900X090Z";
+
+            var p = "http://127.0.0.1:8090,AA2233";
+            //var parameters = Console.ReadLine().Split(',');
+            var parameters = p.Split(',');
 
             while (true)
             {
-                await RequestJhpjGeomagnetismAsync(parameters);
-                await Task.Delay(500);
+                try
+                {
+                    await RequestJhpjGeomagnetismAsync(parameters);
+                    await Task.Delay(50);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss}:异常：{ex}");
+                }
             }
         }
 
