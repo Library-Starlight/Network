@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Sockets.Demo
 {
@@ -52,7 +55,7 @@ namespace Sockets.Demo
             //创建一个ProcessStartInfo对象 使用系统shell 指定命令和参数 设置标准输出
             // var psi = new ProcessStartInfo("top", " -b -n 1") { RedirectStandardOutput = true };
             var psi = new ProcessStartInfo("top") { RedirectStandardOutput = true };
-            //启动
+            //启动``
             var proc = Process.Start(psi);
 
             //   psi = new ProcessStartInfo("", "1") { RedirectStandardOutput = true };
@@ -88,14 +91,61 @@ namespace Sockets.Demo
             }
         }
 
+        /// <summary>
+        /// 将逻辑CPU全部占满
+        /// </summary>
         public static void CpuBlocking()
         {
-
+            TestIsTimeNormal();
+            for (int i = 0; i < Environment.ProcessorCount; i++)
+            {
+                new Thread(() =>
+                {
+                    int j = 1;
+                    while (true) j++;
+                }).Start();
+            }
         }
 
-        public static void MemoryBlocking()
+        /// <summary>
+        /// 当内存爆满时，申请线程池资源会产生延迟。
+        /// 这会导致Task.Delay，WebApi控制器，线程操作等行为异常。
+        /// </summary>
+        public static Task MemoryBlocking()
         {
+            TestIsTimeNormal();
+            new Thread(() =>
+            {
+                var dic = new Dictionary<string, int>();
+                while (true)
+                {
+                    // await Task.Delay(1);
+                    dic.Add(dic.Count.ToString(), dic.Count);
+                }
+            }).Start();
 
+            return Task.CompletedTask;
+        }
+
+        private static void TestIsTimeNormal()
+        {
+            new Thread(async () =>
+            {
+                var time = DateTime.Now;
+                while (true)
+                {
+                    await Task.Delay(500);
+                    System.Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}");
+                    var delay = (DateTime.Now - time).TotalSeconds;
+                    if (delay > 0.55D)
+                    {
+                        System.Console.WriteLine($"Warning: delay time {delay:0.00}s");
+                    }
+
+                    time = DateTime.Now;
+                }
+            })
+            { IsBackground = true }.Start();
         }
     }
 }

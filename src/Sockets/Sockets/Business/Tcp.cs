@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Sockets.Extension;
 using Sockets.UI;
-using static Sockets.DI.FrameworkDI;
 
 namespace Sockets.Business
 {
@@ -28,11 +27,6 @@ namespace Sockets.Business
                     return;
                 }
 
-                if (arguments.Contains("-e"))
-                    MessageEncoding = Encoding.GetEncoding(arguments.NextElement("-e"));
-                else
-                    MessageEncoding = Encoding.Default;
-
                 // 启动TcpListener
                 if (arguments.Contains("-s"))
                 {
@@ -44,7 +38,7 @@ namespace Sockets.Business
 
                     TcpListener listener = new(endpoint);
                     listener.Start(capacity);
-                    Console.WriteLine($"Tcp server has established. Encoding: {MessageEncoding.EncodingName}, Capacity: {capacity.ToString()}");
+                    Console.WriteLine($"Tcp server has established. Capacity: {capacity.ToString()}");
 
                     Console.WriteLine($"Listening on {endpoint} ...");
 
@@ -163,7 +157,7 @@ namespace Sockets.Business
             Console.WriteLine($"o  -c       [ip:port]      Set up a tcp client connection and ready for receive message and send message.");
             Console.WriteLine($"o  -local   [ip:port]      Specific a local endpoint for tcp client to bind.");
             Console.WriteLine($"o  -num     [number]       The client count for tcp client to establish and connect to tcp server.");
-            Console.WriteLine($"o  -e       [encoding]     Specific the encoding of messages");
+            // Console.WriteLine($"o  -e       [encoding]     Specific the encoding of messages");
         }
     }
 }

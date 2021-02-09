@@ -1,9 +1,7 @@
 ﻿using Sockets.Business;
 using Sockets.Demo;
 
-PerfBlocking.HardwareInfo();
-
-// await new TcpApplicationInfrastructure().StartAsync();
+await new TcpApplicationInfrastructure().ReadBitsAsync();
 
 // Tcp echo client and server command line tool
 // await new Tcp().RunCommandLineAsync(args);

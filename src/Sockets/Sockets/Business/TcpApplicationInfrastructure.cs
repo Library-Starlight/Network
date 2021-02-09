@@ -5,19 +5,10 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using Sockets.Extension;
 
 namespace Sockets.Business
 {
-    public record ItemQueue
-    {
-        public long ItemNumber { get; init; }
-        public string ItemDescription { get; init; }
-        public int Quantity { get; init; }
-        public int UnitPrice { get; init; }
-        public bool Discounted { get; init; }
-        public bool InStock { get; init; }
-    }
-
     public class TcpApplicationInfrastructure
     {
         public async Task StartAsync()
@@ -56,7 +47,55 @@ namespace Sockets.Business
         }
 
         /// <summary>
-        /// ��ʾ
+        /// 读取位数字
+        /// </summary>
+        public Task ReadBitsAsync()
+        {
+            // FileStream fs;
+            // NetworkStream ns;
+            // MemoryStream ms;
+
+            var data = new byte[] { 0x31, 0x31, 0x10, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            using var ms = new MemoryStream(data);
+            using var bs = new BufferedStream(ms);
+            // System.Console.WriteLine(ms.Length);
+            // System.Console.WriteLine(bs.Length);
+            // System.Console.WriteLine(bs.BufferSize);
+            using var br = new BinaryReader(bs);
+
+            // Console.Write("0x");
+            // while (br.BaseStream.Position + 1 <= br.BaseStream.Length)
+            // {
+            //     Console.Write(br.ReadByte().ToString("X2"));
+            // }
+
+            br.ReadByte();
+            br.ReadByte();
+            var value = br.ReadUInt16();
+            var v = value.HostToNetworkOrder();
+            System.Console.WriteLine(value);
+            System.Console.WriteLine(v);
+
+            var l = br.ReadUInt64();
+            var r = l.HostToNetworkOrder();
+            System.Console.WriteLine(l);
+            System.Console.WriteLine(r);
+            // Stream.ReadByte连接在关闭时返回-1
+            // System.Console.WriteLine(ms.ReadByte());
+
+            // var reverse = (value & 0x00FF) << 8 | (value & 0xFF00) >> 8;
+
+            // System.Console.WriteLine(reverse);
+
+            // System.Console.WriteLine(value);
+            // value = IPAddress.HostToNetworkOrder(value);
+            // System.Console.WriteLine(value);
+
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// 关于编码
         /// </summary>
         /// <returns></returns>
         private Task DoSomeDemoAsync()
