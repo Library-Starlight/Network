@@ -1,7 +1,7 @@
-﻿using Sockets.Business;
+﻿using System.Threading;
+using Sockets.Business;
+using Sockets.Business.Parsers.Binary;
 using Sockets.Demo;
-
-await new TcpApplicationInfrastructure().ReadBitsAsync();
 
 // Tcp echo client and server command line tool
 // await new Tcp().RunCommandLineAsync(args);

@@ -30,7 +30,7 @@ namespace Sockets.Business.Parsers
 
         private static bool EndsWith(byte[] value, byte[] delimiter)
         {
-            if (value.Length != delimiter.Length)
+            if (value.Length < delimiter.Length)
                 return false;
             
             for (int i = 1; i <= delimiter.Length; i++)
