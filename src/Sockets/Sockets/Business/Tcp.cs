@@ -18,7 +18,7 @@ namespace Sockets.Business
         public async Task RunCommandLineAsync(string[] args)
         {
             try
-            {
+            {   
                 var arguments = args.ToList();
                 if (arguments.Count <= 0 || arguments.Contains("-h"))
                 {

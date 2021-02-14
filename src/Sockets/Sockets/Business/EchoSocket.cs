@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 
 namespace Sockets.Business
 {
-    public class Echo
+    public class EchoSocket
     {
         /// <summary>
         /// 运行Echo Socket(Windows)
         /// </summary>
-        Task RunEchoAsync(string[] args)
+        public Task RunEchoAsync(string[] args)
         {
             if (args.Length <= 3) return Task.CompletedTask;
             var arguments = new string[args.Length - 3];

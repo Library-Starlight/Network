@@ -3,8 +3,25 @@ using Sockets.Business;
 using Sockets.Business.Parsers.Binary;
 using Sockets.Demo;
 
+// new Asynchronous().StartClientAsync();
+
+// 独角兽
+// System.Console.WriteLine(new Sockets.UI.Unicorn().ToString()); 
+
+// Transcode Client: 演示单向关闭信道
+Transcode.Start(args);
+
+// Tcp Echo工具
 // Tcp echo client and server command line tool
-// await new Tcp().RunCommandLineAsync(args);
+// await new Sockets.Business.Tcp().RunCommandLineAsync(args);
+
+// UdpSocket
+// await new EchoSocket().RunEchoAsync(args);
+// UdpClient
+// new Udp().DemonstrateBroadcast();
+
+// Udp/Tcp
+// DynamicParser.Start();
 
 // TextTcpClient Lib
 //var client = new TextTcpClient();
@@ -18,3 +35,4 @@ using Sockets.Demo;
 
 //await client.ConnectAsync(IPAddress.Loopback, 8087);
 //Console.ReadLine();
+
