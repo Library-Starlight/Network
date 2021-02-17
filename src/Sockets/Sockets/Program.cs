@@ -8,6 +8,9 @@ using Sockets.Demo;
 // 独角兽
 // System.Console.WriteLine(new Sockets.UI.Unicorn().ToString()); 
 
+// 演示缓冲区死锁
+new DeathLock().Start();
+
 // Transcode Client: 演示单向关闭信道
 Transcode.Start(args);
 
