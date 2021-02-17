@@ -8,11 +8,14 @@ using Sockets.Demo;
 // 独角兽
 // System.Console.WriteLine(new Sockets.UI.Unicorn().ToString()); 
 
+// 演示多地址绑定
+await new Demultiplexing().StartAsync();
+
 // 演示缓冲区死锁
-new DeathLock().Start();
+// new DeathLock().Start();
 
 // Transcode Client: 演示单向关闭信道
-Transcode.Start(args);
+// Transcode.Start(args);
 
 // Tcp Echo工具
 // Tcp echo client and server command line tool
