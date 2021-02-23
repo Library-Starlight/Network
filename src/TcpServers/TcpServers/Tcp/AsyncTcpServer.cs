@@ -315,6 +315,7 @@ namespace System.Net.Sockets
         /// 网络错误事件
         /// </summary>
         public event EventHandler<AsyncEventArgs> NetError;
+
         /// <summary>
         /// 触发网络错误事件
         /// </summary>
